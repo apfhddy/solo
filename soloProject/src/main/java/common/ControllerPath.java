@@ -1,5 +1,5 @@
 package common;
 
 public interface ControllerPath {
-	final String HOME = "/WEB-INF/views/";
+	final String WEB = "/WEB-INF/views/";
 }

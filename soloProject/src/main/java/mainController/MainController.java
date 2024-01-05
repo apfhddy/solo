@@ -17,7 +17,7 @@ public class MainController implements ControllerPath{
 	
 	@RequestMapping("/")
 	public String home(Locale locale, Model model) {
-		return HOME+"home.jsp";
+		return WEB+"test.jsp";
 	}
 	
 }
