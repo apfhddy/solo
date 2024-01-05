@@ -4,9 +4,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<!-- service 설정 -->
-<!-- 	<bean id="deptService" class="service.DeptService">
-		<constructor-arg ref="deptDao"/>
-	</bean> -->
+	<bean id="users_Service" class="detail.Users.Users_Service">
+		<constructor-arg ref="users_DAO"/>
+	</bean>
+
+	<bean id="user_Address_Service" class="detail.User_Address.User_Address_Service">
+		<constructor-arg ref="user_Address"/>
+	</bean>
+
+	<bean id="user_Terms_Service" class="detail.User_Terms.User_Terms_Service">
+		<constructor-arg ref="user_Terms_DAO"/>
+	</bean>
+
+	<bean id="terms_Service" class="detail.Terms.Terms_Service">
+		<constructor-arg ref="terms_DAO"/>
+	</bean>
+	
 	
 </beans>

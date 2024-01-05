@@ -3,10 +3,25 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
+	
+	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<!-- dao 설정 -->
-<!-- 	<bean id="deptDao" class="dao.DeptDAO">
-		<property name="sqlSession" ref="sqlSession"/>
-	</bean> -->
+	
+	<bean id="users_DAO" class="detail.Users.Users_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	
+	<bean id="user_Address" class="detail.User_Address.User_Address_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+
+	<bean id="user_Terms_DAO" class="detail.User_Terms.User_Terms_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+
+	<bean id="terms_DAO" class="detail.Terms.Terms_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	
 		
 </beans>

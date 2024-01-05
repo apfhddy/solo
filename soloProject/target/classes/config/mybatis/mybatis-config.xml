@@ -13,10 +13,9 @@
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="config/mybatis/mapper/dept.xml"/>
-		<!-- <mapper resource="config/mybatis/mapper/board_select.xml" />
-		<mapper resource="config/mybatis/mapper/board_insert.xml" />
-		<mapper resource="config/mybatis/mapper/board_update.xml" />
-		<mapper resource="config/mybatis/mapper/board_delete.xml" /> -->
+		<mapper resource="config/mybatis/mapper/Users.xml"/>
+		<mapper resource="config/mybatis/mapper/User_Address.xml"/>
+		<mapper resource="config/mybatis/mapper/User_Terms.xml"/>
+		<mapper resource="config/mybatis/mapper/Terms.xml"/>
 	</mappers>
 </configuration>
