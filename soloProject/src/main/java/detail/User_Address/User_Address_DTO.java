@@ -5,14 +5,17 @@ public class User_Address_DTO {
 	private int user_no;
 	private String location;
 	private String detail;
+	private String significant;
 	
 	public User_Address_DTO() {}
 
-	public User_Address_DTO(int userAddr_no, int user_no, String location, String detail) {
+	public User_Address_DTO(int userAddr_no, int user_no, String location, String detail, String significant) {
+		super();
 		this.userAddr_no = userAddr_no;
 		this.user_no = user_no;
 		this.location = location;
 		this.detail = detail;
+		this.significant = significant;
 	}
 
 	public int getUserAddr_no() {
@@ -46,6 +49,16 @@ public class User_Address_DTO {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
+
+	public String getSignificant() {
+		return significant;
+	}
+
+	public void setSignificant(String significant) {
+		this.significant = significant;
+	}
+
+	
 	
 	
 	

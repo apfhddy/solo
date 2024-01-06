@@ -16,7 +16,6 @@
 				popUp.style.display = 'none';
 			}
 		}
-		docu
 		popUp.addEventListener("mousedown", popRemove);
 	}
 

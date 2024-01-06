@@ -6,21 +6,20 @@ public class Users_DTO {
 	private String pw;
 	private String solt;
 	private int userAddr_no;
-	private String significant;
 	private String name;
 	private int gender;
 	private String phone;
 	
 	public Users_DTO() {}
 
-	public Users_DTO(int user_no, String email, String pw, String solt, int userAddr_no, String significant,
-			String name, int gender, String phone) {
+	public Users_DTO(int user_no, String email, String pw, String solt, int userAddr_no, String name, int gender,
+			String phone) {
+		super();
 		this.user_no = user_no;
 		this.email = email;
 		this.pw = pw;
 		this.solt = solt;
 		this.userAddr_no = userAddr_no;
-		this.significant = significant;
 		this.name = name;
 		this.gender = gender;
 		this.phone = phone;
@@ -66,14 +65,6 @@ public class Users_DTO {
 		this.userAddr_no = userAddr_no;
 	}
 
-	public String getSignificant() {
-		return significant;
-	}
-
-	public void setSignificant(String significant) {
-		this.significant = significant;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -97,6 +88,8 @@ public class Users_DTO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
+	
 
 	
 	
