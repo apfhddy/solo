@@ -2,8 +2,9 @@ package mainController;
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.ControllerPath;
@@ -16,7 +17,8 @@ public class MainController implements ControllerPath{
 	
 	
 	@RequestMapping("/")
-	public String home(Locale locale, Model model) {
+	public String home(Locale locale, HttpServletRequest req) {
+		req.setAttribute("a", 1);
 		return HOME;
 	}
 	
