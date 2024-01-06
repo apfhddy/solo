@@ -18,8 +18,14 @@ public class MainController implements ControllerPath{
 	
 	@RequestMapping("/")
 	public String home(Locale locale, HttpServletRequest req) {
-		req.setAttribute("a", 1);
 		return HOME;
 	}
+	
+//	@RequestMapping("re")
+//	public String redirect(HttpServletRequest req) {
+//		req.setAttribute("a", 1);
+//		return "/";
+//		return "redirect:/";//포워드와 리다이렉트 차이 실험
+//	}
 	
 }
