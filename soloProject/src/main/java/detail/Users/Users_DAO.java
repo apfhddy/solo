@@ -1,7 +1,5 @@
 package detail.Users;
 
-import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
 
 public class Users_DAO {
@@ -19,7 +17,11 @@ public class Users_DAO {
 		return sqlSession.insert("users.insertUser",dto);
 	}
 	
-	public Map<String,Object> userData(String id) {
-		return sqlSession.selectOne("users.userData",id);
+	public Users_DTO userSelect(String id) {
+		return sqlSession.selectOne("users.userSelect",id);
+	}
+	
+	public int userUpdate(Users_DTO dto) {
+		return sqlSession.update("users.userUpdate",dto);
 	}
 }

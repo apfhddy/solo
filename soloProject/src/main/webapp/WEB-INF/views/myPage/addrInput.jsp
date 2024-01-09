@@ -89,6 +89,7 @@
 		<input onclick="history.back()" type = "button" value="뒤로 가기">
 	</div>
 </div>
+<%@ include file="sideLayOut/footer.jsp" %>
 <script type="text/javascript">
 	
 	let jiuck = null;
@@ -169,4 +170,3 @@
 		
 	}
 </script>
-<%@ include file="sideLayOut/footer.jsp" %>

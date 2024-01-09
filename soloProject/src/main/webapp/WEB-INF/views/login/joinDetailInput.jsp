@@ -1,10 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../Layout/header.jsp" %>
+<style>
+		      /* 스타일링 예제 */
+        .input-container {
+            position: relative;
+            margin-bottom: 2%;
+            margin-top: 2%;
+        }
+
+        label {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            color: #888;
+            font-size: 17; 
+            pointer-events: none;
+            transition: 0.2s ease-out all;
+        }
+
+       .input-container > input {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+       .input-container > input:focus + label, input:not(:placeholder-shown) + label {
+            top: -12px;
+            left: 8px;
+            font-size: 12px;
+            color: #333;
+            background-color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+</style>
 <form action="${pc }/join/certified" method="post"> 
-<div align="left">
-	<div>
-		이름<input name = "name" value = "www">
+<div align="left" style="margin-top: 2%;">
+	<div class="input-container">
+		<input name = "name" value = "www">
+		<label for="name">Name</label>
 	</div>
 	<div>
 		성별
@@ -14,25 +51,25 @@
 			<option value = "2">여</option>
 		</select>
 	</div>
-	<div>
-		휴대전화 번호
-		<input name = "phone" value="01011111111" type = "number">
+	<div class="input-container">
+		<input name = "phone" value="01011111111" maxlength="11" type = "number">
+		<label for="name">Phone</label>
 	</div>
-	<div>
-		이메일
+	<div class="input-container">
 		<input name = "email" value="eee@naver.com" type = "email">
+		<label for="name">Email</label>
 	</div>
-	<div>
-		이메일 확인
+	<div class="input-container">
 		<input type = "email">
+		<label for="name">Check-Email</label>
 	</div>
-	<div>
-		비밀번호
+	<div class="input-container">
 		<input name = "pw" value="qwer" type = "password">
+		<label for="pw">Password</label>
 	</div>
-	<div>
-		비밀번호 확인
+	<div class="input-container">
 		<input type = "password">
+		<label for="name">Check-Password</label>
 	</div>
 	<div>
 		<input name = "certified" type = "radio">이메일

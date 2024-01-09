@@ -35,9 +35,15 @@ public class Users_Service {
 		return users_DAO.inesrtUser(users_DTO);
 	}
 	
-	public Map<String,Object> userData(String id) {
-		return users_DAO.userData(id);
+	public Users_DTO userSelect(String id) {
+		return users_DAO.userSelect(id);
 	}
+	
+	public int userUpdate(Users_DTO dto) {
+		return users_DAO.userUpdate(dto);
+	}
+	
+	
 	
 	
 }

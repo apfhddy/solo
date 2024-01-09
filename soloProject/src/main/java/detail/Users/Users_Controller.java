@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.ControllerPath;
-import common.DB;
+import common.Encry;
 import detail.User_Address.User_Address_DTO;
 import detail.User_Address.User_Address_Service;
 
@@ -25,19 +25,16 @@ public class Users_Controller implements ControllerPath{
 		this.user_Address_Service = user_Address_Service;
 	}
 	
-	public void service() {
-		System.out.println("dd");
-	}
 	
 	@RequestMapping("/join/addr")
 	public String joinInput1(HttpSession session) {
-		session.setAttribute("join", new HashMap<String, Object>());
 		return LOGIN+"joinAddrInput.jsp";
 	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("join/detail")
 	public String joinInput2(HttpSession session,User_Address_DTO dto){
+		session.setAttribute("join", new HashMap<String, Object>());
 		((Map<String,Object>)session.getAttribute("join")).put("addr", dto);
 		return LOGIN+"joinDetailInput.jsp";
 	}
@@ -66,7 +63,7 @@ public class Users_Controller implements ControllerPath{
 	
 	@RequestMapping("myPage")
 	public String myPage(HttpServletRequest req) {
-		List<User_Address_DTO> addrList = user_Address_Service.allAddrList(DB.bigDecimal(DB.sessionUnBoxing(req.getSession(), "login").get("USER_NO")));
+		List<User_Address_DTO> addrList = user_Address_Service.allAddrList(((Users_DTO)req.getSession().getAttribute("login")).getUser_no());
 		req.setAttribute("addrList", addrList);
 		return MYPAGE+"address.jsp";
 	}
@@ -74,9 +71,46 @@ public class Users_Controller implements ControllerPath{
 	
 	@RequestMapping("myPage/userData")
 	public String userData() {
-		return null;
+		return MYPAGE+"userData.jsp";
 	}
 	
+	@RequestMapping("myPage/userData/update")
+	public String userUpdate(HttpSession session,String name,int gender,String phone) {
+		Users_DTO user_DTO = (Users_DTO)session.getAttribute("login");
+		user_DTO.setName(name);
+		user_DTO.setGender(gender);
+		user_DTO.setPhone(phone);
+		
+		users_Service.userUpdate(user_DTO);
+		return "redirect:/";
+	}
+	
+	@RequestMapping("myPage/password")
+	public String myPassword() {
+		return MYPAGE+"passwordUpdate.jsp";
+	}
+	
+	@RequestMapping("myPage/password/Update")
+	public String passwordUpdate(HttpSession session,String nowPassword,String newPassword,String newPasswordCheck) {
+		
+		
+		Users_DTO users_DTO = (Users_DTO)session.getAttribute("login");
+		if(!newPassword.equals(newPasswordCheck))return "나중에 처리할거";
+		
+		nowPassword = Encry.encry(nowPassword, users_DTO.getSalt());
+		if(!users_DTO.getPw().equals(nowPassword))return "나중에 처리할거";
+		
+		String salt = Encry.getSalt();
+		newPassword = Encry.encry(newPassword, salt);
+		
+		users_DTO.setSalt(salt);
+		users_DTO.setPw(newPassword);
+		
+		users_Service.userUpdate(users_DTO);
+		
+		
+		return "redirect:/";
+	}
 	
 	
 	

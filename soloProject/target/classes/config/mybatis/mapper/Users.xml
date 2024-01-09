@@ -12,12 +12,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into Users values(#{user_no},#{email},#{pw},#{salt},#{userAddr_no},#{name},#{gender},#{phone})
 	</insert>
 	
-	<select id="userData" resultType="map" parameterType="String">
-		select * from Users u
-		inner join User_Address ua
-		on u.userAddr_no = ua.userAddr_no
+	<select id="userSelect" resultType="detail.Users.Users_DTO" parameterType="String">
+		select * from Users 
 		where email = #{id}
 	</select>
+	
+	<update id="userUpdate" parameterType="detail.Users.Users_DTO">
+		update Users 
+		set name = #{name},
+		gender = #{gender},
+		phone = #{phone},
+		pw = #{pw},
+		salt = #{salt}
+		where user_no = #{user_no}
+	</update>
 </mapper>
 
 

@@ -16,6 +16,7 @@ import common.Address;
 import common.ControllerPath;
 import common.Encry;
 import common.InjectionProtect;
+import detail.Users.Users_DTO;
 import detail.Users.Users_Service;
 
 
@@ -75,14 +76,16 @@ public class MainController implements ControllerPath{
 			return "003"; 
 		}
 		
-		Map<String,Object> users_MAP = useus_Service.userData(id);
-		pw = Encry.encry(pw, (String)users_MAP.get("SALT"));
+		Users_DTO users_DTO = useus_Service.userSelect(id);
+		pw = Encry.encry(pw,users_DTO.getSalt()); 
 		
-		if(!((String)users_MAP.get("PW")).equals(pw)) {
+		if(!((String)users_DTO.getPw()).equals(pw)) {
 			return "001";
 		}
 		
-		req.getSession().setAttribute("login", users_MAP);
+		
+		
+		req.getSession().setAttribute("login", users_DTO);
 		
 		
 		return "777";
