@@ -11,7 +11,7 @@
 		<constructor-arg ref="sqlSession"/>
 	</bean>
 	
-	<bean id="user_Address" class="detail.User_Address.User_Address_DAO">
+	<bean id="user_Address_DAO" class="detail.User_Address.User_Address_DAO">
 		<constructor-arg ref="sqlSession"/>
 	</bean>
 

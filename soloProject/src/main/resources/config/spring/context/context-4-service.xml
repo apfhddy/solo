@@ -6,10 +6,11 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="users_Service" class="detail.Users.Users_Service">
 		<constructor-arg ref="users_DAO"/>
+		<constructor-arg ref="user_Address_DAO"/>
 	</bean>
 
 	<bean id="user_Address_Service" class="detail.User_Address.User_Address_Service">
-		<constructor-arg ref="user_Address"/>
+		<constructor-arg ref="user_Address_DAO"/>
 	</bean>
 
 	<bean id="user_Terms_Service" class="detail.User_Terms.User_Terms_Service">
