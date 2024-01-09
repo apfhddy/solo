@@ -58,6 +58,12 @@ public class User_Address_DTO {
 		this.significant = significant;
 	}
 
+	@Override
+	public String toString() {
+		return "User_Address_DTO [userAddr_no=" + userAddr_no + ", user_no=" + user_no + ", location=" + location
+				+ ", detail=" + detail + ", significant=" + significant + "]";
+	}
+
 	
 	
 	
