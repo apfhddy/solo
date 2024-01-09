@@ -4,7 +4,7 @@ public class Users_DTO {
 	private int user_no;
 	private String email;
 	private String pw;
-	private String solt;
+	private String salt;
 	private int userAddr_no;
 	private String name;
 	private int gender;
@@ -12,13 +12,13 @@ public class Users_DTO {
 	
 	public Users_DTO() {}
 
-	public Users_DTO(int user_no, String email, String pw, String solt, int userAddr_no, String name, int gender,
+	public Users_DTO(int user_no, String email, String pw, String salt, int userAddr_no, String name, int gender,
 			String phone) {
 		super();
 		this.user_no = user_no;
 		this.email = email;
 		this.pw = pw;
-		this.solt = solt;
+		this.salt = salt;
 		this.userAddr_no = userAddr_no;
 		this.name = name;
 		this.gender = gender;
@@ -49,12 +49,12 @@ public class Users_DTO {
 		this.pw = pw;
 	}
 
-	public String getSolt() {
-		return solt;
+	public String getSalt() {
+		return salt;
 	}
 
-	public void setSolt(String solt) {
-		this.solt = solt;
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	public int getUserAddr_no() {
@@ -87,6 +87,12 @@ public class Users_DTO {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	@Override
+	public String toString() {
+		return "Users_DTO [user_no=" + user_no + ", email=" + email + ", pw=" + pw + ", salt=" + salt + ", userAddr_no="
+				+ userAddr_no + ", name=" + name + ", gender=" + gender + ", phone=" + phone + "]";
 	}
 
 	
