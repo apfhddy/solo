@@ -4,25 +4,31 @@
 	<div>
 	</div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
-
-	function pop(target){
-		popUp.style.display = '';
+	function login(t){
+		let id = t.id.value;
+		let pw = t.pw.value;
 		
-		function popRemove(e){
-			if(!target.contains(e.target)){
-				popUp.removeEventListener("mousedown",popRemove);
-				popUp.style.display = 'none';
-			}
+		const errMessage = 
+		{
+			001:"",
+			002:""
 		}
-		popUp.addEventListener("mousedown", popRemove);
+		$.ajax({
+			url:"${pc}/login/check",
+			data:{id: id,pw:pw},
+			type:"post",
+			success: function(code) {
+				if(code == "777"){
+					document.location.href = '${pc}/'
+				}
+			}
+		})
 	}
-
-	function login_Pop() {
-		pop(loginPop);
+	
+	function myPageMenu() {
+		
 	}
-
 </script>
 </body>
 </html>

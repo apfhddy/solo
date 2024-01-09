@@ -2,7 +2,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <html>
-<c:set var="pc" value="http://${pageContext.request.serverName }:${pageContext.request.serverPort }${pageContext.request.contextPath }"></c:set>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<c:set var="finalPath" value="http://${pageContext.request.serverName }:${pageContext.request.serverPort }${pageContext.request.contextPath }"></c:set>
+<c:set var="pc" value="${pageContext.request.contextPath }"></c:set>
 <head>
 	<title>solo</title>
 	<style type="text/css">
@@ -85,15 +87,33 @@
 <body>
 <div align="center">
 	<%@include file="popup.jsp" %>
-	<div style="width: 46.8%;">
+	<div style="width: 45.8%;">
 		<div id = "header" >
 			<div id = "header-button" align="right" >
-				|<a onclick="login_Pop()">로그인</a>|<a>주문 조회</a>
+				|
+				<c:choose>
+					<c:when test="${login == null }">
+						<a onclick="login_Pop()">로그인</a>
+					</c:when>
+					<c:otherwise>
+						<a  href = '${pc}/login/logOut'>로그아웃</a>
+					</c:otherwise>
+				</c:choose>
+				|<a>주문 조회</a>
 			</div>
 			<div id = "header-menu">
-				<div><a href="${pc }"><img src="${pc }/resources/img/logo.jpg" width="115px"></a></div>
+				<div><a href="${pc }"><img src="${finalPath }/resources/img/logo.jpg" width="115px"></a></div>
 				<div><a>메뉴</a></div>
-				<div><a>마이페이지</a></div>
+				<div>
+					<c:choose>
+						<c:when test="${login == null }">
+							<a onclick="login_Pop()">마이페이지</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${pc }/myPage">마이페이지</a>
+						</c:otherwise>
+					</c:choose>
+				</div>
 				<div>기타정보</div>
 			</div>
 		</div>
