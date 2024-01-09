@@ -98,7 +98,7 @@
 	let jiuck = null;
 	function searchAddr(){
 		$.ajax({
-			url:"${pc}/join/searchAddr",
+			url:"${pc}/searchAddr",
 			type:"post",
 			data:{str:inAddr.value},
 			success: function(answer){

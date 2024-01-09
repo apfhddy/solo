@@ -40,7 +40,7 @@ public class MainController implements ControllerPath{
 	
 	
 	//주소 데이터 유효성 검사
-	@RequestMapping("join/searchAddr")
+	@RequestMapping("searchAddr")
 	@ResponseBody
 	public Map<String,Object> searchAddr(String str) throws UnsupportedEncodingException, IOException {
 		Map<String,Object> returnMap = new HashMap<String, Object>(); 

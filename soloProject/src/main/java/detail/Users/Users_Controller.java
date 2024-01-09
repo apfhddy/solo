@@ -29,7 +29,7 @@ public class Users_Controller implements ControllerPath{
 		System.out.println("dd");
 	}
 	
-	@RequestMapping("join/addr")
+	@RequestMapping("/join/addr")
 	public String joinInput1(HttpSession session) {
 		session.setAttribute("join", new HashMap<String, Object>());
 		return LOGIN+"joinAddrInput.jsp";
@@ -69,6 +69,12 @@ public class Users_Controller implements ControllerPath{
 		List<User_Address_DTO> addrList = user_Address_Service.allAddrList(DB.bigDecimal(DB.sessionUnBoxing(req.getSession(), "login").get("USER_NO")));
 		req.setAttribute("addrList", addrList);
 		return MYPAGE+"address.jsp";
+	}
+	
+	
+	@RequestMapping("myPage/userData")
+	public String userData() {
+		return null;
 	}
 	
 	
