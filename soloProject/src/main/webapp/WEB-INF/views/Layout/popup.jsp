@@ -8,7 +8,7 @@
 		<div>
 			주문을 하시려면 	로그인하시기 바랍니다.
 			<div>
-				<form>
+				<form action="${pc }/login">
 					<table style="width: 40%;">
 						<tr>
 							<td style="width: 50%; border-right: 1px solid; text-align: center;">로그인</td>

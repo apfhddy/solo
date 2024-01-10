@@ -9,11 +9,12 @@ public class Users_DTO {
 	private String name;
 	private int gender;
 	private String phone;
+	private int certifiedType_no;
 	
 	public Users_DTO() {}
 
 	public Users_DTO(int user_no, String email, String pw, String salt, int userAddr_no, String name, int gender,
-			String phone) {
+			String phone, int certifiedType_no) {
 		super();
 		this.user_no = user_no;
 		this.email = email;
@@ -23,6 +24,7 @@ public class Users_DTO {
 		this.name = name;
 		this.gender = gender;
 		this.phone = phone;
+		this.certifiedType_no = certifiedType_no;
 	}
 
 	public int getUser_no() {
@@ -89,15 +91,14 @@ public class Users_DTO {
 		this.phone = phone;
 	}
 
-	@Override
-	public String toString() {
-		return "Users_DTO [user_no=" + user_no + ", email=" + email + ", pw=" + pw + ", salt=" + salt + ", userAddr_no="
-				+ userAddr_no + ", name=" + name + ", gender=" + gender + ", phone=" + phone + "]";
+	public int getCertifiedType_no() {
+		return certifiedType_no;
 	}
 
-	
+	public void setCertifiedType_no(int certifiedType_no) {
+		this.certifiedType_no = certifiedType_no;
+	}
 
-	
 	
 	
 	

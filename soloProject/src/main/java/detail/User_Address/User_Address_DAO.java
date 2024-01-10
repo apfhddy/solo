@@ -22,8 +22,8 @@ public class User_Address_DAO {
 		return userAddr_no;
 	}
 	
-	public List<User_Address_DTO> allAddrList(int user_no){
-		return sqlSession.selectList("user_Address.allAddrList",user_no);
+	public List<User_Address_DTO> getAddrList(int user_no){
+		return sqlSession.selectList("user_Address.getAddrList",user_no);
 	}
 	
 	public int rownumUpdate(Map<String,Object> map) {

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.ControllerPath;
 import common.Encry;
+import detail.Certified_Type.Certified_Type_DTO;
+import detail.Certified_Type.Certified_Type_Service;
 import detail.User_Address.User_Address_DTO;
 import detail.User_Address.User_Address_Service;
 
@@ -19,10 +21,13 @@ import detail.User_Address.User_Address_Service;
 public class Users_Controller implements ControllerPath{
 	private Users_Service users_Service;
 	private User_Address_Service user_Address_Service;
+	private Certified_Type_Service certified_Type_Service;
 	
-	public Users_Controller(Users_Service users_Service,User_Address_Service user_Address_Service) {
+	public Users_Controller(Users_Service users_Service,User_Address_Service user_Address_Service,
+			Certified_Type_Service certified_Type_Service) {
 		this.users_Service = users_Service;
 		this.user_Address_Service = user_Address_Service;
+		this.certified_Type_Service = certified_Type_Service;
 	}
 	
 	
@@ -33,9 +38,17 @@ public class Users_Controller implements ControllerPath{
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("join/detail")
-	public String joinInput2(HttpSession session,User_Address_DTO dto){
-		session.setAttribute("join", new HashMap<String, Object>());
-		((Map<String,Object>)session.getAttribute("join")).put("addr", dto);
+	public String joinInput2(HttpServletRequest req,User_Address_DTO dto){
+		if(dto.getLocation() == null)return "에러페이지";
+		if(dto.getDetail().isEmpty())return "에러페이지";
+
+		req.getSession().setAttribute("join", new HashMap<String, Object>());
+		((Map<String,Object>)req.getSession().getAttribute("join")).put("addr", dto);
+		
+		List<Certified_Type_DTO> certifiedList = certified_Type_Service.getTypeList();
+		
+		req.setAttribute("certifiedList", certifiedList);
+		
 		return LOGIN+"joinDetailInput.jsp";
 	}
 	
@@ -63,7 +76,7 @@ public class Users_Controller implements ControllerPath{
 	
 	@RequestMapping("myPage")
 	public String myPage(HttpServletRequest req) {
-		List<User_Address_DTO> addrList = user_Address_Service.allAddrList(((Users_DTO)req.getSession().getAttribute("login")).getUser_no());
+		List<User_Address_DTO> addrList = user_Address_Service.getAddrList(((Users_DTO)req.getSession().getAttribute("login")).getUser_no());
 		req.setAttribute("addrList", addrList);
 		return MYPAGE+"address.jsp";
 	}

@@ -74,6 +74,11 @@
 						</td>
 					</tr>
 					<tr>
+						<td>최종 배달주소</td>
+						<td style="font-weight: bold;font-size: 15;">sfdasfsafadsf
+						</td>
+					</tr>
+					<tr>
 						<td>배달 특이사항</td>
 						<td>
 							<input name = "significant" class="joinBody-table-input" placeholder="예) 아이가 있으니 노크해 주세요">
@@ -91,23 +96,34 @@
 </div>
 <%@ include file="sideLayOut/footer.jsp" %>
 <script type="text/javascript">
-	
 	let jiuck = null;
 	function searchAddr(){
+		
+		let v = inAddr.value
+		
+		function addrErr(errMessage){
+			resultTable.innerHTML = "";
+			const newTr = document.createElement("tr");
+			const newTd = document.createElement("td");
+			newTd.innerText = errMessage;
+			newTr.appendChild(newTd);
+			resultTable.appendChild(newTr);
+			document.querySelector(".joinBody-table-result").style.display = "";
+		}
+		
+		if(v == "")return addrErr(errMessage['011']);
+		const fMap = checkSearchedWord(v);
+		if(fMap['err'])return addrErr(errMessage[fMap['code']]);
+	
+		
 		$.ajax({
 			url:"${pc}/searchAddr",
 			type:"post",
-			data:{str:inAddr.value},
+			data:{str:v},
 			success: function(answer){
-				
 				const check = resultCheck(answer);
 				if(check["err"] == 1){
-					resultTable.innerHTML = "";
-					const newTr = document.createElement("tr");
-					const newTd = document.createElement("td");
-					newTd.innerText = check["str"];
-					newTr.appendChild(newTd);
-					resultTable.appendChild(newTr);
+					addrErr(errMessage[check["code"]]);
 				}
 				document.querySelector(".joinBody-table-result").style.display = "";
 			}
@@ -115,6 +131,10 @@
 	}
 	
 	function resultCheck(answer){
+		if(answer["err"] == 1){
+			return {err: 1 , code:'014'};
+		}
+		
 		const result = JSON.parse(answer["result"]);
 		const err = result["results"]["common"];
 		
@@ -124,8 +144,8 @@
 		
 		const resultArray = result["results"]["juso"];
 		
-		if(answer["err"] == 1 || resultArray.length == 0){
-			return {err: 1 , str : "해당하는 건물 정보가 없습니다."};
+		if(resultArray.length == 0){
+			return {err: 1 , code:'014'};
 		}
 		
 		resultTable.innerHTML = "";
@@ -162,11 +182,34 @@
 		newIp.setAttribute("name","location" );
 		newIp.setAttribute("value", jiuck);
 		newIp.setAttribute("type", "hidden");
-		
-		
 		form.appendChild(newIp);
 		form.submit();
-		
-		
+	}
+	
+	function checkSearchedWord(obj){
+		if(obj.length >0){
+		//특수문자 제거
+			var expText = /[%=><]/ ;
+			if(expText.test(obj) == true){
+				return {err:true,code:'012'};
+			}
+			
+			//특정문자열(sql예약어의 앞뒤공백포함) 제거
+			var sqlArray = new Array(
+			//sql 예약어
+			"OR", "SELECT", "INSERT", "DELETE", "UPDATE"
+			,"CREATE", "DROP", "EXEC", "UNION"
+			,"FETCH", "DECLARE", "TRUNCATE" );
+			 
+			var regex;
+			for(var i=0; i<sqlArray.length; i++){
+				regex = new RegExp( sqlArray[i] ,"gi") ;
+			
+				if (regex.test(obj) ) {
+					return {err:true,code:'013'};
+				}
+			}
+		}
+		return {err:false} ;
 	}
 </script>

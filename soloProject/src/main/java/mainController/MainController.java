@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.Address;
 import common.ControllerPath;
+import common.Encry;
 import common.InjectionProtect;
+import detail.Users.Users_DTO;
 import detail.Users.Users_Service;
 
 
@@ -22,10 +24,10 @@ import detail.Users.Users_Service;
 
 @Controller
 public class MainController implements ControllerPath{
-	private Users_Service useus_Service;
+	private Users_Service users_Service;
 	
-	public MainController(Users_Service useus_Service) {
-		this.useus_Service = useus_Service;
+	public MainController(Users_Service users_Service) {
+		this.users_Service = users_Service;
 	}
 	
 	
@@ -75,7 +77,7 @@ public class MainController implements ControllerPath{
 //		}
 		Map<String,Object> returnMap = new HashMap<String, Object>();
 		
-		boolean err = useus_Service.loginCheck(id, pw);
+		boolean err = users_Service.loginCheck(id, pw);
 		returnMap.put("err", err);
 		
 		if(err) {
@@ -84,6 +86,22 @@ public class MainController implements ControllerPath{
 		
 		return returnMap;
 	}
+	
+	@RequestMapping("login")
+	public String login(HttpSession session,String id,String pw) {
+		
+		Users_DTO users_DTO = users_Service.userSelect(id);
+		if(users_DTO == null)return "에러페이지";
+		
+		pw = Encry.encry(pw,users_DTO.getSalt()); 
+		
+		if(!((String)users_DTO.getPw()).equals(pw))return "에러페이지";
+		
+		session.setAttribute("login", users_DTO);
+		
+		return "redirect:/";
+	}
+	
 	
 	@RequestMapping("login/logOut")
 	public String logOut(HttpSession session) {

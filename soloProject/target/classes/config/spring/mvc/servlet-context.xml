@@ -28,6 +28,7 @@
 	<beans:bean class="detail.Users.Users_Controller">
 		<beans:constructor-arg ref="users_Service"/>
 		<beans:constructor-arg ref="user_Address_Service"/>
+		<beans:constructor-arg ref="certified_Type_Service"/>
 	</beans:bean>
 
 	<beans:bean class="detail.User_Address.User_Address_Controller">

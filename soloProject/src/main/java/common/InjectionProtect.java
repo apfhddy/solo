@@ -24,7 +24,7 @@ public class InjectionProtect {
 	}
 	
 	public static boolean checkChar(String str) {
-		for(String sql : sqlArray) {
+		for(String sql : charArray) {
 			if(str.contains(sql)) {
 				return false;
 			}

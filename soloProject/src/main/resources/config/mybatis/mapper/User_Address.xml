@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into User_Address values(#{userAddr_no},#{user_no},#{location},#{detail},#{significant,jdbcType=VARCHAR})
 	</insert>
 	
-	<select id="allAddrList" resultType="detail.User_Address.User_Address_DTO" parameterType="int">
+	<select id="getAddrList" resultType="detail.User_Address.User_Address_DTO" parameterType="int">
 		select * from User_Address
 		where user_no = #{user_no}
 		order by userAddr_no

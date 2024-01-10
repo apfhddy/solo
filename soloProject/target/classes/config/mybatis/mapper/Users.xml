@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insertUser" parameterType="detail.Users.Users_DTO">
-		insert into Users values(#{user_no},#{email},#{pw},#{salt},#{userAddr_no},#{name},#{gender},#{phone})
+		insert into Users values(#{user_no},#{email},#{pw},#{salt},#{userAddr_no},#{name},#{gender},#{phone},#{certifiedType_no})
 	</insert>
 	
 	<select id="userSelect" resultType="detail.Users.Users_DTO" parameterType="String">

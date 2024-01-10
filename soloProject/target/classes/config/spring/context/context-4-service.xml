@@ -20,6 +20,10 @@
 	<bean id="terms_Service" class="detail.Terms.Terms_Service">
 		<constructor-arg ref="terms_DAO"/>
 	</bean>
+
+	<bean id="certified_Type_Service" class="detail.Certified_Type.Certified_Type_Service">
+		<constructor-arg ref="certified_Type_DAO"/>
+	</bean>
 	
 	
 </beans>

@@ -16,8 +16,8 @@ public class User_Address_Service {
 		this.user_Address_DAO = user_Address_DAO;
 	}
 	
-	public List<User_Address_DTO> allAddrList(int user_no) {
-		return user_Address_DAO.allAddrList(user_no);
+	public List<User_Address_DTO> getAddrList(int user_no) {
+		return user_Address_DAO.getAddrList(user_no);
 	}
 	
 	public int rownumUpdate(Map<String, Object> map) {
