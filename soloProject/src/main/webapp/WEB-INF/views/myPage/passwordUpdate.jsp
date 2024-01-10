@@ -17,8 +17,7 @@
 				<input type = "password" name = "newPasswordCheck">
 				<label for="name">새로운 비밀번호 재입력</label>
 			</div>
-			<input type = "button" value = "비밀번호 저장">
-			<input type = "submit">
+			<input type = "submit" value = "비밀번호 저장">
 		</form>
 	</div>
 </div>

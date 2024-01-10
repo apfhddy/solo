@@ -25,7 +25,10 @@
 							</td>
 						</tr>
 						<tr>
-							<th colspan="2"><input onclick="login(this.form)" class="login-button" type = "button" value = "로그인"></th>
+							<td id="loginPopErr" style="font-size: 10; color: red;" colspan="2"></td>
+						</tr>
+						<tr>
+							<th colspan="2"><input onclick="login(this.form,loginPopErr)" class="login-button" type = "button" value = "로그인"></th>
 						</tr>
 						<tr>
 							<th colspan="2"><input onclick="document.location.href='${pc}/join/addr'" class="login-button" type = "button" value = "회원가입"></th>
@@ -37,7 +40,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-
+	
 	function pop(target){
 		popUp.style.display = '';
 		
@@ -53,5 +56,6 @@
 	function login_Pop() {
 		pop(loginPop);
 	}
+	
 
 </script>

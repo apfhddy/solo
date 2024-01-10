@@ -43,7 +43,17 @@ public class Users_Service {
 		return users_DAO.userUpdate(dto);
 	}
 	
-	
+	public boolean loginCheck(String id,String pw) {
+		Users_DTO users_DTO = userSelect(id);
+		if(users_DTO == null)return true;
+		
+		pw = Encry.encry(pw,users_DTO.getSalt()); 
+		
+		if(!((String)users_DTO.getPw()).equals(pw)) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 }

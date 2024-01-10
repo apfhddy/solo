@@ -1,17 +1,33 @@
 package common;
 
 public class InjectionProtect {
-	static final String[] charArray = {"OR", "SELECT", "INSERT", "DELETE", "UPDATE"
+	static final String[] sqlArray = {"OR", "SELECT", "INSERT", "DELETE", "UPDATE"
 			,"CREATE", "DROP", "EXEC", "UNION"
-			,"FETCH", "DECLARE", "TRUNCATE","[","%","=",">","<","]" ,"'","\""};
+			,"FETCH", "DECLARE", "TRUNCATE"};
 	
-	public static boolean checkStr(String str) {
+	static final String[] charArray = {
+			"[","%","=",">","<","]" ,"'","\""};
+	
+	
+	
+	public static boolean checkSQL(String str) {
 		String upperStr = str.toUpperCase();
 		
-		for(String sql : charArray) {
+		if(!checkChar(upperStr))return false;
+		
+		for(String sql : sqlArray) {
 			   if(upperStr.contains(sql)) {
 				   return false;
 			   }
+		}
+		return true;
+	}
+	
+	public static boolean checkChar(String str) {
+		for(String sql : sqlArray) {
+			if(str.contains(sql)) {
+				return false;
+			}
 		}
 		return true;
 	}

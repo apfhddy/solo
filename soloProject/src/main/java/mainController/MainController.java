@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.Address;
 import common.ControllerPath;
-import common.Encry;
 import common.InjectionProtect;
-import detail.Users.Users_DTO;
 import detail.Users.Users_Service;
 
 
@@ -46,7 +44,7 @@ public class MainController implements ControllerPath{
 	public Map<String,Object> searchAddr(String str) throws UnsupportedEncodingException, IOException {
 		Map<String,Object> returnMap = new HashMap<String, Object>(); 
 		
-		if(InjectionProtect.checkStr(str)) {
+		if(InjectionProtect.checkSQL(str)) {
 			returnMap.put("err", "0");
 			
 			String result = Address.getAddress(str);
@@ -68,27 +66,23 @@ public class MainController implements ControllerPath{
 	}
 	
 	//로그인 여기있는 이유 어드민도 로그인 하니 
-	@RequestMapping("login/check")
+	@RequestMapping("check/login")
 	@ResponseBody
-	public String loginCheck(HttpServletRequest req,String id,String pw) {
+	public Map<String,Object> loginCheck(HttpServletRequest req,String id,String pw) {
 		
-		if(!InjectionProtect.checkStr(id)) {
-			return "003"; 
+//		if(!InjectionProtect.checkStr(id)) {
+//			return "003"; 
+//		}
+		Map<String,Object> returnMap = new HashMap<String, Object>();
+		
+		boolean err = useus_Service.loginCheck(id, pw);
+		returnMap.put("err", err);
+		
+		if(err) {
+			returnMap.put("code", "003");
 		}
 		
-		Users_DTO users_DTO = useus_Service.userSelect(id);
-		pw = Encry.encry(pw,users_DTO.getSalt()); 
-		
-		if(!((String)users_DTO.getPw()).equals(pw)) {
-			return "001";
-		}
-		
-		
-		
-		req.getSession().setAttribute("login", users_DTO);
-		
-		
-		return "777";
+		return returnMap;
 	}
 	
 	@RequestMapping("login/logOut")
