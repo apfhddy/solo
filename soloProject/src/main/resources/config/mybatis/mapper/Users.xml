@@ -26,6 +26,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		salt = #{salt}
 		where user_no = #{user_no}
 	</update>
+	
+	<select id="checkEmailOrPhone" parameterType="map" resultType="int">
+		select user_no from Users
+		where 
+		<if test="type == 0">
+			email 
+		</if>
+		<if test="type == 1">
+			phone
+		</if>
+		 = #{value}
+	</select>
 </mapper>
 
 

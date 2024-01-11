@@ -92,7 +92,7 @@
 <script type="text/javascript">
 	function detailCheck(t){
 		let pw_pt = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-		
+		let ajaxThreed = false;
 		const name = t.name.value;
 		const phone = t.phone.value;
 		const email = t.email.value;
@@ -106,6 +106,17 @@
 		console.log(emailCk);
 		console.log(pw);
 		console.log(pwCk); */
+		function checkEmailorPhone(type,value,callBack){
+			$.ajax({
+				url:"${pc}/check/emailOrPhone",
+				data:{type:type,value:value},
+				type:"post",
+				success: (result) => {
+					if(!result)return dtErr(type == 0 ? '031' : '032');
+					callBack();
+				}
+			})
+		}
 		
 		function dtErr(code){
 			detailErr.innerText = errMessage[code];
@@ -115,22 +126,29 @@
 		
 		if(phone == "")return dtErr('022');		
 		if(phone.length < 11)return dtErr('023');
+		checkEmailorPhone(1,phone,emailCheck);
 		
-		if(email.trim() == "")return dtErr('024');
-		if(!email_pt.test(email))return dtErr('002');
-		if(emailCk.trim() == "")return dtErr('025');
-		if(!email_pt.test(emailCk))return dtErr('002');
-		if(email != emailCk)return dtErr('026');
+		function emailCheck(){
+			if(email.trim() == "")return dtErr('024');
+			if(!email_pt.test(email))return dtErr('002');
+			if(emailCk.trim() == "")return dtErr('025');
+			if(!email_pt.test(emailCk))return dtErr('002');
+			if(email != emailCk)return dtErr('026');
+			checkEmailorPhone(0,email,passwordCheck);
+		}
 		
-		if(pw.trim() == "")return dtErr('004');
-		if(!pw_pt.test(pw))return dtErr('028');
-		if(pwCk.trim() == "")return dtErr('027');
-		if(!pw_pt.test(pwCk))return dtErr('029');
-		if(pw != pwCk)return dtErr('030');
+		function passwordCheck(){
+			if(pw.trim() == "")return dtErr('004');
+			if(!pw_pt.test(pw))return dtErr('028');
+			if(pwCk.trim() == "")return dtErr('027');
+			if(!pw_pt.test(pwCk))return dtErr('029');
+			if(pw != pwCk)return dtErr('030');
+			t.submit();
+		}
 		
-		t.submit();
 		
 	}
+	
 	function phoneEt(e,t){
 		if(e.keyCode == 189 || t.value.length > 10 && e.keyCode > 47 && e.keyCode < 58)e.preventDefault();
 		setTimeout(function() {
@@ -139,5 +157,7 @@
 			}
 		}, 0)
 	}
+	
+	
 </script>
 <%@ include file="../Layout/footer.jsp" %>

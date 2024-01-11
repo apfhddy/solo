@@ -16,6 +16,7 @@ import common.Address;
 import common.ControllerPath;
 import common.Encry;
 import common.InjectionProtect;
+import common.MailSendService;
 import detail.Users.Users_DTO;
 import detail.Users.Users_Service;
 
@@ -86,6 +87,15 @@ public class MainController implements ControllerPath{
 		
 		return returnMap;
 	}
+	
+	@RequestMapping("check/emailOrPhone")
+	@ResponseBody
+	public boolean checkEmailOrPhone(int type,String value){
+		
+		return users_Service.checkEmailOrPhone(type,value);
+	}
+	
+	
 	
 	@RequestMapping("login")
 	public String login(HttpSession session,String id,String pw) {

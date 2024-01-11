@@ -1,5 +1,6 @@
 package detail.Users;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import common.Encry;
@@ -16,6 +17,7 @@ public class Users_Service {
 	}
 	
 	public int insertUser(Map<String,Object> userData) {
+		System.out.println(userData.toString());
 		User_Address_DTO addr_DTO = (User_Address_DTO)userData.get("addr");
 		Users_DTO users_DTO = (Users_DTO)userData.get("detail");
 		
@@ -55,5 +57,11 @@ public class Users_Service {
 		return false;
 	}
 	
+	public boolean checkEmailOrPhone(int type,String value) {
+		Map<String,Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("type", type);
+		parameterMap.put("value", value);
+		return users_DAO.checkEmailOrPhone(parameterMap);
+	}
 	
 }

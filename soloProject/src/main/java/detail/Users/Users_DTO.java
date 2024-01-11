@@ -99,6 +99,13 @@ public class Users_DTO {
 		this.certifiedType_no = certifiedType_no;
 	}
 
+	@Override
+	public String toString() {
+		return "Users_DTO [user_no=" + user_no + ", email=" + email + ", pw=" + pw + ", salt=" + salt + ", userAddr_no="
+				+ userAddr_no + ", name=" + name + ", gender=" + gender + ", phone=" + phone + ", certifiedType_no="
+				+ certifiedType_no + "]";
+	}
+
 	
 	
 	

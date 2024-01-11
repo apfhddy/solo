@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.ControllerPath;
 import common.Encry;
+import common.MailSendService;
 import detail.Certified_Type.Certified_Type_DTO;
 import detail.Certified_Type.Certified_Type_Service;
 import detail.User_Address.User_Address_DTO;
@@ -22,12 +24,16 @@ public class Users_Controller implements ControllerPath{
 	private Users_Service users_Service;
 	private User_Address_Service user_Address_Service;
 	private Certified_Type_Service certified_Type_Service;
+	private MailSendService mailSendService;
+	
+	private Map<String,Object> certifiedsMap = new HashMap<String, Object>(); 
 	
 	public Users_Controller(Users_Service users_Service,User_Address_Service user_Address_Service,
-			Certified_Type_Service certified_Type_Service) {
+			Certified_Type_Service certified_Type_Service,MailSendService mailSendService) {
 		this.users_Service = users_Service;
 		this.user_Address_Service = user_Address_Service;
 		this.certified_Type_Service = certified_Type_Service;
+		this.mailSendService = mailSendService;
 	}
 	
 	
@@ -57,22 +63,64 @@ public class Users_Controller implements ControllerPath{
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("join/certified")
-	public String test(HttpSession session,Users_DTO dto) {
-		((Map<String,Object>)session.getAttribute("join")).put("detail", dto);
-		insertData(session);
+	public String test(HttpServletRequest req,Users_DTO dto) {
+		String pwCk = req.getParameter("pwCk");
+		String emailCk = req.getParameter("emailCk");
+		
+		if(!dto.getEmail().equals(emailCk))return  "에러페이지";
+		if(dto.getPhone().length() != 11)return "에러페이지";
+		try {Integer.parseInt(dto.getPhone());}catch (NumberFormatException e) {return "에러페이지";}
+		if(!users_Service.checkEmailOrPhone(0,dto.getEmail()) || !users_Service.checkEmailOrPhone(1,dto.getPhone()))return "에러페이지";
+		if(!dto.getPw().equals(pwCk))return  "에러페이지";
+		
+		((Map<String,Object>)req.getSession().getAttribute("join")).put("detail", dto);
+		Map<String,Object> putMap = ((Map<String,Object>)req.getSession().getAttribute("join")); 
+		
+		Thread thead = new Thread() {
+			@Override
+			public void run() {
+				String key = "";
+				while(true) {
+					key = mailSendService.getKey(8);
+					if(certifiedsMap.get(key) == null)break;
+				}
+					
+				mailSendService.joinEmail(key,dto.getEmail(),dto.getName());
+				String salt = Encry.getSalt();
+				String saltKey = Encry.encry(key, salt);
+				putMap.put("key", key);
+				putMap.put("salt", salt);
+				putMap.put("saltKey", saltKey);
+				certifiedsMap.put(key,putMap);
+			}
+		};
+		
+		thead.start();
+		
+		
+		return LOGIN+"certified.jsp";
+	}
+	
+	@RequestMapping("join/insert")
+	@SuppressWarnings("unchecked")
+	public String insert(HttpServletRequest req) {
+		String key = req.getParameter("code");
+		Map<String,Object> certifiedMap = (Map<String,Object>)certifiedsMap.get(key);
+		if(certifiedMap == null)return "에러페이지";
+		String salt = (String)certifiedMap.get("salt");
+		String saltKey = (String)certifiedMap.get("saltKey");
+		
+		String hasingKey = Encry.encry(key, salt);
+		
+		if(!saltKey.equals(hasingKey))return "에러페이지";
+		
+		if(users_Service.insertUser(certifiedMap) == 1)
+			certifiedsMap.remove(key);
+		
+		
 		return "redirect:/";
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void insertData(HttpSession session) {
-		Map<String,Object> userData = (Map<String,Object>)session.getAttribute("join");
-		
-		int success = users_Service.insertUser(userData);
-		
-		if(success == 1) {
-			session.removeAttribute("join");
-		}
-	}
 	
 	@RequestMapping("myPage")
 	public String myPage(HttpServletRequest req) {
@@ -83,7 +131,9 @@ public class Users_Controller implements ControllerPath{
 	
 	
 	@RequestMapping("myPage/userData")
-	public String userData() {
+	public String userData(Model m) {
+		List<Certified_Type_DTO> certidiedList = certified_Type_Service.getTypeList();
+		m.addAttribute("certidiedList",certidiedList);
 		return MYPAGE+"userData.jsp";
 	}
 	
@@ -108,10 +158,10 @@ public class Users_Controller implements ControllerPath{
 		
 		
 		Users_DTO users_DTO = (Users_DTO)session.getAttribute("login");
-		if(!newPassword.equals(newPasswordCheck))return "나중에 처리할거";
+		if(!newPassword.equals(newPasswordCheck))return "에러페이지";
 		
 		nowPassword = Encry.encry(nowPassword, users_DTO.getSalt());
-		if(!users_DTO.getPw().equals(nowPassword))return "나중에 처리할거";
+		if(!users_DTO.getPw().equals(nowPassword))return "에러페이지";
 		
 		String salt = Encry.getSalt();
 		newPassword = Encry.encry(newPassword, salt);
