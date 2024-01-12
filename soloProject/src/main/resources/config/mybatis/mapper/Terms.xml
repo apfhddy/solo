@@ -4,7 +4,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="terms">
 	<!-- SQL문들을 작성하는 파일 -->
-	
+	<select id="getTermsList" resultType="detail.Terms.Terms_DTO">
+		select * from Terms
+	</select>
 </mapper>
 
 

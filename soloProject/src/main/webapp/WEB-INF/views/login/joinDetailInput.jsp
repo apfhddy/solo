@@ -43,7 +43,7 @@
 	<div style="font-size: 12; color: gray; margin-top: 1%; margin-bottom: 1%;">* 필수 항목</div>
 	<div id = "detailErr" style="font-size: 10; color: red;"></div>
 	<div class="input-container">
-		<input name = "name" value = "www">
+		<input name = "name">
 		<label for="name">*Name</label>
 	</div>
 	<div>
@@ -55,7 +55,7 @@
 		</select>
 	</div>
 	<div class="input-container">
-		<input onkeydown="phoneEt(event,this)" name = "phone" value="01011111111" maxlength="11" type = "number">
+		<input onkeydown="phoneEt(event,this)" name = "phone" maxlength="11" type = "number">
 		<label for="name">*Phone</label>
 	</div>
 	<div class="input-container">
@@ -80,18 +80,17 @@
 			<div><input ${i.index == 0 ? 'checked' : '' } name = "certifiedType_no" value="${certified.certifiedType_no }" type = "radio">${certified.name }</div>
 		</c:forEach>
 	</div>
-	<div>
-		<input type = "checkbox">대충 프로모션 해택
-	</div>
-	<div>
-		<input type = "checkbox">대충 개인정보 수집 및 이용
-	</div>
+	<c:forEach var="terms" items="${termsList }">
+		<div>
+			<input name = "terms${terms.terms_no }" value="${terms.terms_no }" type = "checkbox">${terms.detail }
+		</div>
+	</c:forEach>
 </div>
 <input type="button" onclick="detailCheck(this.form)" value = "생성">
 </form>
 <script type="text/javascript">
 	function detailCheck(t){
-		let pw_pt = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+		
 		let ajaxThreed = false;
 		const name = t.name.value;
 		const phone = t.phone.value;
@@ -126,6 +125,7 @@
 		
 		if(phone == "")return dtErr('022');		
 		if(phone.length < 11)return dtErr('023');
+		if(!phone_pt.test(phone))return dtErr('033')
 		checkEmailorPhone(1,phone,emailCheck);
 		
 		function emailCheck(){

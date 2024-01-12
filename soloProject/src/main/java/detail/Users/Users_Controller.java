@@ -16,6 +16,8 @@ import common.Encry;
 import common.MailSendService;
 import detail.Certified_Type.Certified_Type_DTO;
 import detail.Certified_Type.Certified_Type_Service;
+import detail.Terms.Terms_DTO;
+import detail.Terms.Terms_Service;
 import detail.User_Address.User_Address_DTO;
 import detail.User_Address.User_Address_Service;
 
@@ -24,15 +26,19 @@ public class Users_Controller implements ControllerPath{
 	private Users_Service users_Service;
 	private User_Address_Service user_Address_Service;
 	private Certified_Type_Service certified_Type_Service;
+	private Terms_Service terms_Service;
+	
 	private MailSendService mailSendService;
 	
 	private Map<String,Object> certifiedsMap = new HashMap<String, Object>(); 
 	
 	public Users_Controller(Users_Service users_Service,User_Address_Service user_Address_Service,
-			Certified_Type_Service certified_Type_Service,MailSendService mailSendService) {
+			Certified_Type_Service certified_Type_Service,MailSendService mailSendService,Terms_Service terms_Service) {
 		this.users_Service = users_Service;
 		this.user_Address_Service = user_Address_Service;
 		this.certified_Type_Service = certified_Type_Service;
+		this.terms_Service = terms_Service;
+		
 		this.mailSendService = mailSendService;
 	}
 	
@@ -53,7 +59,10 @@ public class Users_Controller implements ControllerPath{
 		
 		List<Certified_Type_DTO> certifiedList = certified_Type_Service.getTypeList();
 		
+		List<Terms_DTO> termsList = terms_Service.getTermsList();
+		
 		req.setAttribute("certifiedList", certifiedList);
+		req.setAttribute("termsList", termsList);
 		
 		return LOGIN+"joinDetailInput.jsp";
 	}
@@ -73,6 +82,10 @@ public class Users_Controller implements ControllerPath{
 		if(!users_Service.checkEmailOrPhone(0,dto.getEmail()) || !users_Service.checkEmailOrPhone(1,dto.getPhone()))return "에러페이지";
 		if(!dto.getPw().equals(pwCk))return  "에러페이지";
 		
+		String[] terms = req.getParameterValues("terms");
+		
+		
+		((Map<String,Object>)req.getSession().getAttribute("join")).put("terms", terms);
 		((Map<String,Object>)req.getSession().getAttribute("join")).put("detail", dto);
 		Map<String,Object> putMap = ((Map<String,Object>)req.getSession().getAttribute("join")); 
 		
@@ -132,8 +145,8 @@ public class Users_Controller implements ControllerPath{
 	
 	@RequestMapping("myPage/userData")
 	public String userData(Model m) {
-		List<Certified_Type_DTO> certidiedList = certified_Type_Service.getTypeList();
-		m.addAttribute("certidiedList",certidiedList);
+		List<Certified_Type_DTO> certifiedList = certified_Type_Service.getTypeList();
+		m.addAttribute("certifiedList",certifiedList);
 		return MYPAGE+"userData.jsp";
 	}
 	

@@ -20,15 +20,21 @@
 				</div>
 				<div class="input-container">
 					<input name = "phone" value="${login.phone }" maxlength="11" type = "number">
-					<label for="name">Name</label>
+					<label for="name">Phone</label>
 				</div>
 				<div>
-					<div>
-						<input name = "certified" type = "radio">이메일 : ${login.email }
+					<div style="padding-top: 1%; margin-bottom: 2%;">
+						인증방법
+						<c:forEach var="certified" items="${certifiedList}">
+							<div>
+								<input ${login.certifiedType_no ==  certified.certifiedType_no ? 'checked' : ''} name ="certified" value = "${certified.certifiedType_no }" type = "radio">
+								<c:choose>
+									<c:when test="${certified.certifiedType_no == 1}">${certified.name} : ${login.email }</c:when>
+									<c:when test="${certified.certifiedType_no == 2}">${certified.name} : ${login.phone }</c:when>
+								</c:choose>
+							</div>
+						</c:forEach>
 					</div>
-					<div>
-						<input name = "certified" type = "radio">휴대전화 : ${login.phone }
-					</div>				
 				</div>
 				<div>
 					<input type = "checkbox">대충 프로모션 해택

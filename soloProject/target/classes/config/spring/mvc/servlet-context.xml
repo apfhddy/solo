@@ -34,6 +34,7 @@
 		<beans:constructor-arg ref="users_Service"/>
 		<beans:constructor-arg ref="user_Address_Service"/>
 		<beans:constructor-arg ref="certified_Type_Service"/>
+		<beans:constructor-arg ref="terms_Service"/>
 		<beans:constructor-arg ref="mailSendService"/>
 	</beans:bean>
 
