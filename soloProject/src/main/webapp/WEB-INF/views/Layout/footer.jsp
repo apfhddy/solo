@@ -8,6 +8,10 @@
 	let email_pt = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 	let pw_pt = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
 	let phone_pt = /^[0-9]{3}[0-9]{4}[0-9]{4}$/;
+	
+
+	
+	
 	function login(t,target){
 		let id = t.id.value.trim();
 		let pw = t.pw.value.trim();

@@ -15,42 +15,60 @@
 <div>
 	<div id = "mainBody-login" align="right">
 		<div style="padding-top: 1.7%; padding-right: 1.7%;">
-			<div style="background-color: rgb(255,255,255,0.6); width: 28%; padding-top: 1%; padding-bottom: 0.2%; border-radius: 2px;" align="center">
-				<div>
-					주문 시작하기
-					<div>
-						<form action="${pc }/login">
-							<table style="width: 90%;">
-								<tr>
-									<td style="width: 50%; border-right: 1px solid; text-align: center;">로그인</td>
-									<td style="width: 50%; text-align: center;">비회원주문</td> 
-								</tr>
-								<tr>
-									<td colspan="2">
-										<input name = "id" class="login-input" placeholder="아이디">
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<input name = "pw" type = "password" class="login-input" placeholder="비밀번호">
-									</td>
-								</tr>
-								<tr>
-									<td id="loginMainErr" style="font-size: 10; color: red;" colspan="2"></td>
-								</tr>
-								<tr>
-									<th colspan="2"><input onclick="login(this.form,loginMainErr)" class="login-button" type = "button" value = "로그인"></th>
-								</tr>
-								<tr>
-									<td colspan="2" align="right" style="font-size: 11;"><a>비밀번호 찾기</a></td>
-								</tr>
-								<tr>
-									<th colspan="2"><input onclick="document.location.href='${pc}/join/addr'" class="login-button" type = "button" value = "회원가입"></th>
-								</tr>
-							</table>
-						</form>
-					</div>
-				</div>
+			<div style="background-color: rgb(255,255,255,0.68); width: 28%; padding-top: 1%; padding-bottom: 0.2%; border-radius: 2px;" align="center">
+				<c:choose>
+					<c:when test="${login == null }">
+						<div>
+							주문 시작하기
+							<div>
+								<form action="${pc }/login" onkeypress="if(event.keyCode == 13)login(this,loginMainErr)">
+									<table style="width: 90%;">
+										<tr>
+											<td style="width: 50%; border-right: 1px solid; text-align: center;">로그인</td>
+											<td style="width: 50%; text-align: center;">비회원주문</td> 
+										</tr>
+										<tr>
+											<td colspan="2">
+												<input name = "id" class="login-input" placeholder="아이디">
+											</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<input name = "pw" type = "password" class="login-input" placeholder="비밀번호">
+											</td>
+										</tr>
+										<tr>
+											<td id="loginMainErr" style="font-size: 10; color: red;" colspan="2"></td>
+										</tr>
+										<tr>
+											<th colspan="2"><input onclick="login(this.form,loginMainErr)" class="login-button" type = "button" value = "로그인"></th>
+										</tr>
+										<tr>
+											<td colspan="2" align="right" style="font-size: 11;"><a>비밀번호 찾기</a></td>
+										</tr>
+										<tr>
+											<th colspan="2"><input onclick="document.location.href='${pc}/join/addr'" class="login-button" type = "button" value = "회원가입"></th>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div style="font-size: 14;">
+							환영합니다 ${login.name } 고객님
+						</div>
+						<hr>
+						<div style="padding-left: 5%; padding-right: 5%;">
+							<div align="left">다음의 주소로 배달됩니다.</div>
+							<div>
+								<select style="width: 100%; ">
+									<option style="word-break: break-all;">afdskjfhdsakjfhdsalkfhdsajklhfdsjlkahflkjdsahflkjdahlfkjdaljkfhdalkjf</option>
+								</select>
+							</div>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>

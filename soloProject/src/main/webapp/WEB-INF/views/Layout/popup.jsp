@@ -8,7 +8,7 @@
 		<div>
 			주문을 하시려면 	로그인하시기 바랍니다.
 			<div>
-				<form action="${pc }/login">
+				<form action="${pc }/login" onkeypress="if(event.keyCode == 13)login(this,loginPopErr)">
 					<table style="width: 40%;">
 						<tr>
 							<td style="width: 50%; border-right: 1px solid; text-align: center;">로그인</td>
@@ -29,6 +29,9 @@
 						</tr>
 						<tr>
 							<th colspan="2"><input onclick="login(this.form,loginPopErr)" class="login-button" type = "button" value = "로그인"></th>
+						</tr>
+						<tr>
+							<td colspan="2" align="right" style="font-size: 11;"><a>비밀번호 찾기</a></td>
 						</tr>
 						<tr>
 							<th colspan="2"><input onclick="document.location.href='${pc}/join/addr'" class="login-button" type = "button" value = "회원가입"></th>
