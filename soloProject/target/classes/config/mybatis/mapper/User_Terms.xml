@@ -7,6 +7,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="userTermsInsert" parameterType="detail.User_Terms.User_Terms_DTO">
 		insert into User_Terms values(User_Terms_seq.nextval,#{user_no},#{terms_no},#{checked})
 	</insert>
+	
+	<select id="getUserTermsList" parameterType="int" resultType="map">
+		select Detail,t.terms_no,checked from user_Terms ut
+		inner join terms t
+		on ut.terms_no = t.terms_no
+		where user_no = #{user_no}
+	</select>
+	
+	<update id="userTermsUpdate" parameterType="detail.User_Terms.User_Terms_DTO">
+		update User_Terms 
+		set checked = ${checked}
+		where terms_no = #{terms_no} and user_no = #{user_no}
+	</update>
 </mapper>
 
 

@@ -20,6 +20,8 @@ import detail.Terms.Terms_DTO;
 import detail.Terms.Terms_Service;
 import detail.User_Address.User_Address_DTO;
 import detail.User_Address.User_Address_Service;
+import detail.User_Terms.User_Terms_DAO;
+import detail.User_Terms.User_Terms_Service;
 import detail.User_Terms.User_Terms_DTO;
 
 @Controller
@@ -28,17 +30,20 @@ public class Users_Controller implements ControllerPath{
 	private User_Address_Service user_Address_Service;
 	private Certified_Type_Service certified_Type_Service;
 	private Terms_Service terms_Service;
+	private User_Terms_Service user_Terms_Service;
 	
 	private MailSendService mailSendService;
 	
 	private Map<String,Object> certifiedsMap = new HashMap<String, Object>(); 
 	
 	public Users_Controller(Users_Service users_Service,User_Address_Service user_Address_Service,
-			Certified_Type_Service certified_Type_Service,MailSendService mailSendService,Terms_Service terms_Service) {
+			Certified_Type_Service certified_Type_Service,MailSendService mailSendService,Terms_Service terms_Service,
+			User_Terms_Service user_Terms_Service) {
 		this.users_Service = users_Service;
 		this.user_Address_Service = user_Address_Service;
 		this.certified_Type_Service = certified_Type_Service;
 		this.terms_Service = terms_Service;
+		this.user_Terms_Service = user_Terms_Service;
 		
 		this.mailSendService = mailSendService;
 	}
@@ -150,18 +155,31 @@ public class Users_Controller implements ControllerPath{
 	
 	
 	@RequestMapping("myPage/userData")
-	public String userData(Model m) {
+	public String userData(HttpServletRequest req) {
+		int user_no = ((Users_DTO)req.getSession().getAttribute("login")).getUser_no();
+		
 		List<Certified_Type_DTO> certifiedList = certified_Type_Service.getTypeList();
-		m.addAttribute("certifiedList",certifiedList);
+		List<Map<String,Object>> userTermsList = user_Terms_Service.getUserTermsList(user_no);
+		req.setAttribute("certifiedList",certifiedList);
+		req.setAttribute("userTermsList",userTermsList);
 		return MYPAGE+"userData.jsp";
 	}
 	
 	@RequestMapping("myPage/userData/update")
-	public String userUpdate(HttpSession session,String name,int gender,String phone) {
-		Users_DTO user_DTO = (Users_DTO)session.getAttribute("login");
+	public String userUpdate(HttpServletRequest req,String name,int gender,String phone) {
+		Users_DTO user_DTO = (Users_DTO)req.getSession().getAttribute("login");
 		user_DTO.setName(name);
 		user_DTO.setGender(gender);
 		user_DTO.setPhone(phone);
+		
+		User_Terms_DTO[] userTerms = new User_Terms_DTO[terms_Service.getTermsSu()];
+		for(int i = 0; i < userTerms.length; i++) {
+			userTerms[i] = new User_Terms_DTO();
+			userTerms[i].setUser_no(user_DTO.getUser_no());
+			userTerms[i].setTerms_no(i+1);
+			userTerms[i].setChecked(req.getParameter("terms"+(i+1)) == null ? 0 : 1);
+			user_Terms_Service.userTermsUpdate(userTerms[i]);
+		}
 		
 		users_Service.userUpdate(user_DTO);
 		return "redirect:/";

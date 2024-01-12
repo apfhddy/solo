@@ -151,9 +151,10 @@
 	
 	function phoneEt(e,t){
 		if(e.keyCode == 189 || t.value.length > 10 && e.keyCode > 47 && e.keyCode < 58)e.preventDefault();
+		let v = t.value;
 		setTimeout(function() {
 			if(t.value.length > 11){
-				t.value = t.value.substr(0, 11);
+				t.value = v;
 			}
 		}, 0)
 	}

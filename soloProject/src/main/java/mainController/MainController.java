@@ -95,6 +95,14 @@ public class MainController implements ControllerPath{
 		return users_Service.checkEmailOrPhone(type,value);
 	}
 	
+	@RequestMapping("check/password")
+	@ResponseBody
+	public boolean checkPassword(HttpSession session,String pw) {
+		Users_DTO user_DTO = (Users_DTO)session.getAttribute("login");
+		String salt = user_DTO.getSalt();
+		return user_DTO.getPw().equals(Encry.encry(pw, salt));
+	}
+	
 	
 	
 	@RequestMapping("login")
