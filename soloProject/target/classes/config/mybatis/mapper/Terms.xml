@@ -7,6 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getTermsList" resultType="detail.Terms.Terms_DTO">
 		select * from Terms
 	</select>
+	
+	<select id="getMaxNo" resultType="int">
+		select max(terms_no) from terms
+	</select>
 </mapper>
 
 

@@ -7,23 +7,26 @@ import common.Encry;
 import detail.Terms.Terms_DAO;
 import detail.User_Address.User_Address_DAO;
 import detail.User_Address.User_Address_DTO;
+import detail.User_Terms.User_Terms_DAO;
+import detail.User_Terms.User_Terms_DTO;
 
 public class Users_Service {
 	private Users_DAO users_DAO;
 	private User_Address_DAO user_Address_DAO;
-	private Terms_DAO terms_DAO;
+	private User_Terms_DAO user_Terms_DAO;
 	
-	public Users_Service(Users_DAO users_DAO,User_Address_DAO user_Address_DAO,Terms_DAO terms_DAO) {
+	public Users_Service(Users_DAO users_DAO,User_Address_DAO user_Address_DAO,User_Terms_DAO user_Terms_DAO) {
 		this.users_DAO = users_DAO;
 		this.user_Address_DAO = user_Address_DAO;
-		this.terms_DAO = terms_DAO;
+		this.user_Terms_DAO = user_Terms_DAO;
 	}
 	
 	public int insertUser(Map<String,Object> userData) {
 		System.out.println(userData.toString());
 		User_Address_DTO addr_DTO = (User_Address_DTO)userData.get("addr");
 		Users_DTO users_DTO = (Users_DTO)userData.get("detail");
-
+		User_Terms_DTO[] userTerms = (User_Terms_DTO[])userData.get("userTerms");
+		
 		int user_no = users_DAO.nextSequence();
 		
 		String salt = Encry.getSalt();
@@ -40,7 +43,13 @@ public class Users_Service {
 		
 		int success = users_DAO.inesrtUser(users_DTO);
 		
-		if(success == 1) {}
+		if(success == 1) {
+			for(User_Terms_DTO userTermsDTO : userTerms) {
+				userTermsDTO.setUser_no(user_no);
+				user_Terms_DAO.userTermsInsert(userTermsDTO);
+			}
+		}
+		
 			
 		return success; 
 	}

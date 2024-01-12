@@ -8,4 +8,8 @@ private SqlSession sqlSession;
 	public User_Terms_DAO(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
+	
+	public int userTermsInsert(User_Terms_DTO dto) {
+		return sqlSession.insert("user_Terms.userTermsInsert",dto);
+	}
 }

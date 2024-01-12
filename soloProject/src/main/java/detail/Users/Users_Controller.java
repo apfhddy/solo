@@ -20,6 +20,7 @@ import detail.Terms.Terms_DTO;
 import detail.Terms.Terms_Service;
 import detail.User_Address.User_Address_DTO;
 import detail.User_Address.User_Address_Service;
+import detail.User_Terms.User_Terms_DTO;
 
 @Controller
 public class Users_Controller implements ControllerPath{
@@ -82,10 +83,15 @@ public class Users_Controller implements ControllerPath{
 		if(!users_Service.checkEmailOrPhone(0,dto.getEmail()) || !users_Service.checkEmailOrPhone(1,dto.getPhone()))return "에러페이지";
 		if(!dto.getPw().equals(pwCk))return  "에러페이지";
 		
-		String[] terms = req.getParameterValues("terms");
+		User_Terms_DTO[] userTerms = new User_Terms_DTO[terms_Service.getTermsSu()];
+		for(int i = 0; i < userTerms.length; i++) {
+			userTerms[i] = new User_Terms_DTO();
+			userTerms[i].setTerms_no(i+1);
+			userTerms[i].setChecked(req.getParameter("terms"+(i+1)) == null ? 0 : 1);
+		}
 		
 		
-		((Map<String,Object>)req.getSession().getAttribute("join")).put("terms", terms);
+		((Map<String,Object>)req.getSession().getAttribute("join")).put("userTerms", userTerms);
 		((Map<String,Object>)req.getSession().getAttribute("join")).put("detail", dto);
 		Map<String,Object> putMap = ((Map<String,Object>)req.getSession().getAttribute("join")); 
 		

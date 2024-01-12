@@ -4,7 +4,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user_Terms">
 	<!-- SQL문들을 작성하는 파일 -->
-	
+	<insert id="userTermsInsert" parameterType="detail.User_Terms.User_Terms_DTO">
+		insert into User_Terms values(User_Terms_seq.nextval,#{user_no},#{terms_no},#{checked})
+	</insert>
 </mapper>
 
 

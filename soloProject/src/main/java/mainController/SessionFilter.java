@@ -11,7 +11,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import detail.Terms.Terms_DAO;
+
 public class SessionFilter implements Filter{
+	
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -24,8 +30,6 @@ public class SessionFilter implements Filter{
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 		request.setCharacterEncoding("UTF-8");
-		
-		boolean err = false;
 		
 		String[] paths = req.getServletPath().substring(1).split("/");
 		
@@ -42,6 +46,8 @@ public class SessionFilter implements Filter{
 //			if(paths[1].equals("certified") && req.getSession().getAttribute("join") == null)
 //				err = true;
 //		}
+
+		boolean err = false;
 		
 		switch(paths[0]) {
 			case "myPage":
