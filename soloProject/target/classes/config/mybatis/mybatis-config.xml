@@ -18,5 +18,10 @@
 		<mapper resource="config/mybatis/mapper/User_Terms.xml"/>
 		<mapper resource="config/mybatis/mapper/Terms.xml"/>
 		<mapper resource="config/mybatis/mapper/Certified_Type.xml"/>
+		
+		<mapper resource="config/mybatis/mapper/Menu_Type.xml"/>
+		<mapper resource="config/mybatis/mapper/Category.xml"/>
+		<mapper resource="config/mybatis/mapper/Goods.xml"/>
+		
 	</mappers>
 </configuration>

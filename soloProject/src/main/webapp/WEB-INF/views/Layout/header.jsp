@@ -105,7 +105,7 @@
 			</div>
 			<div id = "header-menu">
 				<div><a href="${pc }"><img src="${finalPath }/resources/img/logo.jpg" width="115px"></a></div>
-				<div><a>메뉴</a></div>
+				<div><a href="${pc }/menu">메뉴</a></div>
 				<div>
 					<c:choose>
 						<c:when test="${login == null }">

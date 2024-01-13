@@ -95,4 +95,4 @@
 		})
 	}
 </script>
-
+<%@ include file="Layout/footer.jsp" %>

@@ -26,6 +26,29 @@
 	<bean id="certified_Type_DAO" class="detail.Certified_Type.Certified_Type_DAO">
 		<constructor-arg ref="sqlSession"/>
 	</bean>
+
+
+
+
+
+
+	<bean id="menu_Type_DAO" class="detail.Menu_Type.Menu_Type_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	<bean id="category_DAO" class="detail.Category.Category_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	<bean id="goods_DAO" class="detail.Goods.Goods_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	
+	
+	
+	
+	
+	
+	
+	
 	
 		
 </beans>

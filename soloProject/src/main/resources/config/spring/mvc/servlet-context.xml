@@ -45,6 +45,9 @@
 		<beans:constructor-arg ref="user_Address_Service"/>
 	</beans:bean>
 	
+	<beans:bean class="detail.Menu_Type.Menu_Type_Controller">
+		<beans:constructor-arg ref="menu_Type_Service"/>
+	</beans:bean>
 	
 	
 	
