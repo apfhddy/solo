@@ -62,7 +62,7 @@
 						<div style="padding-left: 5%; padding-right: 5%;">
 							<div align="left">다음의 주소로 배달됩니다.</div>
 							<div>
-								<select style="width: 100%; height: 30px;">
+								<select onchange="addrChange(this)" style="width: 100%; height: 30px;">
 									<c:forEach var="addr" items="${userAddrList }">
 										<option ${login.userAddr_no == addr.userAddr_no ? 'selected' : '' } value="${addr.userAddr_no }">${addr.location } ${addr.detail } ${addr.significant }</option>
 									</c:forEach>
@@ -82,4 +82,17 @@
 		<img src="${finalPath }/resources/img/guid.png" width="100%">
 	</div>
 </div>
-<%@ include file="Layout/footer.jsp" %>
+<script type="text/javascript">
+	function addrChange(t){
+		let v = t.value;
+		$.ajax({
+			url:"${pc}/addr/change",
+			data:{v:v},
+			type:"post",
+			success: ()=>{
+				document.location.reload()
+			}
+		})
+	}
+</script>
+

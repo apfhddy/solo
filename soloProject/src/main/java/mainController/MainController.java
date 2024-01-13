@@ -113,6 +113,14 @@ public class MainController implements ControllerPath{
 		String salt = user_DTO.getSalt();
 		return user_DTO.getPw().equals(Encry.encry(pw, salt));
 	}
+
+	@RequestMapping("addr/change")
+	@ResponseBody
+	public void addrChange(HttpSession session,int v) {
+		Users_DTO user_DTO = (Users_DTO)session.getAttribute("login");
+		user_DTO.setUserAddr_no(v);
+		users_Service.userUpdate(user_DTO);
+	}
 	
 	
 	
