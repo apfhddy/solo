@@ -62,8 +62,10 @@
 						<div style="padding-left: 5%; padding-right: 5%;">
 							<div align="left">다음의 주소로 배달됩니다.</div>
 							<div>
-								<select style="width: 100%; ">
-									<option style="word-break: break-all;">afdskjfhdsakjfhdsalkfhdsajklhfdsjlkahflkjdsahflkjdahlfkjdaljkfhdalkjf</option>
+								<select style="width: 100%; height: 30px;">
+									<c:forEach var="addr" items="${userAddrList }">
+										<option ${login.userAddr_no == addr.userAddr_no ? 'selected' : '' } value="${addr.userAddr_no }">${addr.location } ${addr.detail } ${addr.significant }</option>
+									</c:forEach>
 								</select>
 							</div>
 						</div>

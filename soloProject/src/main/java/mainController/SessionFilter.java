@@ -1,6 +1,8 @@
 package mainController;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Iterator;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -32,6 +34,7 @@ public class SessionFilter implements Filter{
 		request.setCharacterEncoding("UTF-8");
 		
 		String[] paths = req.getServletPath().substring(1).split("/");
+
 		
 		boolean isAjax = "XMLHttpRequest".equals(req.getHeader("X-Requested-With"));
 		//해당 페이지 벗어나면 세션삭제
@@ -46,7 +49,9 @@ public class SessionFilter implements Filter{
 //			if(paths[1].equals("certified") && req.getSession().getAttribute("join") == null)
 //				err = true;
 //		}
-
+		
+		
+		
 		boolean err = false;
 		
 		switch(paths[0]) {

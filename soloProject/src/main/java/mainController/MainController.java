@@ -3,6 +3,7 @@ package mainController;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,8 @@ import common.Address;
 import common.ControllerPath;
 import common.Encry;
 import common.InjectionProtect;
-import common.MailSendService;
+import detail.User_Address.User_Address_DTO;
+import detail.User_Address.User_Address_Service;
 import detail.Users.Users_DTO;
 import detail.Users.Users_Service;
 
@@ -26,14 +28,23 @@ import detail.Users.Users_Service;
 @Controller
 public class MainController implements ControllerPath{
 	private Users_Service users_Service;
+	private User_Address_Service user_Address_Service;
 	
-	public MainController(Users_Service users_Service) {
+	public MainController(Users_Service users_Service,User_Address_Service user_Address_Service) {
 		this.users_Service = users_Service;
+		this.user_Address_Service = user_Address_Service;
 	}
 	
 	
 	@RequestMapping("/")
 	public String home(HttpServletRequest req) {
+		
+		if(req.getSession().getAttribute("login") != null) {
+			int user_no = ((Users_DTO)req.getSession().getAttribute("login")).getUser_no();
+			List<User_Address_DTO> userAddrList = user_Address_Service.getAddrList(user_no); 
+			req.setAttribute("userAddrList", userAddrList);
+		}
+		
 		return HOME;
 	}
 	

@@ -28,6 +28,7 @@
 
 	<beans:bean class="mainController.MainController">
 		<beans:constructor-arg ref = "users_Service"/>
+		<beans:constructor-arg ref="user_Address_Service"/>
 	</beans:bean>
 
 	<beans:bean class="detail.Users.Users_Controller">
