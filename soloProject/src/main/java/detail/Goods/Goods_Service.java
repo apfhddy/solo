@@ -11,7 +11,7 @@ public class Goods_Service {
 		this.goods_DAO = goods_DAO;
 	}
 	
-	public List<Goods_DTO> getGoodsList(int menuType_no,int cateRowNum){
+	public List<Map<String,Object>> getGoodsList(int menuType_no,int cateRowNum){
 		Map<String,Object> paraMap = new HashMap<String, Object>();
 		paraMap.put("menuType_no", menuType_no);
 		paraMap.put("cateRowNum", cateRowNum);

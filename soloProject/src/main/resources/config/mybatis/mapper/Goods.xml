@@ -4,23 +4,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goods">
 	<!-- SQL문들을 작성하는 파일 -->
-	<select id="getGoodsList" parameterType="map" resultType="detail.Goods.Goods_DTO">
-		select * from goods
-		where category_no = 
-		<choose>
-			<when test="cateRowNum != 1">
-				(select category_no from
-				    		(select rownum rn,s1.* from 
-				        		(select category_no from category
-				        		 where menuType_no = #{menuType_no}
-				    			 order by menuType_no)
-				    		 s1) 
-				    	 s2
-				where s2.rn = (#{cateRowNum}-1))
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
+	<select id="getGoodsList" parameterType="map" resultType="map">
+		select s2.goodsDetail_no,g.name,imgPath,allergy,origin,price,calorie from 
+		    (
+		    select * from
+		        (
+		        select gd.*,Row_Number() Over(PARTITION by goods_no order by gs.sort desc) as rn 
+		        from goods_Detail gd 
+		        inner join goods_size gs
+		        on gd.goodssize_no = gs.goodssize_no
+		        ) s1
+		    where rn = 1                                   
+		    ) s2
+		inner join goods g
+		on s2.goods_no = g.goods_no
+		where g.category_no 
+		=
+		(
+		select category_no from
+   			(
+   			select rownum rn,s1.* from 
+       			(
+       			select category_no from category
+       		 	where menuType_no = #{menuType_no}
+   				order by menuType_no
+   				) s1
+   			 ) s2
+		where s2.rn = (#{cateRowNum}-1)
+		)
+		order by g.sort
 	</select>
 </mapper>
 

@@ -14,6 +14,7 @@
 	
 	#menu-select > div{
 		padding: 6.3%;
+		cursor: pointer;
 	}
 	
 	.menu-select-header{
@@ -32,9 +33,20 @@
 		border-bottom: 2px solid #F7BD1E;
 		border-bottom: 2px solid #F7BD1E;
 		color: #A25716;
-		cursor: pointer;
+	}
+	.menu-select-items:hover > span:nth-child(1){
+		color: #FF4F20
+	}
+	.menu-select-items:hover > span:nth-child(2){
+		color: red
 	}
 	
+	.choice > span:nth-child(1){
+		color: #FF4F20
+	}
+	.choice > span:nth-child(2){
+		color: red
+	}
 	
 	
 	
@@ -56,10 +68,10 @@
 </style>
 <div align="left" style="margin-top: 1%; display: flex;">
 	<div id = "menu-select">
-		<div class="menu-select-header">${menuTypeList[0].name }</div>
-		<div class="menu-select-items" onclick="document.location.href='?menuType_no=${menuTypeList[0].menuType_no}&cate_id=1'">• 추천 메뉴</div>	
+		<div class="menu-select-header" onclick="document.location.href='?menuType_no=${menuTypeList[0].menuType_no}'">${menuTypeList[0].name }</div>
+		<div class="menu-select-items ${choice == 1 ? 'choice' : '' }" onclick="document.location.href='?menuType_no=${menuTypeList[0].menuType_no}&cate_id=1'"><span>•</span> <span>추천 메뉴</span></div>	
 		<c:forEach var="category" items="${categoryList}" varStatus="i">
-			<div class="menu-select-items" onclick="document.location.href='?menuType_no=${menuTypeList[0].menuType_no}&cate_id=${i.count+1}'">• ${category.name }</div>	
+			<div class="menu-select-items ${choice == (i.count+1) ? 'choice' : '' }" onclick="document.location.href='?menuType_no=${menuTypeList[0].menuType_no}&cate_id=${i.count+1}'"><span>•</span> <span>${category.name }</span></div>	
 		</c:forEach>
 		<c:forEach var="i" begin="1" end="${fn:length(menuTypeList)-1 }">
 			<div class="menu-select-footer" onclick="document.location.href='?menuType_no=${menuTypeList[i].menuType_no}'">${menuTypeList[i].name }</div>
@@ -71,43 +83,27 @@
 			<div style="width: 67%; ">
 				<div style="display: flex; flex-wrap: wrap;">
 					<!-- 메뉴 하나 css -->
-					<div class="menu-book-item">
-						<div align="center" class="menu-book-item-img">
-							<div><img src="${finalPath }/resources/buggerImg/bugger.png" width="70%"></div>
-							<div style="font-size: 12;">정인내 병신년</div>
-						</div>
-						<div style="margin-top: 2%; padding-left: 4%; padding-bottom: 4%;">
-							<div style="width: 100%; display: flex; ">
-								<div style="width: 50%; font-size: 10;"> 
-									<div>가격 ₩</div>
-									<div>1048 Kcal</div>
-									<div>알레르기 원산지</div>
-								</div>
-								<div align="center" style="width: 50%;"> 
-									<input type="button" value = "추가" style="width: 90%;">
-								</div>
+					<c:forEach var="goods" items="${goodsList }">
+						<div class="menu-book-item">
+							<div align="center" class="menu-book-item-img">
+								<div><img src="${finalPath }/resources/buggerImg/${goods.IMGPATH}" width="70%"></div>
+								<div style="font-size: 12;">${goods.NAME }</div>
 							</div>
-						</div>				
-					</div>
+							<div style="margin-top: 2%; padding-left: 4%; padding-bottom: 4%;">
+								<div style="width: 100%; display: flex; ">
+									<div style="width: 50%; font-size: 10;"> 
+										<div>가격 ₩ ${goods.PRICE}</div>
+										<div>${goods.CALORIE} Kcal</div>
+										<div>알레르기 원산지</div>
+									</div>
+									<div align="center" style="width: 50%;"> 
+										<input type="button" value = "추가" style="width: 90%;">
+									</div>
+								</div>
+							</div>				
+						</div>
+					</c:forEach>
 					<!-- / -->
-					<%-- <div style="width: 48%; margin-left: 1%; margin-bottom:2%; margin-right: 1%; background-color: white;">
-						<div align="center" style="padding-top: 8%;padding-bottom: 4%; box-shadow: 0px 4px 10px rgb(0, 0, 0, 0.06);">
-							<div><img src="${finalPath }/resources/buggerImg/bugger.png" width="70%"></div>
-							<div style="font-size: 12;">울도히 안녕</div>
-						</div>
-						<div style="margin-top: 2%; padding-left: 4%; padding-bottom: 4%;">
-							<div style="width: 100%; display: flex; ">
-								<div style="width: 50%; font-size: 10;"> 
-									<div>가격 ₩</div>
-									<div>1048 Kcal</div>
-									<div>알레르기 원산지</div>
-								</div>
-								<div align="center" style="width: 50%;"> 
-									<input type="button" value = "추가" style="width: 90%;">
-								</div>
-							</div>
-						</div>				
-					</div> --%>
 				</div>
 			</div>	
 			<div style="width: 33%; margin-left: 0.5%;	 background-color: white; padding-left: 1%; height: 100%;">
@@ -127,4 +123,11 @@
 		</div>	
 	</div>
 </div>
+<script type="text/javascript">
+	const menuList = Array.from(document.querySelectorAll(".menu-select-items"));
+	menuList.forEach( m => {
+	});
+	
+	
+</script>
 <%@ include file="../Layout/footer.jsp" %>

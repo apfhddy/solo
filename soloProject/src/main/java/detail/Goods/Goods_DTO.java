@@ -6,17 +6,20 @@ public class Goods_DTO {
 	private String name;
 	private String allergy;
 	private String origin;
+	private int sort;
 	private int exhibition;
 
 	public Goods_DTO() {}
 
-	public Goods_DTO(int goods_no, int category_no, String name, String allergy, String origin, int exhibition) {
+	public Goods_DTO(int goods_no, int category_no, String name, String allergy, String origin, int sort,
+			int exhibition) {
 		super();
 		this.goods_no = goods_no;
 		this.category_no = category_no;
 		this.name = name;
 		this.allergy = allergy;
 		this.origin = origin;
+		this.sort = sort;
 		this.exhibition = exhibition;
 	}
 
@@ -60,6 +63,14 @@ public class Goods_DTO {
 		this.origin = origin;
 	}
 
+	public int getSort() {
+		return sort;
+	}
+
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+
 	public int getExhibition() {
 		return exhibition;
 	}
@@ -67,6 +78,7 @@ public class Goods_DTO {
 	public void setExhibition(int exhibition) {
 		this.exhibition = exhibition;
 	}
+
 	
 	
 	

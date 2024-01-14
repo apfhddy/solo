@@ -1,6 +1,7 @@
 package detail.Menu_Type;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import common.ControllerPath;
 import detail.Category.Category_DTO;
 import detail.Category.Category_Service;
-import detail.Goods.Goods_DTO;
 import detail.Goods.Goods_Service;
 
 @Controller
@@ -31,7 +31,7 @@ public class Menu_Type_Controller implements ControllerPath{
 		String cate_id = req.getParameter("cate_id");
 		
 		int menuType_no = menuTypeStr == null ? 1 : Integer.parseInt(menuTypeStr);
-		int category_no = cate_id == null ? 2 : Integer.parseInt(cate_id);
+		int category_no = cate_id == null ? 1 : Integer.parseInt(cate_id);
 		
 		
 
@@ -40,13 +40,14 @@ public class Menu_Type_Controller implements ControllerPath{
 		
 		List<Category_DTO> categoryList = category_Service.getCategoryList(menuType_no); 
 		
-		List<Goods_DTO> goodsList = goods_Service.getGoodsList(menuType_no,category_no);
+		List<Map<String,Object>> goodsList = goods_Service.getGoodsList(menuType_no,category_no);
 		
 		
 		req.setAttribute("menuTypeList", menuTypeList);
 		req.setAttribute("categoryList", categoryList);
 		req.setAttribute("goodsList", goodsList);
-		req.setAttribute("category_no", category_no);
+		req.setAttribute("choice", category_no);
+		
 		
 		return MENU+"menu.jsp";
 	}

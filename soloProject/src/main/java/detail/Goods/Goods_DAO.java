@@ -12,7 +12,7 @@ public class Goods_DAO {
 		this.sqlSession = sqlSession;
 	}
 	
-	public List<Goods_DTO> getGoodsList(Map<String,Object> map){
+	public List<Map<String,Object>> getGoodsList(Map<String,Object> map){
 		return sqlSession.selectList("goods.getGoodsList",map);
 	}
 }

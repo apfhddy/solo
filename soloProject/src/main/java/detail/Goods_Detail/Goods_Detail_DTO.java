@@ -5,12 +5,12 @@ public class Goods_Detail_DTO {
 	private int goods_no;
 	private int goodsSize_no;
 	private String imgPath;
-	private int calorie;
+	private String calorie;
 	private int price;
 	
 	public Goods_Detail_DTO() {}
 
-	public Goods_Detail_DTO(int goodsDetail_no, int goods_no, int goodsSize_no, String imgPath, int calorie,
+	public Goods_Detail_DTO(int goodsDetail_no, int goods_no, int goodsSize_no, String imgPath, String calorie,
 			int price) {
 		super();
 		this.goodsDetail_no = goodsDetail_no;
@@ -53,11 +53,11 @@ public class Goods_Detail_DTO {
 		this.imgPath = imgPath;
 	}
 
-	public int getCalorie() {
+	public String getCalorie() {
 		return calorie;
 	}
 
-	public void setCalorie(int calorie) {
+	public void setCalorie(String calorie) {
 		this.calorie = calorie;
 	}
 
@@ -68,6 +68,8 @@ public class Goods_Detail_DTO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+
+
 	
 	
 }
