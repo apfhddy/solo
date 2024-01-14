@@ -4,7 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="category">
 	<!-- SQL문들을 작성하는 파일 -->
-
+	<select id="getCategoryList" resultType="detail.Category.Category_DTO" parameterType="int">
+		select * from category
+		where menuType_no = #{menuType_no}
+		order by category_no 
+	</select>
 </mapper>
 
 

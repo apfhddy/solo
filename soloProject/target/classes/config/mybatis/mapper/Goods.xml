@@ -2,9 +2,26 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Goods">
+<mapper namespace="goods">
 	<!-- SQL문들을 작성하는 파일 -->
-
+	<select id="getGoodsList" parameterType="map" resultType="detail.Goods.Goods_DTO">
+		select * from goods
+		where category_no = 
+		<choose>
+			<when test="cateRowNum != 1">
+				(select category_no from
+				    		(select rownum rn,s1.* from 
+				        		(select category_no from category
+				        		 where menuType_no = #{menuType_no}
+				    			 order by menuType_no)
+				    		 s1) 
+				    	 s2
+				where s2.rn = (#{cateRowNum}-1))
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
 </mapper>
 
 

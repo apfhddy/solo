@@ -57,20 +57,20 @@
 <div align="left" style="margin-top: 1%; display: flex;">
 	<div id = "menu-select">
 		<div class="menu-select-header">${menuTypeList[0].name }</div>
-		<div class="menu-select-items">• 추천 메뉴</div>	
-		<c:forEach begin="0" end="5" varStatus="i">
-			<div class="menu-select-items">• ${i.count+1 }</div>	
+		<div class="menu-select-items" onclick="document.location.href='?menuType_no=${menuTypeList[0].menuType_no}&cate_id=1'">• 추천 메뉴</div>	
+		<c:forEach var="category" items="${categoryList}" varStatus="i">
+			<div class="menu-select-items" onclick="document.location.href='?menuType_no=${menuTypeList[0].menuType_no}&cate_id=${i.count+1}'">• ${category.name }</div>	
 		</c:forEach>
 		<c:forEach var="i" begin="1" end="${fn:length(menuTypeList)-1 }">
-			<div class="menu-select-footer">${menuTypeList[i].name }</div>
+			<div class="menu-select-footer" onclick="document.location.href='?menuType_no=${menuTypeList[i].menuType_no}'">${menuTypeList[i].name }</div>
 		</c:forEach>
 	</div>
 	<div style=" width: 100%;">
 		<div style="font-size: 10px; margin-bottom: 1%;">메뉴 ➡️ 추천메뉴</div>
 		<div style="display: flex;">
 			<div style="width: 67%; ">
-				<div style="display: flex; flex-wrap: wrap; ">
-					<!-- 시작 -->
+				<div style="display: flex; flex-wrap: wrap;">
+					<!-- 메뉴 하나 css -->
 					<div class="menu-book-item">
 						<div align="center" class="menu-book-item-img">
 							<div><img src="${finalPath }/resources/buggerImg/bugger.png" width="70%"></div>
@@ -89,7 +89,7 @@
 							</div>
 						</div>				
 					</div>
-					<!-- /시작 -->
+					<!-- / -->
 					<%-- <div style="width: 48%; margin-left: 1%; margin-bottom:2%; margin-right: 1%; background-color: white;">
 						<div align="center" style="padding-top: 8%;padding-bottom: 4%; box-shadow: 0px 4px 10px rgb(0, 0, 0, 0.06);">
 							<div><img src="${finalPath }/resources/buggerImg/bugger.png" width="70%"></div>

@@ -11,8 +11,8 @@ public class Menu_Type_DAO {
 		this.sqlSession = sqlSession;
 	}
 	
-	public List<Menu_Type_DTO> getChoiceSortList(int no){
-		return sqlSession.selectList("menu_Type.getChoiceSortList",no);
+	public List<Menu_Type_DTO> getChoiceSortList(int menuType_no){
+		return sqlSession.selectList("menu_Type.getChoiceSortList",menuType_no);
 	}
 	
 }
