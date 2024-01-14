@@ -45,6 +45,12 @@
 	<bean id="goods_Service" class="detail.Goods.Goods_Service">
 		<constructor-arg ref="goods_DAO"/>
 	</bean>
+	<bean id="goods_Size_Service" class="detail.Goods_Size.Goods_Size_Service">
+		<constructor-arg ref="goods_Size_DAO"/>
+	</bean>
+	<bean id="goods_Detail_Service" class="detail.Goods_Detail.Goods_Detail_Service">
+		<constructor-arg ref="goods_Detail_DAO"/>
+	</bean>
 	
 	
 	

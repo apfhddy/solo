@@ -41,6 +41,12 @@
 	<bean id="goods_DAO" class="detail.Goods.Goods_DAO">
 		<constructor-arg ref="sqlSession"/>
 	</bean>
+	<bean id="goods_Size_DAO" class="detail.Goods_Size.Goods_Size_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	<bean id="goods_Detail_DAO" class="detail.Goods_Detail.Goods_Detail_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
 	
 	
 	
