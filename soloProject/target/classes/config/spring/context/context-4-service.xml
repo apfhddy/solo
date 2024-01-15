@@ -39,8 +39,8 @@
 	<bean id="menu_Type_Service" class="detail.Menu_Type.Menu_Type_Service">
 		<constructor-arg ref="menu_Type_DAO"/>
 	</bean>
-	<bean id="category_Service" class="detail.Category.Category_Service">
-		<constructor-arg ref="category_DAO"/>
+	<bean id="category_Type_Service" class="detail.Category_Type.Category_Type_Service">
+		<constructor-arg ref="category_Type_DAO"/>
 	</bean>
 	<bean id="goods_Service" class="detail.Goods.Goods_Service">
 		<constructor-arg ref="goods_DAO"/>

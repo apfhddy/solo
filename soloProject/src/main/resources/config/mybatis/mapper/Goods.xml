@@ -5,19 +5,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="goods">
 	<!-- SQL문들을 작성하는 파일 -->
 	<select id="getGoodsList" parameterType="map" resultType="map">
-		select s2.goodsDetail_no,g.name,imgPath,allergy,origin,price,calorie from 
-		    (
-		    select * from
-		        (
-		        select gd.*,Row_Number() Over(PARTITION by goods_no order by gs.sort desc) as rn 
-		        from goods_Detail gd 
-		        inner join goods_size gs
-		        on gd.goodssize_no = gs.goodssize_no
-		        ) s1
-		    where rn = 1                                   
-		    ) s2
-		inner join goods g
-		on s2.goods_no = g.goods_no
+		select g.goods_no,name,filePath || '/' || imgPath mainImg,calorie,allergy,origin,price
+		from goods g
+		inner join goods_Detail gd
+		on g.main_no = gd.goodsDetail_no
 		where g.category_no 
 		=
 		(

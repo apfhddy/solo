@@ -20,7 +20,7 @@
 		<mapper resource="config/mybatis/mapper/Certified_Type.xml"/>
 		
 		<mapper resource="config/mybatis/mapper/Menu_Type.xml"/>
-		<mapper resource="config/mybatis/mapper/Category.xml"/>
+		<mapper resource="config/mybatis/mapper/Category_Type.xml"/>
 		<mapper resource="config/mybatis/mapper/Goods.xml"/>
 		<mapper resource="config/mybatis/mapper/Goods_Size.xml"/>
 		<mapper resource="config/mybatis/mapper/Goods_Detail.xml"/>

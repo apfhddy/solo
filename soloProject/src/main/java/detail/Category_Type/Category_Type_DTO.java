@@ -1,13 +1,13 @@
-package detail.Category;
+package detail.Category_Type;
 
-public class Category_DTO {
+public class Category_Type_DTO {
 	private int category_no;
 	private int menuType_no;
 	private String name;
 	
-	public Category_DTO() {}
+	public Category_Type_DTO() {}
 
-	public Category_DTO(int category_no, int menuType_no, String name) {
+	public Category_Type_DTO(int category_no, int menuType_no, String name) {
 		super();
 		this.category_no = category_no;
 		this.menuType_no = menuType_no;

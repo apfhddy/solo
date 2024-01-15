@@ -35,14 +35,14 @@
 		color: #A25716;
 	}
 	.menu-select-items:hover > span:nth-child(1){
-		color: #FF4F20
+		color: white;
 	}
 	.menu-select-items:hover > span:nth-child(2){
 		color: red
 	}
 	
 	.choice > span:nth-child(1){
-		color: #FF4F20
+		color: white;
 	}
 	.choice > span:nth-child(2){
 		color: red
@@ -86,7 +86,7 @@
 					<c:forEach var="goods" items="${goodsList }">
 						<div class="menu-book-item">
 							<div align="center" class="menu-book-item-img">
-								<div><img src="${finalPath }/resources/buggerImg/${goods.IMGPATH}" width="70%"></div>
+								<div><img src="${finalPath }/resources/buggerImg/${goods.MAINIMG}" width="70%"></div>
 								<div style="font-size: 12;">${goods.NAME }</div>
 							</div>
 							<div style="margin-top: 2%; padding-left: 4%; padding-bottom: 4%;">
