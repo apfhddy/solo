@@ -64,6 +64,9 @@
 		padding-bottom: 4%; 
 		box-shadow: 0px 4px 10px rgb(0, 0, 0, 0.06);
 	}
+	.menu-book-item-add{
+	}
+	
 
 </style>
 <div align="left" style="margin-top: 1%; display: flex;">
@@ -92,12 +95,12 @@
 							<div style="margin-top: 2%; padding-left: 4%; padding-bottom: 4%;">
 								<div style="width: 100%; display: flex; ">
 									<div style="width: 50%; font-size: 10;"> 
-										<div>가격 ₩ ${goods.PRICE}</div>
+										<div style="color:green">가격 ₩ ${goods.PRICE}</div>
 										<div>${goods.CALORIE} Kcal</div>
 										<div>알레르기 원산지</div>
 									</div>
 									<div align="center" style="width: 50%;"> 
-										<input type="button" value = "추가" style="width: 90%;">
+										<input data-token="${goods.GOODS_NO}" class="menu-book-item-add" onclick="document.location.href='#add/${goods.GOODS_NO}'" type="button" value = "추가" style="width: 90%;">
 									</div>
 								</div>
 							</div>				
@@ -124,9 +127,57 @@
 	</div>
 </div>
 <script type="text/javascript">
-	const menuList = Array.from(document.querySelectorAll(".menu-select-items"));
-	menuList.forEach( m => {
-	});
+	const items = Array.from(document.querySelectorAll(".menu-book-item-add"));
+	if(${login != null}){
+		items.forEach( i => {
+			i.addEventListener("click", function() {
+				const data = this.getAttribute("data-token");
+				$.ajax({
+					url:"${pc}/getItemDetail",
+					data:{v:data},
+					type:"post",
+					success: function (result) {
+						
+						const table = document.querySelector(".detailPop-table");
+						table.innerHtml = '<tr style="font-size: 14; color: gray;"><td colspan="3">1단계: 메뉴를 선택하세요</td><td align="right">가격</td><td align="right">KCAL</td></tr> ';  
+						result.forEach( r => {
+							
+							const newTr = document.createElement("tr");
+							newTr.className = "detailPop-table-tr";
+							
+							const newTd1 = document.createElement("td");
+							newTd1.innerHTML = '<button type="button" onclick="fnCalCount(1,this);">-</button><input  type="text"   name="pop_out" value="0" readonly="readonly" style="text-align:center; width: 30%;"/><button type="button" onclick="fnCalCount(2, this);">+</button>';
+							
+							
+							const newTd2 = document.createElement("td");
+							newTd2.innerHTML = '<img src="${finalPath }/resources/buggerImg/'+r['IMGPATH']+'" width="100%">';
+							
+							const newTd3 = document.createElement("td");
+							newTd3.innerText = r['NAME'];
+							
+							const newTd4 = document.createElement("td");
+							newTd4.innerText = r['PRICE'];
+							
+							const newTd5 = document.createElement("td");
+							newTd5.innerText = r['CALORIE'];
+							
+							newTr.appendChild(newTd1);
+							newTr.appendChild(newTd2);
+							newTr.appendChild(newTd3);
+							newTr.appendChild(newTd4);
+							newTr.appendChild(newTd5);
+							
+							table.appendChild(newTr);
+						})
+						
+						pop(detailPop);
+						
+					}
+				});
+			})
+		})
+	}
+	
 	
 	
 </script>

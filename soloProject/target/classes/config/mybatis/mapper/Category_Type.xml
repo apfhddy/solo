@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getCategoryList" resultType="detail.Category_Type.Category_Type_DTO" parameterType="int">
 		select * from category_Type
 		where menuType_no = #{menuType_no}
-		order by category_no 
+		order by categoryType_no 
 	</select>
 </mapper>
 

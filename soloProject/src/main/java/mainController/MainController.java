@@ -17,6 +17,9 @@ import common.Address;
 import common.ControllerPath;
 import common.Encry;
 import common.InjectionProtect;
+import detail.Goods_Detail.Goods_Detail_DAO;
+import detail.Goods_Detail.Goods_Detail_DTO;
+import detail.Goods_Detail.Goods_Detail_Service;
 import detail.User_Address.User_Address_DTO;
 import detail.User_Address.User_Address_Service;
 import detail.Users.Users_DTO;
@@ -29,10 +32,12 @@ import detail.Users.Users_Service;
 public class MainController implements ControllerPath{
 	private Users_Service users_Service;
 	private User_Address_Service user_Address_Service;
+	private Goods_Detail_Service goods_Detail_Service;
 	
-	public MainController(Users_Service users_Service,User_Address_Service user_Address_Service) {
+	public MainController(Users_Service users_Service,User_Address_Service user_Address_Service,Goods_Detail_Service goods_Detail_Service) {
 		this.users_Service = users_Service;
 		this.user_Address_Service = user_Address_Service;
+		this.goods_Detail_Service = goods_Detail_Service;
 	}
 	
 	
@@ -121,6 +126,16 @@ public class MainController implements ControllerPath{
 		user_DTO.setUserAddr_no(v);
 		users_Service.userUpdate(user_DTO);
 	}
+	
+	
+	@RequestMapping("getItemDetail")
+	@ResponseBody
+	public List<Map<String,Object>> getItemDetail(int v) {
+		return goods_Detail_Service.getGoodsDetailList(v);
+	}
+	
+	
+	
 	
 	
 	

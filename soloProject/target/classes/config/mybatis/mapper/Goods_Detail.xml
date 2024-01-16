@@ -2,9 +2,21 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="goods_Size">
+<mapper namespace="goods_Detail">
 	<!-- SQL문들을 작성하는 파일 -->
-	
+	<select id="getGoodsDetailList" parameterType="int" resultType="map">
+	select goodsDetail_no,g.filePath || '/' || imgPath as imgPath,setCheck,gs.name,calorie,price 
+	from goods g
+	inner join 
+	(
+	select * from Goods_Detail
+	where goods_no = #{no}
+	) s1
+	on g.goods_no = s1.goods_no
+	inner join goods_size gs
+	on s1.goodsSize_no = gs.goodssize_no
+	order by gs.sort 
+	</select>
 </mapper>
 
 
