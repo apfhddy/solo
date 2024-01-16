@@ -54,6 +54,9 @@
 	<bean id="goods_Detail_Service" class="detail.Goods_Detail.Goods_Detail_Service">
 		<constructor-arg ref="goods_Detail_DAO"/>
 	</bean>
+	<bean id="set_Parts_Service" class="detail.Set_Parts.Set_Parts_Service">
+		<constructor-arg ref="set_Parts_DAO"/>
+	</bean>
 	
 	
 	

@@ -15,7 +15,7 @@
 					행운버고 골드
 				</div>
 				<div style="width: 3%; margin-left: auto;">
-					<img src="${finalPath }/resources/img/x.png;" width="100%" onclick="">
+					<img src="${finalPath }/resources/img/x.png;" width="100%" onclick="pop(detailPop,'del')">
 				</div>
 			</div>
 		</div>
@@ -27,19 +27,6 @@
 						<td align="right">가격</td>
 						<td align="right">KCAL</td> 
 					</tr> 
-					<%-- <tr class="detailPop-table-tr">
-					    <td>
-					        <button type="button" onclick="fnCalCount('p',this);">+</button>
-					        <input  type="text"   name="pop_out" value="0" readonly="readonly" style="text-align:center; width: 30%;"/>
-					        <button type="button" onclick="fnCalCount('m', this);">-</button>
-					    </td>
-					   	<td>
-					    	<img src="${finalPath }/resources/buggerImg/LuckGoldBugger/1.png" width="100%">
-					    </td> 
-					    <td>라지 세트</td>
-					    <td>1000원</td>
-					    <td>1192~1372 kcal</td>
-					</tr> --%>
 				</table>
 			</div>
 			<hr>
@@ -95,11 +82,16 @@
 	
 
 	
-	function pop(target){
+	function pop(target,t){
+		if(t == 'del'){
+			document.removeEventListener("mousedown",popRemove);
+			popUp.style.display = 'none';
+			target.style.display = 'none';
+			return
+		}
 		target.style.display = '';
 		popUp.style.display = '';
 		function popRemove(e){
-			console.log(e);
 			if(!target.contains(e.target)){
 				document.removeEventListener("mousedown",popRemove);
 				popUp.style.display = 'none';
@@ -122,6 +114,5 @@
 		if(v == 10 && tf) return;
 		t.parentElement.children[1].value = v + (tf ? 1 : -1);
 	}
-	
 
 </script>

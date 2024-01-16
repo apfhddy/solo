@@ -138,8 +138,25 @@
 					type:"post",
 					success: function (result) {
 						
-						const table = document.querySelector(".detailPop-table");
-						table.innerHtml = '<tr style="font-size: 14; color: gray;"><td colspan="3">1단계: 메뉴를 선택하세요</td><td align="right">가격</td><td align="right">KCAL</td></tr> ';  
+						const tbody = document.querySelector(".detailPop-table").children[0];
+						const tableCArr = Array.from(tbody.children);
+						tableCArr.shift();
+						tableCArr.forEach( tr => {
+							tbody.removeChild(tr);
+						})
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 						result.forEach( r => {
 							
 							const newTr = document.createElement("tr");
@@ -167,7 +184,7 @@
 							newTr.appendChild(newTd4);
 							newTr.appendChild(newTd5);
 							
-							table.appendChild(newTr);
+							tbody.appendChild(newTr);
 						})
 						
 						pop(detailPop);
