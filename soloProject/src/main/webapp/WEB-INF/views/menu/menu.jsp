@@ -51,12 +51,13 @@
 	
 	
 	.menu-book-item{
-		width: 48%; 
+		width: 47%; 
 		margin-left: 1%; 
 		margin-bottom:2%; 
 		margin-right: 1%; 
 		background-color: white;
 		border-radius: 4px;
+		border: 1px solid gray;
 	}
 	
 	.menu-book-item-img{
@@ -67,7 +68,19 @@
 	.menu-book-item-add{
 	}
 	
-
+	.order-header{
+		font-size: 11;
+		color: gray; 
+	}
+	
+	#order-body > div{ 
+		border-top: 1px solid gray;
+		padding-left: 2%; 
+		padding-right: 2%;
+		padding-top: 2%;
+		padding-bottom: 2%; 
+	}
+	
 </style>
 <div align="left" style="margin-top: 1%; display: flex;">
 	<div id = "menu-select">
@@ -109,18 +122,36 @@
 					<!-- / -->
 				</div>
 			</div>	
-			<div style="width: 33%; margin-left: 0.5%;	 background-color: white; padding-left: 1%; height: 100%;">
+			<div id = "order-body" style="width: 31%;	 background-color: white;height: 100%; border: 1px solid gray;">
 				<div align="center">내 주문 정보</div>
 				<div style="display: flex; ">
 					<div style="width: 40%;">
-						<div>배달 주소 :</div>
-						<div><a>변경</a></div>
+						<div class="order-header">배달 주소 :</div>
+						<div><a style="color: blue;font-size: 12;">변경</a></div>
 					</div>
 					<div style="width: 60%;">
 					</div>
 				</div>
 				<div>
-					소액 주문비
+					<table style="width: 100%; border-spacing: 0;">
+						<tr>
+							<td class="order-header">소액 주문비:</td>
+							<td align="right">₩ 0</td>
+						</tr>
+						<tr style="vertical-align: top; ">
+							<td>총 주문합계:</td>
+							<td align="right" style="font-size: 25; color: green;">₩ 0</td>
+						</tr>
+						<tr>
+							<th colspan="2"><input style="width: 100%;" type = "button" value="결제"></th>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<a>쿠폰코드 입력하기</a>
+				</div>
+				<div>
+					메뉴들
 				</div>
 			</div>	
 		</div>	
@@ -140,7 +171,7 @@
 				detailPopNum.innerText = 0;
 				detailPopImg.src = img;
 				detailPopName.innerText = name;
-				
+				orderBody.innerHTML = '';
 				domMap = {};
 				$.ajax({
 					url:"${pc}/getItemDetail",

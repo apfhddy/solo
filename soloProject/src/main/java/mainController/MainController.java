@@ -26,6 +26,7 @@ import common.Address;
 import common.ControllerPath;
 import common.Encry;
 import common.InjectionProtect;
+import detail.Goods_Detail.Goods_Detail_DTO;
 import detail.Goods_Detail.Goods_Detail_Service;
 import detail.Set_Parts.Set_Parts_Service;
 import detail.User_Address.User_Address_DTO;
@@ -192,24 +193,53 @@ public class MainController implements ControllerPath{
 	
 	@RequestMapping("test")
 	@ResponseBody
-	public void test(String json) throws JsonParseException, JsonMappingException, IOException {
+	public void test(String json,HttpSession session) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper om = new ObjectMapper();
 		
-		List<Map<String,Object>> orderList = new ArrayList<Map<String,Object>>();
+		Map<String,List<Map<String,Object>>> orderMap = new HashMap<String, List<Map<String,Object>>>();
+		
+
 		
 		
 		Map<String,Object> jsonMap = om.readValue(json, new TypeReference<Map<String, Object>>() {});
 	
-		for(String key1 : jsonMap.keySet()) {
-			List<Map<String,Object>> jsonList = (List<Map<String,Object>>)jsonMap.get(key1);
-			for(Map<String,Object> map : jsonList) {
-				System.out.println(map.get("name"));
+		for(String key : jsonMap.keySet()) {
+			List<List<Map<String,Object>>> jsonList = (List<List<Map<String,Object>>>)jsonMap.get(key);
+			orderMap.put(key, new ArrayList<Map<String,Object>>());
+			for(List<Map<String,Object>> parts : jsonList) {
+				List<Integer> menuNo = new ArrayList<Integer>();
+				List<String> menuName = new ArrayList<String>();
+				
+				for(Map<String,Object> part : parts) {
+					menuNo.add((Integer)part.get("no"));
+					menuName.add((String)part.get("name"));
+				}
+				int index = listIndexSearch(orderMap.get(key), menuNo);
+				
+				if(index == -1) {
+					Map<String,Object> parameterMap = new HashMap<String, Object>();
+					List<Map<String,Object>> goodsList = goods_Detail_Service.getGoodsDetailList(Integer.parseInt(key)); 
+					parameterMap.put("menuNo", menuNo);
+					parameterMap.put("menuNo", menuNo);
+					parameterMap.put("cnt",1);
+					orderMap.get(key).add(parameterMap);
+				}else {
+					orderMap.get(key).get(index).compute("cnt", (k,v) -> (int)v+1);
+				}
 			}
 		}
-	
+		session.setAttribute("orderMap", orderMap);
 	}
 	
-	
+	public int listIndexSearch(List<Map<String,Object>> list,List<Integer> target) {
+		for(int i = 0; i < list.size(); i++) {
+			if(((List<Integer>)list.get(i).get("menuNo")).equals(target)) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
 
 	
 	

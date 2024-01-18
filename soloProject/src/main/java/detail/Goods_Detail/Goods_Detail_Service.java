@@ -10,7 +10,7 @@ public class Goods_Detail_Service {
 		this.goods_Detail_DAO = goods_Detail_DAO;
 	}
 	
-	public List<Map<String,Object>> getGoodsDetailList(int no){
-		return goods_Detail_DAO.getGoodsDetailList(no);
+	public List<Map<String,Object>> getGoodsDetailList(int goods_no){
+		return goods_Detail_DAO.getGoodsDetailList(goods_no);
 	}
 }

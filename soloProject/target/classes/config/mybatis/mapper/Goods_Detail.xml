@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	on s1.goodsSize_no = gs.goodssize_no
 	order by gs.sort 
 	</select>
+	
 </mapper>
 
 

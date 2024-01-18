@@ -123,11 +123,11 @@
 					let pusyArr = []; 
 					if(d.children[1].children.length != 0)
 						Array.from(d.children[1].children).forEach( dc1 => {
-							pusyArr.push({no:dc1.getAttribute("data-id"),name:dc1.innerText});
+							pusyArr.push({no:+dc1.getAttribute("data-id"),name:dc1.innerText});
 						}) 
 					if(d.children[2] != null && d.children[2].children.length != 0)
 						Array.from(d.children[2].children).forEach( dc2 => {
-							pusyArr.push({no:dc2.getAttribute("data-id"),name:dc2.innerText});
+							pusyArr.push({no:+dc2.getAttribute("data-id"),name:dc2.innerText});
 						})
 					resultObject[key].push(pusyArr);
 				
