@@ -4,7 +4,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="set_Parts">
 	<!-- SQL문들을 작성하는 파일 -->
-
+	<select id="getSetList" parameterType="int" resultType="map">
+		select s1.p_GOODSDETAIL_NO as parts_no,g.name,gs.name as sizeName, g.filePath || '/' || gd.imgPath img,partsChange_no
+		from goods_Detail gd
+		inner join
+		(
+		select * from set_parts
+		where m_goodsdetail_no = #{no}
+		) s1
+		on gd.goodsdetail_no = s1.p_goodsDetail_no
+		inner join goods g
+		on gd.goods_no = g.goods_no
+		inner join goods_size gs
+		on gd.goodssize_no =  gs.goodssize_no
+		order by partsChange_no
+	</select>
 </mapper>
 
 

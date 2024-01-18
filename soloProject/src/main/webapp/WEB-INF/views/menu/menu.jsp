@@ -128,17 +128,30 @@
 </div>
 <script type="text/javascript">
 	const items = Array.from(document.querySelectorAll(".menu-book-item-add"));
+	let setMap = null;
+	let tableList = null;
 	if(${login != null}){
 		items.forEach( i => {
 			i.addEventListener("click", function() {
-				const data = this.getAttribute("data-token");
+				const token = this.getAttribute("data-token");
+				const data = this.parentElement.parentElement.parentElement.parentElement.children[0];
+				const name = data.children[1].innerText;
+				const img = data.children[0].children[0].src;
+				detailPopNum.innerText = 0;
+				detailPopImg.src = img;
+				detailPopName.innerText = name;
+				
+				domMap = {};
 				$.ajax({
 					url:"${pc}/getItemDetail",
-					data:{v:data},
+					data:{v:token},
 					type:"post",
 					success: function (result) {
 						
-						const tbody = document.querySelector(".detailPop-table").children[0];
+						tableList = result['tableList']; 
+						setMap = result['setMap']; 
+						
+						const tbody = detailPopTable.children[0];
 						const tableCArr = Array.from(tbody.children);
 						tableCArr.shift();
 						tableCArr.forEach( tr => {
@@ -147,17 +160,7 @@
 						
 						
 						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						result.forEach( r => {
+						tableList.forEach( t => {
 							
 							const newTr = document.createElement("tr");
 							newTr.className = "detailPop-table-tr";
@@ -167,28 +170,28 @@
 							
 							
 							const newTd2 = document.createElement("td");
-							newTd2.innerHTML = '<img src="${finalPath }/resources/buggerImg/'+r['IMGPATH']+'" width="100%">';
+							newTd2.innerHTML = '<img src="${finalPath }/resources/buggerImg/'+t['IMGPATH']+'" width="100%">';
 							
 							const newTd3 = document.createElement("td");
-							newTd3.innerText = r['NAME'];
+							newTd3.innerText = t['NAME'];
 							
 							const newTd4 = document.createElement("td");
-							newTd4.innerText = r['PRICE'];
+							newTd4.innerText = '₩ '+t['PRICE'];
 							
 							const newTd5 = document.createElement("td");
-							newTd5.innerText = r['CALORIE'];
+							newTd5.innerText = t['CALORIE'] +" Kcal";
 							
 							newTr.appendChild(newTd1);
 							newTr.appendChild(newTd2);
 							newTr.appendChild(newTd3);
 							newTr.appendChild(newTd4);
 							newTr.appendChild(newTd5);
-							
 							tbody.appendChild(newTr);
+							
+							
+							domMap[t['GOODSDETAIL_NO']] = []; 							
 						})
-						
 						pop(detailPop);
-						
 					}
 				});
 			})

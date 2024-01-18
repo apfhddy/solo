@@ -2,7 +2,9 @@ package mainController;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,16 +12,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import common.Address;
 import common.ControllerPath;
 import common.Encry;
 import common.InjectionProtect;
-import detail.Goods_Detail.Goods_Detail_DAO;
-import detail.Goods_Detail.Goods_Detail_DTO;
 import detail.Goods_Detail.Goods_Detail_Service;
+import detail.Set_Parts.Set_Parts_Service;
 import detail.User_Address.User_Address_DTO;
 import detail.User_Address.User_Address_Service;
 import detail.Users.Users_DTO;
@@ -33,11 +41,14 @@ public class MainController implements ControllerPath{
 	private Users_Service users_Service;
 	private User_Address_Service user_Address_Service;
 	private Goods_Detail_Service goods_Detail_Service;
+	private Set_Parts_Service set_Parts_Service;
 	
-	public MainController(Users_Service users_Service,User_Address_Service user_Address_Service,Goods_Detail_Service goods_Detail_Service) {
+	public MainController(Users_Service users_Service,User_Address_Service user_Address_Service,Goods_Detail_Service goods_Detail_Service,
+			Set_Parts_Service set_Parts_Service) {
 		this.users_Service = users_Service;
 		this.user_Address_Service = user_Address_Service;
 		this.goods_Detail_Service = goods_Detail_Service;
+		this.set_Parts_Service = set_Parts_Service;
 	}
 	
 	
@@ -130,8 +141,22 @@ public class MainController implements ControllerPath{
 	
 	@RequestMapping("getItemDetail")
 	@ResponseBody
-	public List<Map<String,Object>> getItemDetail(int v) {
-		return goods_Detail_Service.getGoodsDetailList(v);
+	public Map<String,Object> getItemDetail(int v) {
+		List<Map<String,Object>> tableList = goods_Detail_Service.getGoodsDetailList(v);
+		Map<Integer,List<Map<String,Object>>> setMap = new HashMap<>();
+		for(Map<String,Object> one : tableList) {
+			int set = Integer.parseInt(String.valueOf(one.get("SETCHECK")));
+			if(set == 1) {
+				int no = Integer.parseInt(String.valueOf(one.get("GOODSDETAIL_NO")));
+				List<Map<String,Object>> list = set_Parts_Service.getSetList(no);
+				if(!list.isEmpty())
+					setMap.put(no, list);
+			}
+		}
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("tableList", tableList);
+		resultMap.put("setMap", setMap);
+		return resultMap;
 	}
 	
 	
@@ -165,8 +190,24 @@ public class MainController implements ControllerPath{
 	
 	
 	
+	@RequestMapping("test")
+	@ResponseBody
+	public void test(String json) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper om = new ObjectMapper();
+		
+		List<Map<String,Object>> orderList = new ArrayList<Map<String,Object>>();
+		
+		
+		Map<String,Object> jsonMap = om.readValue(json, new TypeReference<Map<String, Object>>() {});
 	
+		for(String key1 : jsonMap.keySet()) {
+			List<Map<String,Object>> jsonList = (List<Map<String,Object>>)jsonMap.get(key1);
+			for(Map<String,Object> map : jsonList) {
+				System.out.println(map.get("name"));
+			}
+		}
 	
+	}
 	
 	
 

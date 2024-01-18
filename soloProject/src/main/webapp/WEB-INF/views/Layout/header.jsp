@@ -79,6 +79,7 @@
 			height: 100%;
 			z-index: 100;
 			background-color: #F3F3F3;
+			overflow-y: scroll;
 		}
 		.detailPop-header{
 			height: 13%;
@@ -88,7 +89,7 @@
 		.detailPop-footer{
 			width: 100%;
 			height: 7%;
-			position:absolute;
+			position:fixed;
 			bottom:0;
 			background-color: white;
 			box-shadow: 0px -2px 10px rgb(0, 0, 0, 0.3);
