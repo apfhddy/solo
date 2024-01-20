@@ -265,6 +265,11 @@ public class MainController implements ControllerPath{
 	public String orderCheck() {
 		return MENU+"orderCheck.jsp";
 	}
+
+	@RequestMapping("order/payment")
+	public String orderPayment() {
+		return MENU+"orderPayment.jsp";
+	}
 	
 	
 	

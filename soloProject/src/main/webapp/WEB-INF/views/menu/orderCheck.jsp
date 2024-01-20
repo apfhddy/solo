@@ -2,7 +2,6 @@
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../Layout/header.jsp" %>
 <% 
 	List<Map<String,Object>> orderList = (List<Map<String,Object>>)session.getAttribute("orderList");
 	int sum = 0;
@@ -14,6 +13,7 @@
 		}
 	request.setAttribute("sum", sum);
 %>
+<%@ include file="../Layout/header.jsp" %>
 <div align="left" style="margin-top: 1%;"> 
 	<div style="margin-bottom: 2%;">
 		주문 확인
@@ -82,10 +82,10 @@
 				<p style="font-size: 9; color: gray">맥딜리버리 가격은 매장과 상이합니다.</p>
 			</div>
 			<div align="center">
-				<input style="width: 100%; height: 40;" type = "button" value = "주문 확인" onclick="document.location.href=''">
+				<input style="width: 100%; height: 40;" type = "button" value = "주문 확인" onclick="document.location.href='${pc}/order/payment'">
 			</div>
 			<div align="center">
-				<a style="font-size: 11;">항목 추가</a>
+				<a style="font-size: 11;" onclick="history.back()">항목 추가</a>
 			</div>
 		</div>
 	</div>
