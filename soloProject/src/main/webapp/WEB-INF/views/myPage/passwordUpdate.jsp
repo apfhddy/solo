@@ -3,7 +3,7 @@
 <%@ include file="sideLayOut/header.jsp" %>
 <div style="flex-wrap: nowrap; width: 85%;">
 	<div class="menu-header">비밀번호 변경</div>
-	<div style="background-color: white; padding-top: 2%; padding-left: 2%; padding-bottom: 2%;">
+	<div style="background-color: white;box-shadow: 0px 0px 2px gray; padding-top: 2%; padding-left: 2%; padding-bottom: 2%;">
 		<form action="${pc }/myPage/password/Update">
 			<div id = "passwordErr" style="font-size: 10; color: red;"></div>
 			<div class="input-container">

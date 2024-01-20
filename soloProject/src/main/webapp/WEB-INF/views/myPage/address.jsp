@@ -3,7 +3,7 @@
 <%@ include file="sideLayOut/header.jsp" %>
 <div style="flex-wrap: nowrap; width: 85%;">
 	<div class="menu-header">주소록</div>
-	<div style="background-color: white;">
+	<div style="background-color: white; box-shadow: 0px 0px 2px gray;">
 		<table style="width: 100%"> 
 			<tr>
 				<td style="width: 50%;">주소</td>

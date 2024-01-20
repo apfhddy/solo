@@ -3,7 +3,7 @@
 <%@ include file="sideLayOut/header.jsp" %>
 <div style="flex-wrap: nowrap; width: 85%;">
 	<div class="menu-header">계정 설정</div>
-	<div style="background-color: white; padding-top: 2%; padding-left: 2%;">
+	<div style="background-color: white; padding-top: 2%; padding-left: 2%; box-shadow: 0px 0px 2px gray;">
 		<form action="${pc }/myPage/userData/update" method="post">
 			<div id = "dataErr" style="font-size: 10; color: red;"></div>
 			<div align="left" style="margin-top: 2%;">

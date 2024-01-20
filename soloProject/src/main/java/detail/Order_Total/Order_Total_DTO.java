@@ -4,20 +4,18 @@ import java.sql.Date;
 
 public class Order_Total_DTO {
 	private int orderTotal_no;
-	private int goodsDetail_no;
-	private int paymentType_no;
 	private Date orderDate;
+	private int paymentType_no;
 
 	
 	public Order_Total_DTO() {}
 
 
-	public Order_Total_DTO(int orderTotal_no, int goodsDetail_no, int paymentType_no, Date orderDate) {
+	public Order_Total_DTO(int orderTotal_no, Date orderDate, int paymentType_no) {
 		super();
 		this.orderTotal_no = orderTotal_no;
-		this.goodsDetail_no = goodsDetail_no;
-		this.paymentType_no = paymentType_no;
 		this.orderDate = orderDate;
+		this.paymentType_no = paymentType_no;
 	}
 
 
@@ -31,13 +29,13 @@ public class Order_Total_DTO {
 	}
 
 
-	public int getGoodsDetail_no() {
-		return goodsDetail_no;
+	public Date getOrderDate() {
+		return orderDate;
 	}
 
 
-	public void setGoodsDetail_no(int goodsDetail_no) {
-		this.goodsDetail_no = goodsDetail_no;
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
 	}
 
 
@@ -48,16 +46,6 @@ public class Order_Total_DTO {
 
 	public void setPaymentType_no(int paymentType_no) {
 		this.paymentType_no = paymentType_no;
-	}
-
-
-	public Date getOrderDate() {
-		return orderDate;
-	}
-
-
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
 	}
 
 	

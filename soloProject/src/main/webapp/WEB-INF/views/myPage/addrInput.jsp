@@ -6,6 +6,7 @@
 		width: 100%;height: 600px; 
 		background-color: white; 
 		padding-top: 3%;
+		box-shadow: 0px 0px 2px gray;
 	}
 	.joinBody-table{
 		width: 70%; 

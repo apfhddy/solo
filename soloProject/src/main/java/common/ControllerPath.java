@@ -6,5 +6,6 @@ public interface ControllerPath {
 	final String LOGIN = WEB+"login/";
 	final String MYPAGE = WEB+"myPage/";
 	final String MENU = WEB+"menu/";
+	final String ORDER = WEB+"order/";
 	
 }

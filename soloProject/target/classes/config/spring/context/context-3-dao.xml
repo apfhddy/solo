@@ -61,6 +61,9 @@
 	<bean id="order_Total_DAO" class="detail.Order_Total.Order_Total_DAO">
 		<constructor-arg ref="sqlSession"/>
 	</bean>
+	<bean id="orders_DAO" class="detail.Orders.Orders_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
 	
 	<bean id="order_Parts_DAO" class="detail.Order_Parts.Order_Parts_DAO">
 		<constructor-arg ref="sqlSession"/>
