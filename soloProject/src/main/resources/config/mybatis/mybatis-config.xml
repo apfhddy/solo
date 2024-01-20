@@ -27,5 +27,10 @@
 		<mapper resource="config/mybatis/mapper/Set_Parts.xml"/>
 		
 		
+		
+		<mapper resource="config/mybatis/mapper/Order_Total.xml"/>
+		<mapper resource="config/mybatis/mapper/Order_Parts.xml"/>
+		
+		
 	</mappers>
 </configuration>

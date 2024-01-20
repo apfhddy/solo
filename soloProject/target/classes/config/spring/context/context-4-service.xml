@@ -57,6 +57,16 @@
 	<bean id="set_Parts_Service" class="detail.Set_Parts.Set_Parts_Service">
 		<constructor-arg ref="set_Parts_DAO"/>
 	</bean>
+
+
+
+
+	<bean id="order_Total_Service" class="detail.Order_Total.Order_Total_Service">
+		<constructor-arg ref="order_Total_DAO"/>
+	</bean>
+	<bean id="order_Parts_Service" class="detail.Order_Parts.Order_Parts_Service">
+		<constructor-arg ref="order_Parts_DAO"/>
+	</bean>
 	
 	
 	
