@@ -53,6 +53,10 @@
 		<beans:constructor-arg ref="goods_Service"/>
 	</beans:bean>
 	
+	<beans:bean class="detail.Order_Total.Order_Total_Controller">
+		<beans:constructor-arg ref="order_Total_Service"/>
+	</beans:bean>
+	
 	
 	
 </beans:beans>
