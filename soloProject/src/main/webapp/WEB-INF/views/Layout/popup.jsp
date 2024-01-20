@@ -114,31 +114,41 @@
 	
 	function addCart(){
 		
-		resultObject = {}
 		
-		Object.keys(domMap).forEach( key => {
-			if(domMap[key].length != 0){
-				if(resultObject[key] == null) resultObject[key] = [];
-				domMap[key].forEach( d => {
-					let pusyArr = []; 
-					if(d.children[1].children.length != 0)
-						Array.from(d.children[1].children).forEach( dc1 => {
-							pusyArr.push({no:+dc1.getAttribute("data-id"),name:dc1.innerText});
-						}) 
-					if(d.children[2] != null && d.children[2].children.length != 0)
-						Array.from(d.children[2].children).forEach( dc2 => {
-							pusyArr.push({no:+dc2.getAttribute("data-id"),name:dc2.innerText});
-						})
-					resultObject[key].push(pusyArr);
-				
+		resultObject = []
+		Array.from(orderBody.children).forEach( o => {
+			
+			let menus = []			
+			if(o.children[1].children.length != 0){
+				Array.from(o.children[1].children).forEach( dc1 => {
+					menus.push(+dc1.getAttribute("data-id"));
 				})
-			} 
+			}
+			if(o.children[2] != null && o.children[2].children.length != 0){
+				Array.from(o.children[2].children).forEach( dc2 => {
+					menus.push(+dc2.getAttribute("data-id"));
+				}) 
+			}
+			
+			let index = -1;
+			for(let i = 0; i < resultObject.length; i++){
+				if(resultObject[i]['mainNo'] == +o.getAttribute("data-id") && JSON.stringify(resultObject[i]['menus']) == JSON.stringify(menus)){
+					index = i;
+				}
+			}
+			if(index == -1){
+				resultObject.push({mainNo:+o.getAttribute("data-id"),menus:menus,cnt:1})
+			}else{
+				resultObject[index]['cnt']++;
+			}
 		})
 		$.ajax({
 			url:"${pc}/test", 
 			data:{json:JSON.stringify(resultObject)}, 
 			type:"post",
-			success: document.location.href='<%=(String)request.getAttribute("javax.servlet.forward.request_uri")+"?"+"menuType_no="+request.getParameter("menuType_no")+"&cate_id="+request.getParameter("cate_id")%>'	
+			success: (result) => {
+				document.location.href='<%=(String)request.getAttribute("javax.servlet.forward.request_uri")+"?"+"menuType_no="+request.getParameter("menuType_no")+"&cate_id="+request.getParameter("cate_id")%>'	
+			}
 		})
 		
 	}
@@ -173,6 +183,7 @@
 		const targetDetail = tableList[index];
 		if(value == 1){
 			const mDv = document.createElement('div');
+			mDv.setAttribute("data-id",targetDetail['GOODSDETAIL_NO'] )
 			mDv.style.display = 'flex';
 			mDv.style.borderTop = '1px solid gray';
 			mDv.style.paddingTop = '0.7%';

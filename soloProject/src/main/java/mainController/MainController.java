@@ -4,17 +4,15 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -26,7 +24,6 @@ import common.Address;
 import common.ControllerPath;
 import common.Encry;
 import common.InjectionProtect;
-import detail.Goods_Detail.Goods_Detail_DTO;
 import detail.Goods_Detail.Goods_Detail_Service;
 import detail.Set_Parts.Set_Parts_Service;
 import detail.User_Address.User_Address_DTO;
@@ -191,56 +188,91 @@ public class MainController implements ControllerPath{
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("test")
 	@ResponseBody
-	public void test(String json,HttpSession session) throws JsonParseException, JsonMappingException, IOException {
+	public boolean test(String json,HttpSession session) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper om = new ObjectMapper();
 		
-		Map<String,List<Map<String,Object>>> orderMap = new HashMap<String, List<Map<String,Object>>>();
-		
-
+		List<Map<String,Object>> jsonMap = om.readValue(json, new TypeReference<List<Map<String,Object>>>() {});
 		
 		
-		Map<String,Object> jsonMap = om.readValue(json, new TypeReference<Map<String, Object>>() {});
-	
-		for(String key : jsonMap.keySet()) {
-			List<List<Map<String,Object>>> jsonList = (List<List<Map<String,Object>>>)jsonMap.get(key);
-			orderMap.put(key, new ArrayList<Map<String,Object>>());
-			for(List<Map<String,Object>> parts : jsonList) {
-				List<Integer> menuNo = new ArrayList<Integer>();
-				List<String> menuName = new ArrayList<String>();
+		List<Map<String,Object>> orderList = (session.getAttribute("orderList")) != null ? 
+				(List<Map<String,Object>>)session.getAttribute("orderList") : new ArrayList<Map<String,Object>>();
+		
+		for(int i = 0 ; i < jsonMap.size(); i++) {
+			int index = listIndexOf(orderList, jsonMap.get(i));
+			if(index == -1) {
+				Map<String,Object> goodsMap = goods_Detail_Service.getOneGoods((int)jsonMap.get(i).get("mainNo"));
+				jsonMap.get(i).put("menuNames", goods_Detail_Service.getMenuNames((List<Integer>)jsonMap.get(i).get("menus")));
+				jsonMap.get(i).putAll(goodsMap);
+				orderList.add(jsonMap.get(i));
+			}else {
+				int  total = (int)orderList.get(index).get("cnt")+(int)jsonMap.get(i).get("cnt");
 				
-				for(Map<String,Object> part : parts) {
-					menuNo.add((Integer)part.get("no"));
-					menuName.add((String)part.get("name"));
+				if(total > 10) {
+					int totalM = total - 10;
+					total = 10;
+					jsonMap.get(i).put("cnt",totalM);
+					i--;
 				}
-				int index = listIndexSearch(orderMap.get(key), menuNo);
 				
-				if(index == -1) {
-					Map<String,Object> parameterMap = new HashMap<String, Object>();
-					List<Map<String,Object>> goodsList = goods_Detail_Service.getGoodsDetailList(Integer.parseInt(key)); 
-					parameterMap.put("menuNo", menuNo);
-					parameterMap.put("menuNo", menuNo);
-					parameterMap.put("cnt",1);
-					orderMap.get(key).add(parameterMap);
-				}else {
-					orderMap.get(key).get(index).compute("cnt", (k,v) -> (int)v+1);
-				}
+				orderList.get(index).put("cnt", total);
 			}
 		}
-		session.setAttribute("orderMap", orderMap);
+		
+		
+		session.setAttribute("orderList", orderList);
+		return true;
 	}
 	
-	public int listIndexSearch(List<Map<String,Object>> list,List<Integer> target) {
+	@SuppressWarnings("unchecked")
+	@RequestMapping("order/delete")
+	@ResponseBody
+	public boolean orderDelete(int v,HttpSession session) {
+		List<Map<String,Object>> order = (List<Map<String,Object>>)session.getAttribute("orderList");
+		order.remove(v);
+		return true;
+	}
+	@SuppressWarnings("unchecked")
+	@RequestMapping("order/updateForm")
+	@ResponseBody
+	public Map<String,Object> orderUpdateForm(int v,HttpSession session) {
+		List<Map<String,Object>> order = (List<Map<String,Object>>)session.getAttribute("orderList");
+		return order.get(v);
+	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	public int listIndexOf(List<Map<String,Object>> list,Map<String,Object> target) {
 		for(int i = 0; i < list.size(); i++) {
-			if(((List<Integer>)list.get(i).get("menuNo")).equals(target)) {
+			boolean equals = (int)list.get(i).get("mainNo") == (int)target.get("mainNo") && ((List<Integer>)list.get(i).get("menus")).equals((List<Integer>)target.get("menus")) && (int)list.get(i).get("cnt") != 10; 
+			if(equals) {
 				return i;
 			}
 		}
-		
 		return -1;
 	}
-
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping("order/check")
+	public String orderCheck() {
+		return MENU+"orderCheck.jsp";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 //	@RequestMapping("re")

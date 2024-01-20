@@ -18,6 +18,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	order by gs.sort 
 	</select>
 	
+	<select id="getOneGoods" parameterType="int" resultType="map">
+	select g.goods_no,g.filePath || '/' || imgPath as imgPath,price,name
+	from  goods g
+	inner join
+	(
+	select * from goods_Detail
+	where goodsDetail_no = #{no}
+	) s1
+	on s1.goods_no = g.goods_no 
+	</select>
+	
+	<select id="getMenuNames" resultType="String" parameterType="list">
+		select g.name || ' - ' || gs.name from goods g
+		inner join
+		(
+		select * from goods_detail
+		where 
+		<foreach collection="list"  item="menus" separator="or" close="">
+		goodsDetail_no = #{menus}
+		</foreach>
+		) s1
+		on g.goods_no = s1.goods_no
+		inner join goods_size gs
+		on s1.goodsSize_no = gs.goodsSize_no
+	</select>
+	
 </mapper>
 
 

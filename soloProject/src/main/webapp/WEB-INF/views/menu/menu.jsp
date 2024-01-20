@@ -1,7 +1,20 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../Layout/header.jsp" %>
+<% 
+	List<Map<String,Object>> orderList = (List<Map<String,Object>>)session.getAttribute("orderList");
+	int sum = 0;
+	if(orderList != null)
+		for(Map<String,Object> oneMap : orderList){
+			int cnt = (int)oneMap.get("cnt");
+			int price = Integer.parseInt(String.valueOf(oneMap.get("PRICE"))); 		
+			sum += price * cnt;
+		}
+	request.setAttribute("sum", sum);
+%>
 <style>
 	#menu-select{
 		font-size: 12; 
@@ -51,13 +64,13 @@
 	
 	
 	.menu-book-item{
-		width: 47%; 
+		width: 48%; 
 		margin-left: 1%; 
 		margin-bottom:2%; 
 		margin-right: 1%; 
 		background-color: white;
 		border-radius: 4px;
-		border: 1px solid gray;
+		box-shadow: 0px 0px 2px gray;
 	}
 	
 	.menu-book-item-img{
@@ -122,7 +135,7 @@
 					<!-- / -->
 				</div>
 			</div>	
-			<div id = "order-body" style="width: 31%;	 background-color: white;height: 100%; border: 1px solid gray;">
+			<div id = "order-body" style="width: 31%; margin-left: 0.5%;	 background-color: white;height: 100%; box-shadow: 0px 0px 2px gray;">
 				<div align="center">내 주문 정보</div>
 				<div style="display: flex; ">
 					<div style="width: 40%;">
@@ -136,14 +149,14 @@
 					<table style="width: 100%; border-spacing: 0;">
 						<tr>
 							<td class="order-header">소액 주문비:</td>
-							<td align="right">₩ 0</td>
+							<td align="right">₩ ${sum  <= 15000 && sum != 0 ? 3000 : 0 }</td>
 						</tr>
 						<tr style="vertical-align: top; ">
 							<td>총 주문합계:</td>
-							<td align="right" style="font-size: 25; color: green;">₩ 0</td>
+							<td align="right" style="font-size: 25; color: green;">₩ ${sum  <= 15000 && sum != 0 ? sum+3000 : sum}</td>
 						</tr>
 						<tr>
-							<th colspan="2"><input style="width: 100%;" type = "button" value="결제"></th>
+							<th colspan="2"><input style="width: 100%; height: 35; " type = "button" value="결제" onclick="document.location.href='${pc}/order/check'"></th>
 						</tr>
 					</table>
 				</div>
@@ -151,7 +164,42 @@
 					<a>쿠폰코드 입력하기</a>
 				</div>
 				<div>
-					메뉴들
+					<div>
+						주문 세부사항	
+					</div>
+					<div id = "orderItems">
+						<c:forEach var="order" items="${orderList }">
+							<div>
+								<div style="display: flex; margin-top: 2%; margin-bottom: 10%;">
+									<div style="width: 6%; margin-left: 2%;margin-right: 2%;" align="center">${order.cnt }</div>
+									<div style="width: 26%; margin-left: 2%;margin-right: 2%;"><img src="${finalPath }/resources/buggerImg/${order.IMGPATH}" width="100%"></div>
+									<div style="width: 56%; margin-left: 2%;margin-right: 2%;">
+										<div>
+											<div style="font-size: 11;">
+												${order.NAME }			
+											</div>
+											<div>
+												<c:forEach var="name" items="${order.menuNames }">
+													<div style="font-size: 9; color: gray">• ${name }</div>
+												</c:forEach> 
+											</div>
+										</div>
+									</div>
+								</div>
+								<div style="display: flex;">
+									<div>
+										<input type = "button" value = "수정" onclick="updateForm(this)">
+									</div>
+									<div>
+										<input type = "button" value = "삭제" onclick="del(this)">
+									</div>
+									<div align="right" style="width: 100%; color: green">
+										₩ ${order.PRICE * order.cnt }
+									</div>								
+								</div>
+							</div>
+						</c:forEach>
+					</div>
 				</div>
 			</div>	
 		</div>	
@@ -159,77 +207,117 @@
 </div>
 <script type="text/javascript">
 	const items = Array.from(document.querySelectorAll(".menu-book-item-add"));
+	let token = null;
+	
+	
 	let setMap = null;
 	let tableList = null;
-	if(${login != null}){
+	if(${login != null ? 1 : 1}){
 		items.forEach( i => {
 			i.addEventListener("click", function() {
-				const token = this.getAttribute("data-token");
+				token = this.getAttribute("data-token");
 				const data = this.parentElement.parentElement.parentElement.parentElement.children[0];
 				const name = data.children[1].innerText;
 				const img = data.children[0].children[0].src;
-				detailPopNum.innerText = 0;
-				detailPopImg.src = img;
-				detailPopName.innerText = name;
-				orderBody.innerHTML = '';
-				domMap = {};
-				$.ajax({
-					url:"${pc}/getItemDetail",
-					data:{v:token},
-					type:"post",
-					success: function (result) {
-						
-						tableList = result['tableList']; 
-						setMap = result['setMap']; 
-						
-						const tbody = detailPopTable.children[0];
-						const tableCArr = Array.from(tbody.children);
-						tableCArr.shift();
-						tableCArr.forEach( tr => {
-							tbody.removeChild(tr);
-						})
-						
-						
-						
-						tableList.forEach( t => {
-							
-							const newTr = document.createElement("tr");
-							newTr.className = "detailPop-table-tr";
-							
-							const newTd1 = document.createElement("td");
-							newTd1.innerHTML = '<button type="button" onclick="fnCalCount(1,this);">-</button><input  type="text"   name="pop_out" value="0" readonly="readonly" style="text-align:center; width: 30%;"/><button type="button" onclick="fnCalCount(2, this);">+</button>';
-							
-							
-							const newTd2 = document.createElement("td");
-							newTd2.innerHTML = '<img src="${finalPath }/resources/buggerImg/'+t['IMGPATH']+'" width="100%">';
-							
-							const newTd3 = document.createElement("td");
-							newTd3.innerText = t['NAME'];
-							
-							const newTd4 = document.createElement("td");
-							newTd4.innerText = '₩ '+t['PRICE'];
-							
-							const newTd5 = document.createElement("td");
-							newTd5.innerText = t['CALORIE'] +" Kcal";
-							
-							newTr.appendChild(newTd1);
-							newTr.appendChild(newTd2);
-							newTr.appendChild(newTd3);
-							newTr.appendChild(newTd4);
-							newTr.appendChild(newTd5);
-							tbody.appendChild(newTr);
-							
-							
-							domMap[t['GOODSDETAIL_NO']] = []; 							
-						})
-						pop(detailPop);
-					}
-				});
+				detailPopData(token,img,name);
 			})
 		})
 	}
 	
+	function updateForm(t){
+		const index = orderIndex(t);
+		$.ajax({
+			url:"${pc}/order/updateForm",
+			data:{v:index},
+			type:"post",
+			success: (result) =>{
+				console.log(result);
+				detailPopData(result['GOODS_NO'],'${finalPath }/resources/buggerImg/'+result['IMGPATH'],result['NAME']);
+			}
+		})
+	}
+	function del(t){
+		const index = orderIndex(t);
+		console.log(index);
+		$.ajax({
+			url:"${pc}/order/delete",
+			data:{v:index},
+			type:"post",
+			success: (result) =>{
+				document.location.href='<%=(String)request.getAttribute("javax.servlet.forward.request_uri")+"?"+"menuType_no="+request.getParameter("menuType_no")+"&cate_id="+request.getParameter("cate_id")%>'
+			}
+		}) 
+	}
 	
+	function orderIndex(target){
+		for(let i = 0; i < orderItems.children.length; i++){
+			if(orderItems.children[i] == target.parentElement.parentElement.parentElement){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	
+	function detailPopData(token,img,name){
+		detailPopNum.innerText = 0;
+		detailPopImg.src = img;
+		detailPopName.innerText = name;
+		orderBody.innerHTML = '';
+		domMap = {};
+		$.ajax({
+			url:"${pc}/getItemDetail",
+			data:{v:token},
+			type:"post",
+			success: function (result) {
+				
+				tableList = result['tableList']; 
+				setMap = result['setMap']; 
+				
+				const tbody = detailPopTable.children[0];
+				const tableCArr = Array.from(tbody.children);
+				tableCArr.shift();
+				tableCArr.forEach( tr => {
+					tbody.removeChild(tr);
+				})
+				
+				
+				
+				tableList.forEach( t => {
+					
+					const newTr = document.createElement("tr");
+					newTr.className = "detailPop-table-tr";
+					
+					const newTd1 = document.createElement("td");
+					newTd1.innerHTML = '<button type="button" onclick="fnCalCount(1,this);">-</button><input  type="text"   name="pop_out" value="0" readonly="readonly" style="text-align:center; width: 30%;"/><button type="button" onclick="fnCalCount(2, this);">+</button>';
+					
+					
+					const newTd2 = document.createElement("td");
+					newTd2.innerHTML = '<img src="${finalPath }/resources/buggerImg/'+t['IMGPATH']+'" width="100%">';
+					
+					const newTd3 = document.createElement("td");
+					newTd3.innerText = t['NAME'];
+					
+					const newTd4 = document.createElement("td");
+					newTd4.innerText = '₩ '+t['PRICE'];
+					
+					const newTd5 = document.createElement("td");
+					newTd5.innerText = t['CALORIE'] +" Kcal";
+					
+					newTr.appendChild(newTd1);
+					newTr.appendChild(newTd2);
+					newTr.appendChild(newTd3);
+					newTr.appendChild(newTd4);
+					newTr.appendChild(newTd5);
+					tbody.appendChild(newTr);
+					
+					
+					domMap[t['GOODSDETAIL_NO']] = []; 							
+				})
+				pop(detailPop);
+			}
+		});
+	}
 	
 </script>
 <%@ include file="../Layout/footer.jsp" %>

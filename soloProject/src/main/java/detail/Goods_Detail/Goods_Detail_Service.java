@@ -13,4 +13,11 @@ public class Goods_Detail_Service {
 	public List<Map<String,Object>> getGoodsDetailList(int goods_no){
 		return goods_Detail_DAO.getGoodsDetailList(goods_no);
 	}
+	public Map<String,Object> getOneGoods(int goodsDetail_no) {
+		return goods_Detail_DAO.getOneGoods(goodsDetail_no);
+	}
+	
+	public List<String> getMenuNames(List<Integer> menus){
+		return goods_Detail_DAO.getMenuNames(menus);
+	}
 }
