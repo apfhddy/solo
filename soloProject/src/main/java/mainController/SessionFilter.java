@@ -61,6 +61,9 @@ public class SessionFilter implements Filter{
 			case "join":
 				err = paths[1].equals("certified") && req.getSession().getAttribute("join") == null;
 				break;
+			case "order":
+				err = req.getSession().getAttribute("orderList") == null;
+				break;
 		}
 		
 //		if(paths[0].equals("check")) {

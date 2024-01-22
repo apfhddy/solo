@@ -29,7 +29,9 @@ public class Menu_Type_Controller implements ControllerPath{
 	public String menu(HttpServletRequest req) {
 		String menuTypeStr = req.getParameter("menuType_no");
 		String cate_id = req.getParameter("cate_id");
-		
+		if(menuTypeStr == null) {
+			return "redirect:/menu?menuType_no=1&cate_id=1";
+		};
 		int menuType_no = menuTypeStr == null ? 1 : Integer.parseInt(menuTypeStr);
 		int category_no = cate_id == null ? 1 : Integer.parseInt(cate_id);
 		
