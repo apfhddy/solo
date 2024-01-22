@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user_Order">
+	<!-- SQL문들을 작성하는 파일 -->
+	<insert id="insertUserOrder" parameterType="detail.User_Order.User_Order_DTO">
+		insert into User_Order values(User_Order_seq.nextval,#{orderTotal_no},#{user_no})
+	</insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

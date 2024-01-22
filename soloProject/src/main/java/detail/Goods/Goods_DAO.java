@@ -15,4 +15,8 @@ public class Goods_DAO {
 	public List<Map<String,Object>> getGoodsList(Map<String,Object> map){
 		return sqlSession.selectList("goods.getGoodsList",map);
 	}
+	
+	public List<Map<String,Object>> getOrderDescList(int menuType_no){
+		return sqlSession.selectList("goods.getOrderDescList",menuType_no);
+	}
 }

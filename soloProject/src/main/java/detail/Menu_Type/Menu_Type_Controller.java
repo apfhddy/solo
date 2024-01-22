@@ -40,7 +40,8 @@ public class Menu_Type_Controller implements ControllerPath{
 		
 		List<Category_Type_DTO> categoryList = category_Type_Service.getCategoryList(menuType_no); 
 		
-		List<Map<String,Object>> goodsList = goods_Service.getGoodsList(menuType_no,category_no);
+		
+		List<Map<String,Object>> goodsList = category_no == 1 ? goods_Service.getOrderDescList(menuType_no) : goods_Service.getGoodsList(menuType_no,category_no);
 		
 		
 		req.setAttribute("menuTypeList", menuTypeList);

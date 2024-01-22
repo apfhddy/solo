@@ -18,4 +18,8 @@ public class Goods_Service {
 		
 		return goods_DAO.getGoodsList(paraMap);
 	}
+	
+	public List<Map<String,Object>> getOrderDescList(int menuType_no){
+		return goods_DAO.getOrderDescList(menuType_no);
+	}
 }

@@ -71,6 +71,9 @@
 	<bean id="order_Parts_Service" class="detail.Order_Parts.Order_Parts_Service">
 		<constructor-arg ref="order_Parts_DAO"/>
 	</bean>
+	<bean id="user_Order_Service" class="detail.User_Order.User_Order_Service">
+		<constructor-arg ref="user_Order_DAO"/>
+	</bean>
 	
 	
 	

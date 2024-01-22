@@ -31,6 +31,7 @@
 		<mapper resource="config/mybatis/mapper/Order_Total.xml"/>
 		<mapper resource="config/mybatis/mapper/Order_Parts.xml"/>
 		<mapper resource="config/mybatis/mapper/Orders.xml"/>
+		<mapper resource="config/mybatis/mapper/User_Order.xml"/>
 		
 		
 	</mappers>
