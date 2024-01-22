@@ -66,6 +66,7 @@
 	</bean>
 	<bean id="orders_Service" class="detail.Orders.Orders_Service">
 		<constructor-arg ref="orders_DAO"/>
+		<constructor-arg ref="order_Parts_DAO"/>
 	</bean>
 	<bean id="order_Parts_Service" class="detail.Order_Parts.Order_Parts_Service">
 		<constructor-arg ref="order_Parts_DAO"/>

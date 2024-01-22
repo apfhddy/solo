@@ -8,4 +8,12 @@ public class Orders_DAO {
 	public Orders_DAO(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
+	
+	public int getNextNo() {
+		return sqlSession.selectOne("orders.getNextNo");
+	}
+	
+	public int insertOrders(Orders_DTO dto) {
+		return sqlSession.insert("orders.insertOrders",dto);
+	}
 }

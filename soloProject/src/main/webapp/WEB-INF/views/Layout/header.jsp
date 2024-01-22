@@ -142,7 +142,7 @@
 <body>
 <div align="center">
 	<%@include file="popup.jsp" %>
-	<div style="width: 45.8%;">
+	<div style="width: 900px;"><!-- 45.8% -->
 		<div id = "header" >
 			<div id = "header-button" align="right" >
 				<a><img style="${login != null ? 'filter: invert(68%) sepia(29%) saturate(6659%) hue-rotate(176deg) brightness(106%) contrast(95%);' : ''}'" src="${finalPath }/resources/img/userSwitch.png" width="15"> &nbsp;&nbsp;${login != null ? login.name :'' }</a>
