@@ -232,6 +232,7 @@ public class MainController implements ControllerPath{
 	public boolean orderDelete(int v,HttpSession session) {
 		List<Map<String,Object>> order = (List<Map<String,Object>>)session.getAttribute("orderList");
 		order.remove(v);
+		if(order.isEmpty()) session.removeAttribute("orderList");
 		return true;
 	}
 	@SuppressWarnings("unchecked")

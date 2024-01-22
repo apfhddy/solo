@@ -2,7 +2,8 @@
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../Layout/header.jsp" %>
 <% 
 	List<Map<String,Object>> orderList = (List<Map<String,Object>>)session.getAttribute("orderList");
@@ -121,7 +122,7 @@
 							<div style="margin-top: 2%; padding-left: 4%; padding-bottom: 4%;">
 								<div style="width: 100%; display: flex; ">
 									<div style="width: 50%; font-size: 10;"> 
-										<div style="color:green">가격 ₩ ${goods.PRICE}</div>
+										<div style="color:green">가격 ₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${goods.PRICE}"/></div>
 										<div>${goods.CALORIE} Kcal</div>
 										<div>알레르기 원산지</div>
 									</div>
@@ -149,11 +150,11 @@
 					<table style="width: 100%; border-spacing: 0;">
 						<tr>
 							<td class="order-header">소액 주문비:</td>
-							<td align="right">₩ ${sum  <= 15000 && sum != 0 ? 3000 : 0 }</td>
+							<td align="right">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${sum  <= 15000 && sum != 0 ? 3000 : 0 }"/></td>
 						</tr>
 						<tr style="vertical-align: top; ">
 							<td>총 주문합계:</td>
-							<td align="right" style="font-size: 25; color: green;">₩ ${sum  <= 15000 && sum != 0 ? sum+3000 : sum}</td>
+							<td align="right" style="font-size: 25; color: green;">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${sum  <= 15000 && sum != 0 ? sum+3000 : sum}"/></td>
 						</tr>
 						<tr>
 							<th colspan="2"><input style="width: 100%; height: 35; " type = "button" value="결제" onclick="document.location.href='${pc}/order/check'"></th>
@@ -194,7 +195,7 @@
 										<input type = "button" value = "삭제" onclick="del(this)">
 									</div>
 									<div align="right" style="width: 100%; color: green">
-										₩ ${order.PRICE * order.cnt }
+										₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${order.PRICE * order.cnt }"/>
 									</div>								
 								</div>
 							</div>

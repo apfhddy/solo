@@ -2,6 +2,7 @@
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <% 
 	List<Map<String,Object>> orderList = (List<Map<String,Object>>)session.getAttribute("orderList");
 	int sum = 0;
@@ -63,11 +64,11 @@
 				<table style="width: 100%; border-spacing: 0;">
 						<tr>
 							<td class="order-header">소액 주문비:</td>
-							<td align="right">₩ ${sum  <= 15000 && sum != 0 ? 3000 : 0 }</td>
+							<td align="right">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${sum  <= 15000 && sum != 0 ? 3000 : 0 }"/></td>
 						</tr>
 						<tr style="vertical-align: top; ">
 							<td>총 주문합계:</td>
-							<td align="right" style="font-size: 25; color: green;">₩ ${sum  <= 15000 && sum != 0 ? sum+3000 : sum}</td>
+							<td align="right" style="font-size: 25; color: green;">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${sum  <= 15000 && sum != 0 ? sum+3000 : sum}"/></td>
 						</tr>
 				</table>
 			</div>
