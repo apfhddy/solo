@@ -27,7 +27,7 @@
 	}
 	
 	#menu-select > div{
-		padding: 6.3%;
+		padding: 6.3%; 
 		cursor: pointer;
 	}
 	
@@ -107,13 +107,13 @@
 			<div class="menu-select-footer" onclick="document.location.href='?menuType_no=${menuTypeList[i].menuType_no}'">${menuTypeList[i].name }</div>
 		</c:forEach>
 	</div>
-	<div style=" width: 100%;">
+	<div style=" width: 83%;">
 		<div style="font-size: 10px; margin-bottom: 1%;">메뉴 ➡️ 추천메뉴</div>
 		<div style="display: flex;">
 			<div style="width: 67%; ">
 				<div style="display: flex; flex-wrap: wrap;">
 					<!-- 메뉴 하나 css -->
-					<c:forEach var="goods" items="${goodsList }">
+				 	<c:forEach var="goods" items="${goodsList }">
 						<div class="menu-book-item">
 							<div align="center" class="menu-book-item-img">
 								<div><img src="${finalPath }/resources/buggerImg/${goods.MAINIMG}" width="70%"></div>
@@ -121,20 +121,20 @@
 							</div>
 							<div style="margin-top: 2%; padding-left: 4%; padding-bottom: 4%;">
 								<div style="width: 100%; display: flex; ">
-									<div style="width: 50%; font-size: 10;"> 
+									<div style="width: 48%; font-size: 10;"> 
 										<div style="color:green">가격 ₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${goods.PRICE}"/></div>
 										<div>${goods.CALORIE} Kcal</div>
 										<div>알레르기 원산지</div>
 									</div>
-									<div align="center" style="width: 50%;"> 
+									<div align="center" style="width: 48%;"> 
 										<input data-token="${goods.GOODS_NO}" class="menu-book-item-add" onclick="document.location.href='#add/${goods.GOODS_NO}'" type="button" value = "추가" style="width: 90%;">
 									</div>
 								</div>
 							</div>				
 						</div>
-					</c:forEach>
+					</c:forEach> 
 					<!-- / -->
-				</div>
+				</div>  <!-- css 가 깨짐 메뉴 헤더와 푸터 수정후 바디와 분리  -->
 			</div>	
 			<div id = "order-body" style="width: 31%; margin-left: 0.5%;	 background-color: white;height: 100%; box-shadow: 0px 0px 2px gray;">
 				<div align="center">내 주문 정보</div>
@@ -144,6 +144,7 @@
 						<div><a style="color: blue;font-size: 12;">변경</a></div>
 					</div>
 					<div style="width: 60%;">
+						주소
 					</div>
 				</div>
 				<div>

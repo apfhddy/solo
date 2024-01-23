@@ -1,5 +1,7 @@
 package detail.Order_Total;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
 public class Order_Total_DAO {
@@ -15,6 +17,10 @@ public class Order_Total_DAO {
 	
 	public int insertOrderTotal(Order_Total_DTO dto) {
 		return sqlSession.insert("order_Total.insertOrderTotal",dto);
+	}
+	
+	public Map<String,Object> getOrderTotal(int no){
+		return sqlSession.selectOne("order_Total.getOrderTotal",no);
 	}
 	
 }

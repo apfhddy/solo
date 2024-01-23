@@ -18,8 +18,14 @@ public class Order_Parts_DAO {
 			sqlSession.insert("order_Parts.insertOrderParts",dto);
 		}
 		
-		
 		return 0;
 	}
+	
+	public List<String> getOrderParts(int orders_no){
+		return sqlSession.selectList("order_Parts.getOrderParts",orders_no);
+	}
+	
+	
+	
 	
 }

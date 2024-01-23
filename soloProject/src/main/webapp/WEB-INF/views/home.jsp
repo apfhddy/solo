@@ -63,7 +63,7 @@
 							<div align="left">다음의 주소로 배달됩니다.</div>
 							<div>
 								<select onchange="addrChange(this)" style="width: 100%; height: 30px;">
-									<c:forEach var="addr" items="${userAddrList }">
+									<c:forEach var="addr" items="${address }">
 										<option ${login.userAddr_no == addr.userAddr_no ? 'selected' : '' } value="${addr.userAddr_no }">${addr.location } ${addr.detail } ${addr.significant }</option>
 									</c:forEach>
 								</select>

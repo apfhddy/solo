@@ -20,6 +20,7 @@ import detail.Terms.Terms_DTO;
 import detail.Terms.Terms_Service;
 import detail.User_Address.User_Address_DTO;
 import detail.User_Address.User_Address_Service;
+import detail.User_Order.User_Order_Service;
 import detail.User_Terms.User_Terms_DAO;
 import detail.User_Terms.User_Terms_Service;
 import detail.User_Terms.User_Terms_DTO;
@@ -31,6 +32,7 @@ public class Users_Controller implements ControllerPath{
 	private Certified_Type_Service certified_Type_Service;
 	private Terms_Service terms_Service;
 	private User_Terms_Service user_Terms_Service;
+	private User_Order_Service user_Order_Service;
 	
 	private MailSendService mailSendService;
 	
@@ -38,12 +40,13 @@ public class Users_Controller implements ControllerPath{
 	
 	public Users_Controller(Users_Service users_Service,User_Address_Service user_Address_Service,
 			Certified_Type_Service certified_Type_Service,MailSendService mailSendService,Terms_Service terms_Service,
-			User_Terms_Service user_Terms_Service) {
+			User_Terms_Service user_Terms_Service,User_Order_Service user_Order_Service) {
 		this.users_Service = users_Service;
 		this.user_Address_Service = user_Address_Service;
 		this.certified_Type_Service = certified_Type_Service;
 		this.terms_Service = terms_Service;
 		this.user_Terms_Service = user_Terms_Service;
+		this.user_Order_Service = user_Order_Service;
 		
 		this.mailSendService = mailSendService;
 	}
@@ -212,6 +215,13 @@ public class Users_Controller implements ControllerPath{
 		return "redirect:/";
 	}
 	
-	
+	@RequestMapping("myPage/userOrder")
+	public String userOrder(HttpServletRequest req) {
+		int user_no = ((Users_DTO)req.getSession().getAttribute("login")).getUser_no();
+		List<Map<String,Object>> resultrList = user_Order_Service.getUserOrderList(user_no);
+		
+		req.setAttribute("orderList", resultrList);
+		return MYPAGE+"userOrder.jsp";
+	}
 	
 }

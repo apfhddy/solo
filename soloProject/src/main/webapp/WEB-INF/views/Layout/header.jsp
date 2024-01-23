@@ -29,26 +29,50 @@
 		}
 		#header-menu{
 			display: flex;
+			height: 45px;
 			border-radius: 6px; 
-			box-shadow: -1px 3px 2px rgb(0, 0, 0, 0.2);
+			box-shadow: -1px 4px 6px rgb(0, 0, 0, 0.2); 
+			align-items: center;
+			background-color: white;
 		}
 		#header-menu > div{
-			margin-left: 2%;
-			margin-right: 2%;
-			margin-top: 0.5%;
-			margin-bottom: 0.5%;
+			padding-left: 2%;
+			padding-right: 2%;
 		}
-		#header-menu:nth-child(1){ 
-			background-color: white;
+		 #header-menu > div:nth-child(1){ 
+			width: 13%; 
 		}
-		#header-menu:nth-child(2){ 
-			background-color: white;
+		#header-menu > div:nth-child(2){ 
+			background: linear-gradient(#575757 20%,#3D3D3D 80%);
+			height: 100%;
+			color: white;
+			width: 13%;
+			border-right: 1px solid #555555;
 		}
-		#header-menu:nth-child(3){ 
-			background-color: white;
+		#header-menu > div:nth-child(3){ 
+			background: linear-gradient(#575757 20%,#3D3D3D 80%);
+			color: white;
+			height: 100%;
+			width: 13%; 
+			border-left: 1px solid black;
+			border-right: 1px solid #555555;
 		}
-		#header-menu:nth-child(4){ 
-			background-color: white;
+		#header-menu > div:nth-child(4){ 
+			background: linear-gradient(#575757 20%,#3D3D3D 80%);
+			color: white;
+			height: 100%;
+			width: 13%; 
+			border-left: 1px solid black;
+		} 
+		#header-menu > div:nth-child(5){ 
+			background: linear-gradient(#575757 20%,#3D3D3D 80%);
+			width: 48%;
+			height: 100%;
+			border-top-right-radius: 6px;
+			border-bottom-right-radius: 6px;
+		} 
+		#header-menu > div > div{
+			 transform: translate(0, 50%);
 		}
 		#popUp{
 			width: 100%;
@@ -158,18 +182,23 @@
 				|<a>주문 조회</a>
 			</div>
 			<div id = "header-menu">
-				<div><a href="${pc }"><img src="${finalPath }/resources/img/logo.jpg" width="115px"></a></div>
-				<div><a href="${pc }/menu">메뉴</a></div>
+				<div><a href="${pc }"><img src="${finalPath }/resources/img/logo.jpg" width="100%"></a></div>
+				<div><div><a href="${pc }/menu">메뉴</a></div></div>
 				<div>
-					<c:choose>
-						<c:when test="${login == null }">
-							<a onclick="login_Pop()">마이페이지</a>
-						</c:when>
-						<c:otherwise>
-							<a href="${pc }/myPage">마이페이지</a>
-						</c:otherwise>
-					</c:choose>
+					<div>
+						<c:choose>
+							<c:when test="${login == null }">
+								<a onclick="login_Pop()">마이페이지</a>
+							</c:when>
+							<c:otherwise>
+								<a href="${pc }/myPage">마이페이지</a>
+							</c:otherwise>
+						</c:choose>
+					</div>
 				</div>
-				<div>기타정보</div>
+				<div>
+					<div>기타정보</div>
+				</div>
+				<div></div>
 			</div>
 		</div>

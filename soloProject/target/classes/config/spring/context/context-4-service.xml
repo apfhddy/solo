@@ -73,6 +73,9 @@
 	</bean>
 	<bean id="user_Order_Service" class="detail.User_Order.User_Order_Service">
 		<constructor-arg ref="user_Order_DAO"/>
+		<constructor-arg ref="order_Total_DAO"/>
+		<constructor-arg ref="orders_DAO"/>
+		<constructor-arg ref="order_Parts_DAO"/>
 	</bean>
 	
 	

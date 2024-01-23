@@ -11,6 +11,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertOrders" parameterType="detail.Orders.Orders_DTO">
 		insert into Orders values(#{orders_no},#{orderTotal_no},#{goodsDetail_no},#{cnt})
 	</insert>
+	
+	<select id= "getOrders" resultType="map" parameterType="int">
+		select orders_no,g.name,g.filePath || '/' || imgPath mainImg,cnt
+		from goods_Detail gd
+		inner join
+		(
+		select * 
+		from orders
+		where orderTotal_no = #{no}
+		) s1 
+		on s1.goodsDetail_no = gd.goodsDetail_no
+		inner join goods g
+		on gd.goods_no = g.goods_no
+	</select>
 </mapper>
 
 

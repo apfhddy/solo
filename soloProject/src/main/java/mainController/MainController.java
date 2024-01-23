@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.security.auth.NTSidUserPrincipal;
 
 import common.Address;
 import common.ControllerPath;
@@ -53,11 +54,6 @@ public class MainController implements ControllerPath{
 	@RequestMapping("/")
 	public String home(HttpServletRequest req) {
 		
-		if(req.getSession().getAttribute("login") != null) {
-			int user_no = ((Users_DTO)req.getSession().getAttribute("login")).getUser_no();
-			List<User_Address_DTO> userAddrList = user_Address_Service.getAddrList(user_no); 
-			req.setAttribute("userAddrList", userAddrList);
-		}
 		
 		return HOME;
 	}
@@ -173,6 +169,9 @@ public class MainController implements ControllerPath{
 		if(!((String)users_DTO.getPw()).equals(pw))return "에러페이지";
 		
 		session.setAttribute("login", users_DTO);
+		session.setAttribute("address", user_Address_Service.getAddrList(users_DTO.getUser_no()));
+		
+		
 		
 		return "redirect:/";
 	}

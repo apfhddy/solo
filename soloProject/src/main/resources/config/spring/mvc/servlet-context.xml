@@ -39,6 +39,7 @@
 		<beans:constructor-arg ref="certified_Type_Service"/>
 		<beans:constructor-arg ref="terms_Service"/>
 		<beans:constructor-arg ref="user_Terms_Service"/>
+		<beans:constructor-arg ref="user_Order_Service"/>
 		
 		<beans:constructor-arg ref="mailSendService"/>
 	</beans:bean>
@@ -58,6 +59,7 @@
 		<beans:constructor-arg ref="orders_Service"/>
 		<beans:constructor-arg ref="user_Order_Service"/>
 	</beans:bean>
+	
 	
 	
 	

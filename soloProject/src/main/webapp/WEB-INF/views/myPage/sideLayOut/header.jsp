@@ -62,8 +62,8 @@
 			<a>• 주문 조회</a>
 		</div>
 		<div>
-			<a>• 주문 내역</a>
-		</div>
+			<a href="${pc}/myPage/userOrder"><span style="color: <%=nowUrl.equals("userOrder") ? "orange" : "gray"%>">•</span> <span style="color: <%=nowUrl.equals("userOrder") ? "red" : ""%>">주문 내역</span></a>
+		</div> 
 		<div>
 			<a>• 즐겨찾기 메뉴</a>
 		</div>
