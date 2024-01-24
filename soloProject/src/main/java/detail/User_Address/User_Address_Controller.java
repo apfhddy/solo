@@ -45,7 +45,7 @@ public class User_Address_Controller implements ControllerPath{
 		dto.setUser_no(addrList.get(addressType-1).getUser_no());
 		
 		addrList.set(addressType-1, dto);
-		return "redirect:/myPage";
+		return "redirect:/myPage/addr";
 	}
 	
 	@RequestMapping("myPage/addr/delete")
@@ -57,7 +57,7 @@ public class User_Address_Controller implements ControllerPath{
 		
 		((List<User_Address_DTO>)session.getAttribute("address")).remove(addressType-1);
 		
-		return "redirect:/myPage";
+		return "redirect:/myPage/addr";
 	}
 	
 	@RequestMapping("myPage/addr/form/add")
@@ -68,7 +68,7 @@ public class User_Address_Controller implements ControllerPath{
 		user_Address_Service.addrInsert(dto);
 		
 		((List<User_Address_DTO>)session.getAttribute("address")).add(dto);
-		return "redirect:/myPage";
+		return "redirect:/myPage/addr";
 	}
 	
 	

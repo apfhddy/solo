@@ -21,7 +21,9 @@
 					<div style="display: flex;">
 						<div style="width: 27%; padding: 2% 2% 2% 2%;">
 							<div>
-								주문 번호
+								<div style="color: gray;margin-top: 6%;margin-bottom: 1%;">
+									주문 번호
+								</div>
 							</div>
 							<div>
 								<div style="color: gray;margin-top: 6%;margin-bottom: 1%;">
