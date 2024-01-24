@@ -143,8 +143,8 @@
 						<div class="order-header">배달 주소 :</div>
 						<div><a style="color: blue;font-size: 12;">변경</a></div>
 					</div>
-					<div style="width: 60%;">
-						주소
+					<div style="width: 60%; font-size: 11;">
+						${mainAddr.location } ${mainAddr.detail }
 					</div>
 				</div>
 				<div>

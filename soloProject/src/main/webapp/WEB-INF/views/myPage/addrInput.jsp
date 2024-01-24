@@ -89,6 +89,9 @@
 						</td>
 					</tr>
 				</table>
+				<c:if test="<%=request.getParameter(\"addressType\") != null%>">
+					<input type = "hidden" name = "addressType" value="<%=request.getParameter("addressType")%>">
+				</c:if>
 			</form>
 		</div>
 	</div>
@@ -109,7 +112,7 @@ const table = document.querySelector('.joinBody-table').children[0];
 function searchAddr(){
 	
 	let v = inAddr.value
-	
+	console.log(v);
 	function addrErr(errMessage){
 		resultTable.innerHTML = "";
 		const newTr = document.createElement("tr");
@@ -132,7 +135,7 @@ function searchAddr(){
 		success: function(answer){
 			const check = resultCheck(answer);
 			if(check["err"] == 1){
-				addrErr(errMessage[check["code"]]);
+				addrErr(check["str"]);
 			}
 			document.querySelector(".joinBody-table-result").style.display = "";
 		}
@@ -148,21 +151,23 @@ function addDetail(){
 
 
 function resultCheck(answer){
+	
 	if(answer["err"] == 1){
-		return {err: 1 , code:'014'};
+		return {err: 1 , str : errMessage['014']};
 	}
 	
 	const result = JSON.parse(answer["result"]);
 	const err = result["results"]["common"];
 	
-	if(err["errorCode"] != 0){
+	if(err["errorCode"] != "0"){
+	console.log(err);
 		return {err: 1 , str : err["errorMessage"]};
 	}
 	
 	const resultArray = result["results"]["juso"];
 	
 	if(resultArray.length == 0){
-		return {err: 1 , code:'014'};
+		return {err: 1 , str: errMessage['014']};
 	}
 	
 	resultTable.innerHTML = "";

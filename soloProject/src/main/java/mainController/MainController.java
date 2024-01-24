@@ -168,8 +168,16 @@ public class MainController implements ControllerPath{
 		
 		if(!((String)users_DTO.getPw()).equals(pw))return "에러페이지";
 		
+		List<User_Address_DTO> addrList = user_Address_Service.getAddrList(users_DTO.getUser_no()); 
+		
+		for(User_Address_DTO add_DTO : addrList) {
+			if(add_DTO.getUserAddr_no() == users_DTO.getUserAddr_no()) {
+				session.setAttribute("mainAddr", add_DTO);
+			}
+		}
+		
 		session.setAttribute("login", users_DTO);
-		session.setAttribute("address", user_Address_Service.getAddrList(users_DTO.getUser_no()));
+		session.setAttribute("address", addrList);
 		
 		
 		

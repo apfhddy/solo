@@ -8,7 +8,7 @@
 			<div style="margin-bottom: 2%; ">
 				<div style="box-shadow: 0px 0px 2px gray; padding: 1% 1% 1% 1%;">
 					<span style="margin-right: 2%;">
-						<button style="width: 30px; background-color:red; ">
+						<button style="width: 30px; background-color:red; " onclick="openDom(this)">
 							<img src="${finalPath }/resources/img/bottom.png" width="100%" style=" filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%)">
 						</button>
 					</span>
@@ -58,4 +58,14 @@
 		</c:forEach>
 	</div>
 </div>
+<script type="text/javascript">
+	function openDom(t) {
+		const target = t.parentElement.parentElement.parentElement.children[1];
+		
+		const tf = target.style.display == 'none';
+		t.children[0].style.transform = tf ? "rotate(180deg)" : '';
+
+		target.style.display = (tf ? '' : 'none');
+	}
+</script>
 <%@ include file="sideLayOut/footer.jsp" %>

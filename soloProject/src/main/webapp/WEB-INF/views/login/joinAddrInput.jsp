@@ -103,139 +103,140 @@
 </div>
 <input onclick="checkForm()" type = "button" value="확인">
 <script type="text/javascript">
-	let jiuck = null;
-	let txen = false;
-	const table = document.querySelector('.joinBody-table').children[0];
+let jiuck = null;
+let txen = false;
+const table = document.querySelector('.joinBody-table').children[0];
+
+function searchAddr(){
 	
-	function searchAddr(){
-		
-		let v = inAddr.value
-		
-		function addrErr(errMessage){
-			resultTable.innerHTML = "";
-			const newTr = document.createElement("tr");
-			const newTd = document.createElement("td");
-			newTd.innerText = errMessage;
-			newTr.appendChild(newTd);
-			resultTable.appendChild(newTr);
+	let v = inAddr.value
+	console.log(v);
+	function addrErr(errMessage){
+		resultTable.innerHTML = "";
+		const newTr = document.createElement("tr");
+		const newTd = document.createElement("td");
+		newTd.innerText = errMessage;
+		newTr.appendChild(newTd);
+		resultTable.appendChild(newTr);
+		document.querySelector(".joinBody-table-result").style.display = "";
+	}
+	
+	if(v.trim() == "")return addrErr(errMessage['011']);
+	const fMap = checkSearchedWord(v);
+	if(fMap['err'])return addrErr(errMessage[fMap['code']]);
+
+	
+	$.ajax({
+		url:"${pc}/searchAddr",
+		type:"post",
+		data:{str:v},
+		success: function(answer){
+			const check = resultCheck(answer);
+			if(check["err"] == 1){
+				addrErr(check["str"]);
+			}
 			document.querySelector(".joinBody-table-result").style.display = "";
 		}
-		
-		if(v.trim() == "")return addrErr(errMessage['011']);
-		const fMap = checkSearchedWord(v);
-		if(fMap['err'])return addrErr(errMessage[fMap['code']]);
+	});
+}
+
+function addDetail(){
+	table.children[2].children[1].innerText = jiuck+" "+detail.value;
+	table.children[2].style.display = '';
+	table.children[3].style.display = '';
+	txen = true;
+}
+
+
+function resultCheck(answer){
 	
-		
-		$.ajax({
-			url:"${pc}/searchAddr",
-			type:"post",
-			data:{str:v},
-			success: function(answer){
-				const check = resultCheck(answer);
-				if(check["err"] == 1){
-					addrErr(errMessage[check["code"]]);
-				}
-				document.querySelector(".joinBody-table-result").style.display = "";
-			}
-		});
+	if(answer["err"] == 1){
+		return {err: 1 , str : errMessage['014']};
 	}
 	
-	function addDetail(){
-		table.children[2].children[1].innerText = jiuck+" "+detail.value;
-		table.children[2].style.display = '';
-		table.children[3].style.display = '';
-		txen = true;
+	const result = JSON.parse(answer["result"]);
+	const err = result["results"]["common"];
+	
+	if(err["errorCode"] != "0"){
+	console.log(err);
+		return {err: 1 , str : err["errorMessage"]};
 	}
 	
+	const resultArray = result["results"]["juso"];
 	
-	function resultCheck(answer){
-		if(answer["err"] == 1){
-			return {err: 1 , code:'014'};
-		}
-		
-		const result = JSON.parse(answer["result"]);
-		const err = result["results"]["common"];
-		
-		if(err["errorCode"] != 0){
-			return {err: 1 , str : err["errorMessage"]};
-		}
-		
-		const resultArray = result["results"]["juso"];
-		
-		if(resultArray.length == 0){
-			return {err: 1 , code:'014'};
-		}
-		
-		resultTable.innerHTML = "";
-		resultArray.forEach( r => {
-			const newTr = document.createElement("tr");
-			const newTd1 = document.createElement("td");
-			const newTd2 = document.createElement("td");
-			const newBt = document.createElement("input");
-			
-			function btEt() {
-				document.querySelector(".joinBody-table-result").style.display = "none";
-				jiuck = this.parentElement.parentElement.children[0].innerText;
-				table.children[1].style.display = '';
-			}
-			
-			newTd1.innerText = r["roadAddr"]+" 지번: "+r["lnbrMnnm"]+"-"+r["lnbrSlno"];
-			newBt.setAttribute("type", "button");
-			newBt.setAttribute("value", "선택");
-			newBt.addEventListener("click",btEt);
-			newTd2.appendChild(newBt);
-			
-			newTd1.className = "td1";
-			newTd2.className = "td2";
-			
-			newTr.appendChild(newTd1);
-			newTr.appendChild(newTd2);
-			resultTable.appendChild(newTr);
-		});
-		return {err : 0};
+	if(resultArray.length == 0){
+		return {err: 1 , str: errMessage['014']};
 	}
-	function checkSearchedWord(obj){
-		if(obj.length >0){
-		//특수문자 제거
-			var expText = /[%=><]/ ;
-			if(expText.test(obj) == true){
-				return {err:true,code:'012'};
-			}
-			
-			//특정문자열(sql예약어의 앞뒤공백포함) 제거
-			var sqlArray = new Array(
-			//sql 예약어
-			"OR", "SELECT", "INSERT", "DELETE", "UPDATE"
-			,"CREATE", "DROP", "EXEC", "UNION"
-			,"FETCH", "DECLARE", "TRUNCATE" );
-			 
-			var regex;
-			for(var i=0; i<sqlArray.length; i++){
-				regex = new RegExp( sqlArray[i] ,"gi") ;
-			
-				if (regex.test(obj) ) {
-					return {err:true,code:'013'};
-				}
+	
+	resultTable.innerHTML = "";
+	resultArray.forEach( r => {
+		const newTr = document.createElement("tr");
+		const newTd1 = document.createElement("td");
+		const newTd2 = document.createElement("td");
+		const newBt = document.createElement("input");
+		
+		function btEt() {
+			document.querySelector(".joinBody-table-result").style.display = "none";
+			jiuck = this.parentElement.parentElement.children[0].innerText;
+			table.children[1].style.display = '';
+		}
+		
+		newTd1.innerText = r["roadAddr"]+" 지번: "+r["lnbrMnnm"]+"-"+r["lnbrSlno"];
+		newBt.setAttribute("type", "button");
+		newBt.setAttribute("value", "선택");
+		newBt.addEventListener("click",btEt);
+		newTd2.appendChild(newBt);
+		
+		newTd1.className = "td1";
+		newTd2.className = "td2";
+		
+		newTr.appendChild(newTd1);
+		newTr.appendChild(newTd2);
+		resultTable.appendChild(newTr);
+	});
+	return {err : 0};
+}
+function checkSearchedWord(obj){
+	if(obj.length >0){
+	//특수문자 제거
+		var expText = /[%=><]/ ;
+		if(expText.test(obj) == true){
+			return {err:true,code:'012'};
+		}
+		
+		//특정문자열(sql예약어의 앞뒤공백포함) 제거
+		var sqlArray = new Array(
+		//sql 예약어
+		"OR", "SELECT", "INSERT", "DELETE", "UPDATE"
+		,"CREATE", "DROP", "EXEC", "UNION"
+		,"FETCH", "DECLARE", "TRUNCATE" );
+		 
+		var regex;
+		for(var i=0; i<sqlArray.length; i++){
+			regex = new RegExp( sqlArray[i] ,"gi") ;
+		
+			if (regex.test(obj) ) {
+				return {err:true,code:'013'};
 			}
 		}
-		return {err:false} ;
+	}
+	return {err:false} ;
+}
+
+function checkForm() {
+	const form = document.querySelector(".joinBody").querySelector("form");
+	
+	if(!txen || form.detail.value.trim() == ""){
+		alert("상세주소까지 자세히 적어주셔야 합니다");
+		return;
 	}
 	
-	function checkForm() {
-		const form = document.querySelector(".joinBody").querySelector("form");
-		
-		if(!txen || form.detail.value.trim() == ""){
-			alert("상세주소까지 자세히 적어주셔야 합니다");
-			return;
-		}
-		
-		const newIp = document.createElement("input");
-		newIp.setAttribute("name","location" );
-		newIp.setAttribute("value", jiuck);
-		newIp.setAttribute("type", "hidden");
-		form.appendChild(newIp);
-		form.submit();
-	}
-	
+	const newIp = document.createElement("input");
+	newIp.setAttribute("name","location" );
+	newIp.setAttribute("value", jiuck);
+	newIp.setAttribute("type", "hidden");
+	form.appendChild(newIp);
+	form.submit();
+}
 </script>
 <%@ include file="../Layout/footer.jsp" %>

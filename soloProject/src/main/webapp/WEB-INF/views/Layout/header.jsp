@@ -18,7 +18,14 @@
 			margin: 0;
 			padding: 0;
 			background-color: #F3F3F3;
+			width:100%; 
+			height:100%; 
+			margin:0; 
+			padding:0; 
+			overflow-y:scroll; 
+			position:relative;
 		}
+		html {width:100%; height:100%; margin:0; padding:0; overflow:hidden;} /* 기본 스크롤 제거 */
 		#header-button {
 			color: gray;
 		}
@@ -164,7 +171,7 @@
 	</style>
 </head>
 <body>
-<div align="center">
+<div align="center" st>
 	<%@include file="popup.jsp" %>
 	<div style="width: 900px;"><!-- 45.8% -->
 		<div id = "header" >

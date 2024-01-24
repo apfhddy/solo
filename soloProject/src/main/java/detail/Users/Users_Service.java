@@ -22,7 +22,6 @@ public class Users_Service {
 	}
 	
 	public int insertUser(Map<String,Object> userData) {
-		System.out.println(userData.toString());
 		User_Address_DTO addr_DTO = (User_Address_DTO)userData.get("addr");
 		Users_DTO users_DTO = (Users_DTO)userData.get("detail");
 		User_Terms_DTO[] userTerms = (User_Terms_DTO[])userData.get("userTerms");
@@ -33,7 +32,10 @@ public class Users_Service {
 		String pw = Encry.encry(users_DTO.getPw(), salt);
 		
 		addr_DTO.setUser_no(user_no);
-		int userAddr_no = user_Address_DAO.addrInsert(addr_DTO);
+		int userAddr_no = user_Address_DAO.getNextNo();
+		
+		addr_DTO.setUserAddr_no(userAddr_no);
+		user_Address_DAO.addrInsert(addr_DTO);
 		
 		
 		users_DTO.setUser_no(user_no);

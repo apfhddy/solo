@@ -151,8 +151,10 @@ public class Users_Controller implements ControllerPath{
 	
 	@RequestMapping("myPage")
 	public String myPage(HttpServletRequest req) {
-		List<User_Address_DTO> addrList = user_Address_Service.getAddrList(((Users_DTO)req.getSession().getAttribute("login")).getUser_no());
-		req.setAttribute("addrList", addrList);
+		return "redirect:myPage/userOrder";
+	}
+	@RequestMapping("myPage/addr")
+	public String address(HttpServletRequest req) {
 		return MYPAGE+"address.jsp";
 	}
 	

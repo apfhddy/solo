@@ -1,6 +1,7 @@
 package detail.User_Address;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +21,17 @@ public class User_Address_Controller implements ControllerPath{
 		this.user_Address_Service = user_Address_Service;
 	}
 	
-	@RequestMapping("myPage/addr")
+	@RequestMapping("myPage/addr/form")
 	public String myPageAddress(HttpServletRequest req) {
 		return MYPAGE+"addrInput.jsp";
 	}
 
-	@RequestMapping("myPage/addr/update")
+	@RequestMapping("myPage/addr/form/update")
 	public String addrUpdate(HttpSession session,User_Address_DTO dto,int addressType) {
 		
+		List<User_Address_DTO> addrList = ((List<User_Address_DTO>)session.getAttribute("address"));
+		
+		if(addrList.size() < addressType)return "에러페이지";
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("significant", dto.getSignificant());
@@ -37,6 +41,10 @@ public class User_Address_Controller implements ControllerPath{
 		map.put("num", addressType);
 		user_Address_Service.rownumUpdate(map);
 		
+		dto.setUserAddr_no(addrList.get(addressType-1).getUserAddr_no());
+		dto.setUser_no(addrList.get(addressType-1).getUser_no());
+		
+		addrList.set(addressType-1, dto);
 		return "redirect:/myPage";
 	}
 	
@@ -47,13 +55,19 @@ public class User_Address_Controller implements ControllerPath{
 		map.put("num", addressType);
 		user_Address_Service.addrDelete(map);
 		
+		((List<User_Address_DTO>)session.getAttribute("address")).remove(addressType-1);
+		
 		return "redirect:/myPage";
 	}
 	
-	@RequestMapping("myPage/addr/add")
+	@RequestMapping("myPage/addr/form/add")
 	public String addrinsert(HttpSession session,User_Address_DTO dto) {
+		int userAddr_no = user_Address_Service.getNextNo();
+		dto.setUserAddr_no(userAddr_no);
 		dto.setUser_no(((Users_DTO)session.getAttribute("login")).getUser_no());
 		user_Address_Service.addrInsert(dto);
+		
+		((List<User_Address_DTO>)session.getAttribute("address")).add(dto);
 		return "redirect:/myPage";
 	}
 	

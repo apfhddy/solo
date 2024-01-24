@@ -32,6 +32,8 @@ public class User_Address_Service {
 		return user_Address_DAO.addrInsert(dto);
 	}
 	
-	
+	public int getNextNo() {
+		return user_Address_DAO.getNextNo();
+	}
 
 }

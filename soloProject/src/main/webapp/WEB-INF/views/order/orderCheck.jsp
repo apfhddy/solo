@@ -65,7 +65,11 @@
 				주문 요약
 			</div>
 			<div>
-				배달 주소
+				배달 주소 <%-- <c:forEach var="addr" items="${address}">
+							<c:if test="${addr.userAddr_no == login.userAddr_no }">
+								${addr.location } ${addr.detail }
+							</c:if>
+						</c:forEach> --%>
 			</div>
 			<div>
 				<table style="width: 100%; border-spacing: 0;">

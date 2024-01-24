@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.ControllerPath;
 import detail.Orders.Orders_Service;
+import detail.User_Address.User_Address_DTO;
 import detail.User_Order.User_Order_DTO;
 import detail.User_Order.User_Order_Service;
 import detail.Users.Users_DTO;
@@ -42,10 +43,12 @@ public class Order_Total_Controller implements ControllerPath{
 	public String orderPay(HttpSession session) {
 		
 		List<Map<String,Object>> orderList = (List<Map<String,Object>>)session.getAttribute("orderList");
+		User_Address_DTO mainAddr = (User_Address_DTO)session.getAttribute("mainAddr");
+		
 		
 		int orderTotal_no = order_Total_Service.getNextNo();
 		
-		boolean next = (order_Total_Service.insertOrderTotal(new Order_Total_DTO(orderTotal_no,null, 0))) == 1;
+		boolean next = (order_Total_Service.insertOrderTotal(new Order_Total_DTO(orderTotal_no,null, 0,mainAddr.getLocation()+" "+mainAddr.getDetail()))) == 1;
 		
 		if(next)
 			for(Map<String,Object> oneMap : orderList) {

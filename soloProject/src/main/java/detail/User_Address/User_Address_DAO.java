@@ -13,13 +13,7 @@ public class User_Address_DAO {
 	}
 	
 	public int addrInsert(User_Address_DTO dto){
-		int userAddr_no = sqlSession.selectOne("user_Address.nextSequence");
-		
-		dto.setUserAddr_no(userAddr_no);
-		
-		sqlSession.insert("user_Address.addrInsert",dto);
-		
-		return userAddr_no;
+		return sqlSession.insert("user_Address.addrInsert",dto);
 	}
 	
 	public List<User_Address_DTO> getAddrList(int user_no){
@@ -32,6 +26,9 @@ public class User_Address_DAO {
 	
 	public int addrDelete(Map<String,Object> map) {
 		return sqlSession.delete("user_Address.addrDelete",map);
+	}
+	public int getNextNo() {
+		return sqlSession.selectOne("user_Address.getNextNo");
 	}
 	
 	

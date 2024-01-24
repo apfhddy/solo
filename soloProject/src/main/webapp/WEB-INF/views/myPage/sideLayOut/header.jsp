@@ -58,9 +58,9 @@
 		마이 페이지
 		</div>
 		<hr>
-		<div>
+		<!-- <div>
 			<a>• 주문 조회</a>
-		</div>
+		</div> -->
 		<div>
 			<a href="${pc}/myPage/userOrder"><span style="color: <%=nowUrl.equals("userOrder") ? "orange" : "gray"%>">•</span> <span style="color: <%=nowUrl.equals("userOrder") ? "red" : ""%>">주문 내역</span></a>
 		</div> 
@@ -68,7 +68,7 @@
 			<a>• 즐겨찾기 메뉴</a>
 		</div>
 		<div>
-			<a href="${pc}/myPage"><span style="color: <%=nowUrl.equals("addr") ? "orange" : "gray"%>">•</span> <span style="color: <%=nowUrl.equals("addr") ? "red" : ""%>">주소록</span></a>
+			<a href="${pc}/myPage/addr"><span style="color: <%=nowUrl.equals("addr") ? "orange" : "gray"%>">•</span> <span style="color: <%=nowUrl.equals("addr") ? "red" : ""%>">주소록</span></a>
 		</div>
 		<div> 
 			<a href="${pc}/myPage/userData"><span style="color: <%=nowUrl.equals("userData") ? "orange" : "gray"%>">•</span> <span style="color: <%=nowUrl.equals("userData") ? "red" : ""%>">계정 설정</span></a>

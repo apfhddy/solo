@@ -79,7 +79,6 @@ public class SessionFilter implements Filter{
 //		}
 		
 		
-		
 		if(err) {
 			res.sendRedirect("/solo/");
 		}else {
