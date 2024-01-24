@@ -196,20 +196,20 @@ public class Users_Controller implements ControllerPath{
 	}
 	
 	@RequestMapping("myPage/password/Update")
-	public String passwordUpdate(HttpSession session,String nowPassword,String newPassword,String newPasswordCheck) {
+	public String passwordUpdate(HttpSession session,String nowPw,String newPw,String newPwCk) {
 		
 		
 		Users_DTO users_DTO = (Users_DTO)session.getAttribute("login");
-		if(!newPassword.equals(newPasswordCheck))return "에러페이지";
+		if(!newPw.equals(newPwCk))return "에러페이지";
 		
-		nowPassword = Encry.encry(nowPassword, users_DTO.getSalt());
-		if(!users_DTO.getPw().equals(nowPassword))return "에러페이지";
+		nowPw = Encry.encry(nowPw, users_DTO.getSalt());
+		if(!users_DTO.getPw().equals(nowPw))return "에러페이지";
 		
 		String salt = Encry.getSalt();
-		newPassword = Encry.encry(newPassword, salt);
+		newPw = Encry.encry(newPw, salt);
 		
 		users_DTO.setSalt(salt);
-		users_DTO.setPw(newPassword);
+		users_DTO.setPw(newPw);
 		
 		users_Service.userUpdate(users_DTO);
 		

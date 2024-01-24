@@ -45,10 +45,18 @@ public class Order_Total_Controller implements ControllerPath{
 		List<Map<String,Object>> orderList = (List<Map<String,Object>>)session.getAttribute("orderList");
 		User_Address_DTO mainAddr = (User_Address_DTO)session.getAttribute("mainAddr");
 		
+		int sum = 0;
+		if(orderList != null)
+			for(Map<String,Object> oneMap : orderList){
+				int cnt = (int)oneMap.get("cnt");
+				int price = Integer.parseInt(String.valueOf(oneMap.get("PRICE"))); 		
+				sum += price * cnt;
+			}
 		
 		int orderTotal_no = order_Total_Service.getNextNo();
 		
-		boolean next = (order_Total_Service.insertOrderTotal(new Order_Total_DTO(orderTotal_no,null, 0,mainAddr.getLocation()+" "+mainAddr.getDetail()))) == 1;
+		
+		boolean next = (order_Total_Service.insertOrderTotal(new Order_Total_DTO(orderTotal_no,null, 0,mainAddr.getLocation()+" "+mainAddr.getDetail(),sum))) == 1;
 		
 		if(next)
 			for(Map<String,Object> oneMap : orderList) {

@@ -1,5 +1,6 @@
 package detail.Goods_Detail;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,11 @@ public class Goods_Detail_Service {
 	public List<Map<String,Object>> getGoodsDetailList(int goods_no){
 		return goods_Detail_DAO.getGoodsDetailList(goods_no);
 	}
-	public Map<String,Object> getOneGoods(int goodsDetail_no) {
-		return goods_Detail_DAO.getOneGoods(goodsDetail_no);
+	public Map<String,Object> getOneGoods(int goodsDetail_no,List<Integer> menus) {
+		Map<String,Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("no", goodsDetail_no);
+		parameterMap.put("menus", menus);
+		return goods_Detail_DAO.getOneGoods(parameterMap);
 	}
 	
 	public List<String> getMenuNames(List<Integer> menus){

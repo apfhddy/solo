@@ -31,6 +31,7 @@
 		<beans:constructor-arg ref = "user_Address_Service"/>
 		<beans:constructor-arg ref = "goods_Detail_Service"/>
 		<beans:constructor-arg ref = "set_Parts_Service"/>
+		<beans:constructor-arg ref = "parts_ChangeList_Service"/>
 	</beans:bean>
 
 	<beans:bean class="detail.Users.Users_Controller">

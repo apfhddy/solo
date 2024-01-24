@@ -4,7 +4,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="parts_ChangeList">
 	<!-- SQL문들을 작성하는 파일 -->
-	
+	<select id="getPartsChangeList" resultType="map" parameterType="int">
+	select gd.goodsDetail_no,g.name,addPay from parts_ChangeList pc
+	inner join
+	(
+	select * from parts_change
+	where partsChange_no = #{partsChange_no}
+	) s1
+	on pc.partsChange_no = s1.partschange_no
+	inner join goods_Detail gd 
+	on pc.goodsDetail_no  = gd.goodsDetail_no
+	inner join goods g
+	on g.goods_no = gd.goods_no
+	</select>
 </mapper>
 
 

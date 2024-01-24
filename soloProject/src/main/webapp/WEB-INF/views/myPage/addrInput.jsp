@@ -53,7 +53,7 @@
 			<img src="${finalPath }/resources/img/join1.gif" width="76%">
 		</div>
 		<div>
-			<form action="${pc }/myPage/addr/<%=request.getParameter("addressType") != null ? "update" : "add"%>" method="post">
+			<form action="${pc }/myPage/addr/form/<%=request.getParameter("addressType") != null ? "update" : "add"%>" method="post">
 				<table class="joinBody-table">
 					<tr>
 						<td style="width: 120px;">지역명</td>

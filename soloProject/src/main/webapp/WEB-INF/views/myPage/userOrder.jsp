@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="sideLayOut/header.jsp" %>
 <div style="flex-wrap: nowrap; width: 85%;">
 	<div class="menu-header">나의 주문 내역</div>
@@ -23,7 +24,29 @@
 								주문 번호
 							</div>
 							<div>
-								주소 
+								<div style="color: gray;margin-top: 6%;margin-bottom: 1%;">
+									주소
+								</div>
+								<div style="font-size: 13;">
+									${mainOrder.ORDERADDRESS }
+								</div>
+							</div>
+							<div>
+								<div style="color: gray;margin-top: 6%;margin-bottom: 1%;">
+									결제금액
+								</div>
+								<div>
+									<table style="width: 100%;">
+										<tr>
+											<td style="color: gray; font-size: 11;">소액 주문비:</td>
+											<td align="right">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${mainOrder.PAY  <= 15000 && mainOrder.PAY != 0 ? 3000 : 0 }"/></td>
+										</tr>	
+										<tr>
+											<td>총 결제금액:</td>
+											<td style="color: green;" align="right">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${mainOrder.PAY  <= 15000 && mainOrder.PAY != 0 ? mainOrder.PAY+3000 : mainOrder.PAY}"/></td>
+										</tr>	
+									</table>
+								</div>
 							</div>
 						</div>
 						<div style="width: 46%; border-left: 1px solid #D8D8D8; border-right: 1px solid #D8D8D8;">

@@ -26,6 +26,7 @@ import common.ControllerPath;
 import common.Encry;
 import common.InjectionProtect;
 import detail.Goods_Detail.Goods_Detail_Service;
+import detail.Parts_ChangeList.Parts_ChangeList_Service;
 import detail.Set_Parts.Set_Parts_Service;
 import detail.User_Address.User_Address_DTO;
 import detail.User_Address.User_Address_Service;
@@ -41,13 +42,15 @@ public class MainController implements ControllerPath{
 	private User_Address_Service user_Address_Service;
 	private Goods_Detail_Service goods_Detail_Service;
 	private Set_Parts_Service set_Parts_Service;
+	private Parts_ChangeList_Service parts_ChangeList_Service;
 	
 	public MainController(Users_Service users_Service,User_Address_Service user_Address_Service,Goods_Detail_Service goods_Detail_Service,
-			Set_Parts_Service set_Parts_Service) {
+			Set_Parts_Service set_Parts_Service,Parts_ChangeList_Service parts_ChangeList_Service) {
 		this.users_Service = users_Service;
 		this.user_Address_Service = user_Address_Service;
 		this.goods_Detail_Service = goods_Detail_Service;
 		this.set_Parts_Service = set_Parts_Service;
+		this.parts_ChangeList_Service = parts_ChangeList_Service;
 	}
 	
 	
@@ -130,6 +133,11 @@ public class MainController implements ControllerPath{
 		Users_DTO user_DTO = (Users_DTO)session.getAttribute("login");
 		user_DTO.setUserAddr_no(v);
 		users_Service.userUpdate(user_DTO);
+		for(User_Address_DTO add_DTO : (List<User_Address_DTO>)session.getAttribute("address")) {
+			if(add_DTO.getUserAddr_no() == v) {
+				session.setAttribute("mainAddr", add_DTO);
+			}
+		}
 	}
 	
 	
@@ -143,10 +151,21 @@ public class MainController implements ControllerPath{
 			if(set == 1) {
 				int no = Integer.parseInt(String.valueOf(one.get("GOODSDETAIL_NO")));
 				List<Map<String,Object>> list = set_Parts_Service.getSetList(no);
+
+				for(Map<String,Object> oneParts : list) {
+					int partsChangeNo = Integer.parseInt(String.valueOf(oneParts.get("PARTSCHANGE_NO")));
+					if(partsChangeNo != 0) {
+						List<Map<String,Object>> partsChengeList = parts_ChangeList_Service.getPartsChangeList(partsChangeNo);
+						oneParts.put("partsChangeList", partsChengeList);
+					}
+				}
+				
 				if(!list.isEmpty())
 					setMap.put(no, list);
 			}
+			
 		}
+		
 		Map<String,Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("tableList", tableList);
 		resultMap.put("setMap", setMap);
@@ -210,7 +229,7 @@ public class MainController implements ControllerPath{
 		for(int i = 0 ; i < jsonMap.size(); i++) {
 			int index = listIndexOf(orderList, jsonMap.get(i));
 			if(index == -1) {
-				Map<String,Object> goodsMap = goods_Detail_Service.getOneGoods((int)jsonMap.get(i).get("mainNo"));
+				Map<String,Object> goodsMap = goods_Detail_Service.getOneGoods((int)jsonMap.get(i).get("mainNo"),(List<Integer>)jsonMap.get(i).get("menus"));
 				jsonMap.get(i).put("menuNames", goods_Detail_Service.getMenuNames((List<Integer>)jsonMap.get(i).get("menus")));
 				jsonMap.get(i).putAll(goodsMap);
 				orderList.add(jsonMap.get(i));

@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select order_total_seq.nextval from dual
 	</select>
 	<insert id="insertOrderTotal" parameterType="detail.Order_Total.Order_Total_DTO">
-		insert into Order_total values(#{orderTotal_no},sysdate,#{paymentType_no},#{orderAddress})
+		insert into Order_total values(#{orderTotal_no},sysdate,#{paymentType_no},#{orderAddress},#{pay})
 	</insert>
 </mapper>
 

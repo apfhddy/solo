@@ -126,7 +126,7 @@
 			}
 			if(o.children[2] != null && o.children[2].children.length != 0){
 				Array.from(o.children[2].children).forEach( dc2 => {
-					menus.push(+dc2.getAttribute("data-id"));
+					menus.push(+dc2.children[0].value);
 				}) 
 			}
 			
@@ -142,6 +142,7 @@
 				resultObject[index]['cnt']++;
 			}
 		})
+		console.log(resultObject);
 		$.ajax({
 			url:"${pc}/test", 
 			data:{json:JSON.stringify(resultObject)}, 
@@ -149,7 +150,7 @@
 			success: (result) => {
 				document.location.href='<%=(String)request.getAttribute("javax.servlet.forward.request_uri")+"?"+"menuType_no="+request.getParameter("menuType_no")+"&cate_id="+request.getParameter("cate_id")%>'	
 			}
-		})
+		}) 
 		
 	}
 	
@@ -216,11 +217,20 @@
 				const setArr = setMap[targetDetail['GOODSDETAIL_NO']];
 				setArr.forEach( s => {
 					const newDv = document.createElement('div');
-					newDv.innerText = '• '+s['NAME']+' - '+s['SIZENAME'];
-					newDv.setAttribute("data-id", s['PARTS_NO']);
-					if(s['PARTSCHANGE_NO'] != 1){
+					if(s['PARTSCHANGE_NO'] == 0){
+						newDv.innerText = '• '+s['NAME']+' - '+s['SIZENAME'];
+						newDv.setAttribute("data-id", s['PARTS_NO']);
 						pDv2.appendChild(newDv);
 					}else{
+						const newSt = document.createElement("select");
+						if(s['partsChangeList'] != null)
+						s['partsChangeList'].forEach( p => {
+							const newOt = document.createElement("option");
+							newOt.innerText = p['NAME'] +" +"+p['ADDPAY']
+							newOt.value = p['GOODSDETAIL_NO']
+							newSt.appendChild(newOt);
+						})
+						newDv.appendChild(newSt);
 						pDv3.appendChild(newDv);
 					}
 				})

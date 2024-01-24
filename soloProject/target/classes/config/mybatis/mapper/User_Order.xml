@@ -8,7 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into User_Order values(User_Order_seq.nextval,#{orderTotal_no},#{user_no})
 	</insert>
 	<select id="getUserOrderList" resultType="map" parameterType="int">
-		select userOrder_no,ot.orderTotal_no,to_char(orderDate,'yyyy/MM/dd HH24:mi') orderDate from order_total ot
+		select userOrder_no,pay,orderAddress,ot.orderTotal_no,to_char(orderDate,'yyyy/MM/dd HH24:mi') orderDate 
+		from order_total ot
 		inner join
 		(
 		select * from user_order
