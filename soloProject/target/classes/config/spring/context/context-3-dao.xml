@@ -53,6 +53,9 @@
 	<bean id="set_Parts_DAO" class="detail.Set_Parts.Set_Parts_DAO">
 		<constructor-arg ref="sqlSession"/>
 	</bean>
+	<bean id="parts_ChangeList_DAO" class="detail.Parts_ChangeList.Parts_ChangeList_DAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
 
 
 

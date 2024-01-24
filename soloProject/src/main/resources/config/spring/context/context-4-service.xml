@@ -57,6 +57,9 @@
 	<bean id="set_Parts_Service" class="detail.Set_Parts.Set_Parts_Service">
 		<constructor-arg ref="set_Parts_DAO"/>
 	</bean>
+	<bean id="parts_ChangeList_Service" class="detail.Parts_ChangeList.Parts_ChangeList_Service">
+		<constructor-arg ref="parts_ChangeList_DAO"/>
+	</bean>
 
 
 

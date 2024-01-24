@@ -25,6 +25,7 @@
 		<mapper resource="config/mybatis/mapper/Goods_Size.xml"/>
 		<mapper resource="config/mybatis/mapper/Goods_Detail.xml"/>
 		<mapper resource="config/mybatis/mapper/Set_Parts.xml"/>
+		<mapper resource="config/mybatis/mapper/parts_ChangeList.xml"/>
 		
 		
 		
