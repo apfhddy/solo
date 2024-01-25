@@ -3,7 +3,7 @@
 <%@ include file="sideLayOut/header.jsp" %>
 <div style="flex-wrap: nowrap; width: 85%;">
 	<div class="menu-header">계정 설정</div>
-	<div style="background-color: white; padding-top: 2%; padding-left: 2%; box-shadow: 0px 0px 2px gray;">
+	<div style="background-color: white; padding-top: 2%; padding-left: 2%; box-shadow: 0px 0px 2px gray; padding-bottom: 2%;">
 		<form action="${pc }/myPage/userData/update" method="post">
 			<div id = "dataErr" style="font-size: 10; color: red;"></div>
 			<div align="left" style="margin-top: 2%;">
@@ -43,8 +43,10 @@
 					</div>
 				</c:forEach>
 			</div>
-			<input type="button" onclick="checkForm(this.form)" value = "수정사항 저장">
-			<input type="button" value = "회원 탈퇴">
+			<div style="margin-top: 2%;">
+				<input type="button" onclick="checkForm(this.form)" value = "수정사항 저장">
+				<input type="button" value = "회원 탈퇴">
+			</div>
 		</form>
 	</div>
 </div>

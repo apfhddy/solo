@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getOrderDescList" parameterType="int" resultType="map">
-		select g.goods_no,g.name,filePath || '/' || imgPath mainImg,calorie,allergy,origin,price
+		select DISTINCT g.goods_no,g.name,filePath || '/' || imgPath mainImg,calorie,allergy,origin,price,cnt
 		from goods_Detail gd
 		inner join 
 		(
@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		inner join category_Type ct
 		on gc.categoryType_no = ct.categoryType_no
 		where ct.menuType_no = #{no}
-		order by cnt desc,ct.categoryType_no asc
+		order by cnt desc
 	</select>
 </mapper>
 

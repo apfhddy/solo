@@ -8,8 +8,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into Order_Parts values(Order_Parts_seq.nextval,#{orders_no},#{goodsDetail_no})
 	</insert>
 	
-	<select id="getOrderParts" resultType="String" parameterType="int">
+	<select id="getOrderPartsName" resultType="String" parameterType="int">
 		select g.name from goods_Detail gd
+		inner join 
+		(
+		select * from order_Parts
+		where orders_no = #{orders_no}
+		) s1
+		on s1.goodsDetail_no = gd.goodsDetail_no
+		inner join goods g
+		on g.goods_no = gd.goods_no
+		order by orderParts_no
+	</select>
+	
+	<select id="getOrderParts" resultType="map" parameterType="int">
+		select s1.goodsDetail_no,g.name from goods_Detail gd
 		inner join 
 		(
 		select * from order_Parts

@@ -48,8 +48,8 @@ public class Order_Total_Controller implements ControllerPath{
 		int sum = 0;
 		if(orderList != null)
 			for(Map<String,Object> oneMap : orderList){
-				int cnt = (int)oneMap.get("cnt");
-				int price = Integer.parseInt(String.valueOf(oneMap.get("PRICE"))); 		
+				int cnt = (int)oneMap.get("CNT");
+				int price = (int)oneMap.get("PRICE"); 		
 				sum += price * cnt;
 			}
 		

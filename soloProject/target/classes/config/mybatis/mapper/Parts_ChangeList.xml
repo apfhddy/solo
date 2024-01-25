@@ -17,6 +17,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	inner join goods g
 	on g.goods_no = gd.goods_no
 	</select>
+	
+	
+	<select id="partsSumPrice" parameterType="map" resultType="int">
+		select nvl(case when gs.setCheck = 1 then price+
+		(select sum(addPay) as sum from parts_ChangeList pc
+		inner join
+    		(
+    		select * from set_Parts
+    		where m_goodsDetail_no = #{no}
+    		) s1
+			on pc.partsChange_no = s1.partsChange_no
+			where pc.goodsDetail_no in 
+				(
+                    <foreach collection="menus"  item="menu" separator="," close="">
+				#{menu}
+				</foreach>
+				)
+			)
+		else price
+		end 
+		,price)as price 
+	    from  goods g
+		inner join
+	    (
+		select * from goods_Detail
+		where goodsDetail_no = #{no}
+		) s1
+		on s1.goods_no = g.goods_no
+		inner join goods_size gs
+		on s1.goodsSize_no = gs.goodsSize_no
+	</select>
 </mapper>
 
 

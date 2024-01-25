@@ -20,8 +20,6 @@
 			background-color: #F3F3F3;
 			width:100%; 
 			height:100%; 
-			margin:0; 
-			padding:0; 
 			overflow-y:scroll; 
 			position:relative;
 		}
@@ -90,7 +88,7 @@
 		}
 		
 		#loginPop{
-			width: 28.5%;
+			width: 500px;
 			margin-top: 1.2%;
 			background-color: white;
 			box-shadow: 0px 0px 10px rgb(0, 0, 0, 0.6);
@@ -127,7 +125,7 @@
 		}
 		.detailPop-body{
 			height: 80%;
-			width: 45.8%;
+			width: 900px;
 		}
 		
 		.detailPop-table-tr{

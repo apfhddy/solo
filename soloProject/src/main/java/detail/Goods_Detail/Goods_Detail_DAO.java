@@ -16,8 +16,8 @@ public class Goods_Detail_DAO {
 		return sqlSession.selectList("goods_Detail.getGoodsDetailList",no);
 	}
 	
-	public Map<String,Object> getOneGoods(Map<String,Object> map) {
-		return sqlSession.selectOne("goods_Detail.getOneGoods",map);
+	public Map<String,Object> getOneGoods(int no) {
+		return sqlSession.selectOne("goods_Detail.getOneGoods",no);
 	}
 	
 	public List<String> getMenuNames(List<Integer> menus){

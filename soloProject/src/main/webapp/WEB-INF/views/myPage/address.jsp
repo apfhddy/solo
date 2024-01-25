@@ -3,7 +3,7 @@
 <%@ include file="sideLayOut/header.jsp" %>
 <div style="flex-wrap: nowrap; width: 85%;">
 	<div class="menu-header">주소록</div>
-	<div style="background-color: white; box-shadow: 0px 0px 2px gray;">
+	<div style="background-color: white; box-shadow: 0px 0px 2px gray; padding-bottom: 2%;">
 		<table style="width: 100%; padding-left: 1%;"> 
 			<tr>
 				<td style="width: 50%;">주소</td>
@@ -17,6 +17,8 @@
 					<td align="right"><input onclick="document.location.href='${pc}/myPage/addr/form?addressType=${i.count}'" type = "button" value = "수정"><input onclick="document.location.href='${pc}/myPage/addr/delete?addressType=${i.count}'" ${addr.userAddr_no == login.userAddr_no ? 'disabled' : ''  }  type = "button" value="${addr.userAddr_no == login.userAddr_no ? '사용중' : '삭제'  }"></td>				
 				</tr>
 			</c:forEach>
+			<tr style="height: 10px;">
+			</tr>
 			<tr>
 				<td align="right" colspan="3">
 					<input type = "button" value="새로운 주소 추가" onclick="document.location.href='${pc}/myPage/addr/form'">

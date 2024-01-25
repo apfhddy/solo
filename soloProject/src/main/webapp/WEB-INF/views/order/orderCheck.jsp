@@ -8,8 +8,8 @@
 	int sum = 0;
 	if(orderList != null)
 		for(Map<String,Object> oneMap : orderList){
-			int cnt = (int)oneMap.get("cnt");
-			int price = Integer.parseInt(String.valueOf(oneMap.get("PRICE"))); 		
+			int cnt = (int)oneMap.get("CNT");
+			int price = (int)oneMap.get("PRICE"); 		
 			sum += price * cnt;
 		}
 	request.setAttribute("sum", sum);
@@ -29,7 +29,7 @@
 					<div style="padding-top: 2%; padding-bottom: 2%;">
 						<div style="display: flex; margin-bottom: 2%;">
 							<div style="width: 5%; margin-left: 1%; margin-right: 1%;">
-								${order.cnt }
+								${order.CNT }
 							</div>
 							<div style="width: 17%; margin-left: 1%; margin-right: 1%;">
 								<img src = "${finalPath }/resources/buggerImg/${order.IMGPATH}" width="100%;">
@@ -45,7 +45,7 @@
 								</div>
 							</div>
 							<div align="right" style="width: 30%; color: green">
-								₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${order.PRICE * order.cnt }"/>
+								₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${order.PRICE * order.CNT }"/>
 							</div>		
 						</div>
 						<div style="display: flex;">

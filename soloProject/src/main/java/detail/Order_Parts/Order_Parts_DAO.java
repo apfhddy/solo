@@ -1,6 +1,7 @@
 package detail.Order_Parts;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -21,11 +22,13 @@ public class Order_Parts_DAO {
 		return 0;
 	}
 	
-	public List<String> getOrderParts(int orders_no){
-		return sqlSession.selectList("order_Parts.getOrderParts",orders_no);
+	public List<String> getOrderPartsName(int orders_no){
+		return sqlSession.selectList("order_Parts.getOrderPartsName",orders_no);
 	}
 	
-	
+	public List<Map<String,Object>> getOrderParts(int orders_no){
+		return sqlSession.selectList("order_Parts.getOrderParts",orders_no);
+	}
 	
 	
 }

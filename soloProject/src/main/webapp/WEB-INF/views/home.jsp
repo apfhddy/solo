@@ -14,8 +14,8 @@
 </style>
 <div>
 	<div id = "mainBody-login" align="right">
-		<div style="padding-top: 1.7%; padding-right: 1.7%;">
-			<div style="background-color: rgb(255,255,255,0.68); width: 28%; padding-top: 1%; padding-bottom: 0.2%; border-radius: 2px;" align="center">
+		<div style="padding-top: 1.7%; padding-right: 1.7%; ">
+			<div style="background-color: rgb(255,255,255,0.68); width: 28%; padding-top: 1%; padding-bottom: 1%; border-radius: 2px;" align="center"> 
 				<c:choose>
 					<c:when test="${login == null }">
 						<div>
@@ -67,6 +67,9 @@
 										<option ${login.userAddr_no == addr.userAddr_no ? 'selected' : '' } value="${addr.userAddr_no }">${addr.location } ${addr.detail } ${addr.significant }</option>
 									</c:forEach>
 								</select>
+							</div>
+							<div>
+								<input type="button" value="새로 주문하기" style="margin-top:2%; width: 90%; height: 35px;" onclick="document.location.href='${pc}/menu'">
 							</div>
 						</div>
 					</c:otherwise>

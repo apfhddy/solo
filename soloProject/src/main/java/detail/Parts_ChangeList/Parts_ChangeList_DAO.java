@@ -15,4 +15,8 @@ public class Parts_ChangeList_DAO {
 	public List<Map<String,Object>> getPartsChangeList(int partsChange_no){
 		return sqlSession.selectList("parts_ChangeList.getPartsChangeList",partsChange_no);
 	}
+	
+	public int partsSumPrice(Map<String,Object> map) {
+		return sqlSession.selectOne("parts_ChangeList.partsSumPrice",map);
+	}
 }

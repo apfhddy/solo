@@ -37,11 +37,13 @@
 		border-collapse: collapse;
 	}
 	.td1 {
+		padding-left: 2%;
 		width: 85%;
 		font-size: 11;
 		border-bottom: 1px solid gray;
 	}
 	.td2 {
+		padding-right: 2%;
 		width: 15%;
 		border-bottom: 1px solid gray;
 	}
@@ -56,20 +58,20 @@
 			<form action="${pc }/myPage/addr/form/<%=request.getParameter("addressType") != null ? "update" : "add"%>" method="post">
 				<table class="joinBody-table">
 					<tr>
-						<td style="width: 120px;">지역명</td>
-						<td>
+						<td style="width: 20%;">지역명:</td>
+						<td style="width: 70%;">
 							<input class="joinBody-table-input" id = "inAddr" placeholder="지번,도로명,건물명으로 검색해주세요">
 							<div class="joinBody-table-result" style="display: none;">
 								<table id="resultTable" >
 								</table>
 							</div>
 						</td>
-						<td>
+						<td style="width: 10%;">
 							<input onclick="searchAddr()" class="joinBody-table-button" type = "button" value = "검색">
 						</td>
 					</tr> 
 					<tr style="display: none;">
-						<td>상세주소</td>
+						<td>상세주소:</td>
 						<td>
 							<input id = "detail" name = "detail" class="joinBody-table-input" placeholder="나머지 주소를 입력해 주세요">
 						</td>
@@ -78,12 +80,12 @@
 						</td>
 					</tr>
 					<tr style="display: none;">
-						<td>최종 배달주소</td>
-						<td style="font-weight: bold;font-size: 13; padding-right: 4%;">
+						<td>최종 배달주소:</td>
+						<td style="font-weight: bold;font-size: 13;">
 						</td>
 					</tr>
 					<tr style="display: none;">
-						<td>배달 특이사항</td>
+						<td>배달 특이사항:</td>
 						<td>
 							<input name = "significant" class="joinBody-table-input" placeholder="예) 아이가 있으니 노크해 주세요">
 						</td>

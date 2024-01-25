@@ -2,6 +2,7 @@ package mainController;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -215,40 +216,51 @@ public class MainController implements ControllerPath{
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping("test")
+	@RequestMapping("orderList")
 	@ResponseBody
-	public boolean test(String json,HttpSession session) throws JsonParseException, JsonMappingException, IOException {
+	public boolean test(String json,HttpServletRequest req) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper om = new ObjectMapper();
 		
-		List<Map<String,Object>> jsonMap = om.readValue(json, new TypeReference<List<Map<String,Object>>>() {});
+		List<Map<String,Object>> jsonList = om.readValue(json, new TypeReference<List<Map<String,Object>>>() {});
 		
+		List<Map<String,Object>> orderList = (req.getSession().getAttribute("orderList")) != null ? 
+				(List<Map<String,Object>>)req.getSession().getAttribute("orderList") : new ArrayList<Map<String,Object>>();
 		
-		List<Map<String,Object>> orderList = (session.getAttribute("orderList")) != null ? 
-				(List<Map<String,Object>>)session.getAttribute("orderList") : new ArrayList<Map<String,Object>>();
+		String v = req.getParameter("v");
+		int paramIndex;
+		if(v != null) {
+			paramIndex = Integer.parseInt(v);
+			orderList.remove(paramIndex);
+			if(orderList.isEmpty())req.getSession().removeAttribute("orderList");
+		}else {
+			paramIndex = orderList.size();
+		}
 		
-		for(int i = 0 ; i < jsonMap.size(); i++) {
-			int index = listIndexOf(orderList, jsonMap.get(i));
+		for(int i = 0 ; i < jsonList.size(); i++) {
+			int index = listIndexOf(orderList, jsonList.get(i));
 			if(index == -1) {
-				Map<String,Object> goodsMap = goods_Detail_Service.getOneGoods((int)jsonMap.get(i).get("mainNo"),(List<Integer>)jsonMap.get(i).get("menus"));
-				jsonMap.get(i).put("menuNames", goods_Detail_Service.getMenuNames((List<Integer>)jsonMap.get(i).get("menus")));
-				jsonMap.get(i).putAll(goodsMap);
-				orderList.add(jsonMap.get(i));
+				Map<String,Object> goodsMap = goods_Detail_Service.getOneGoods((int)jsonList.get(i).get("MAINNO"));
+				int price = parts_ChangeList_Service.partsSumPrice((int)jsonList.get(i).get("MAINNO"),(List<Integer>)jsonList.get(i).get("menus"));
+				jsonList.get(i).put("menuNames", goods_Detail_Service.getMenuNames((List<Integer>)jsonList.get(i).get("menus")));
+				goodsMap.put("PRICE", price);
+				jsonList.get(i).putAll(goodsMap);
+				orderList.add(paramIndex++,jsonList.get(i));
 			}else {
-				int  total = (int)orderList.get(index).get("cnt")+(int)jsonMap.get(i).get("cnt");
+				int  total = (int)orderList.get(index).get("CNT")+(int)jsonList.get(i).get("CNT");
 				
 				if(total > 10) {
 					int totalM = total - 10;
 					total = 10;
-					jsonMap.get(i).put("cnt",totalM);
+					jsonList.get(i).put("CNT",totalM);
 					i--;
 				}
 				
-				orderList.get(index).put("cnt", total);
+				orderList.get(index).put("CNT", total);
 			}
 		}
 		
-		
-		session.setAttribute("orderList", orderList);
+		if(!orderList.isEmpty())
+			req.getSession().setAttribute("orderList", orderList);
 		return true;
 	}
 	
@@ -274,7 +286,7 @@ public class MainController implements ControllerPath{
 	@SuppressWarnings("unchecked")
 	public int listIndexOf(List<Map<String,Object>> list,Map<String,Object> target) {
 		for(int i = 0; i < list.size(); i++) {
-			boolean equals = (int)list.get(i).get("mainNo") == (int)target.get("mainNo") && ((List<Integer>)list.get(i).get("menus")).equals((List<Integer>)target.get("menus")) && (int)list.get(i).get("cnt") != 10; 
+			boolean equals = (int)list.get(i).get("MAINNO") == (int)target.get("MAINNO") && ((List<Integer>)list.get(i).get("menus")).equals((List<Integer>)target.get("menus")) && (int)list.get(i).get("CNT") != 10; 
 			if(equals) {
 				return i;
 			}

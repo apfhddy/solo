@@ -10,8 +10,8 @@
 	int sum = 0;
 	if(orderList != null)
 		for(Map<String,Object> oneMap : orderList){
-			int cnt = (int)oneMap.get("cnt");
-			int price = Integer.parseInt(String.valueOf(oneMap.get("PRICE"))); 		
+			int cnt = (int)oneMap.get("CNT");
+			int price = (int)oneMap.get("PRICE"); 		
 			sum += price * cnt;
 		}
 	request.setAttribute("sum", sum);
@@ -121,7 +121,7 @@
 							</div>
 							<div style="margin-top: 2%; padding-left: 4%; padding-bottom: 4%;">
 								<div style="width: 100%; display: flex; ">
-									<div style="width: 48%; font-size: 10;"> 
+									<div style="width: 48%; font-size: 11;"> 
 										<div style="color:green">가격 ₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${goods.PRICE}"/></div>
 										<div>${goods.CALORIE} Kcal</div>
 										<div>알레르기 원산지</div>
@@ -135,74 +135,81 @@
 					</c:forEach> 
 					<!-- / -->
 				</div>  <!-- css 가 깨짐 메뉴 헤더와 푸터 수정후 바디와 분리  -->
-			</div>	
+			</div>
 			<div id = "order-body" style="width: 31%; margin-left: 0.5%;	 background-color: white;height: 100%; box-shadow: 0px 0px 2px gray;">
-				<div align="center">내 주문 정보</div>
-				<div style="display: flex; ">
-					<div style="width: 40%;">
-						<div class="order-header">배달 주소 :</div>
-						<div><a style="color: blue;font-size: 12;">변경</a></div>
-					</div>
-					<div style="width: 60%; font-size: 11;">
-						${mainAddr.location } ${mainAddr.detail }
-					</div>
-				</div>
-				<div>
-					<table style="width: 100%; border-spacing: 0;">
-						<tr>
-							<td class="order-header">소액 주문비:</td>
-							<td align="right">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${sum  <= 15000 && sum != 0 ? 3000 : 0 }"/></td>
-						</tr>
-						<tr style="vertical-align: top; ">
-							<td>총 주문합계:</td>
-							<td align="right" style="font-size: 25; color: green;">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${sum  <= 15000 && sum != 0 ? sum+3000 : sum}"/></td>
-						</tr>
-						<tr>
-							<th colspan="2"><input style="width: 100%; height: 35; " type = "button" value="결제" onclick="document.location.href='${pc}/order/check'"></th>
-						</tr>
-					</table>
-				</div>
-				<div>
-					<a>쿠폰코드 입력하기</a>
-				</div>
-				<div>
-					<div>
-						주문 세부사항	
-					</div>
-					<div id = "orderItems">
-						<c:forEach var="order" items="${orderList }">
+				<c:choose>
+					<c:when test="${mainAddr != null }">
+						<div align="center">내 주문 정보</div>
+						<div style="display: flex; ">
+							<div style="width: 40%;">
+								<div class="order-header">배달 주소 :</div>
+								<div><a style="color: blue;font-size: 12;">변경</a></div>
+							</div>
+							<div style="width: 60%; font-size: 11;">
+								${mainAddr.location } ${mainAddr.detail }
+							</div>
+						</div>
+						<div>
+							<table style="width: 100%; border-spacing: 0;">
+								<tr>
+									<td class="order-header">소액 주문비:</td>
+									<td align="right">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${sum  <= 15000 && sum != 0 ? 3000 : 0 }"/></td>
+								</tr>
+								<tr style="vertical-align: top; ">
+									<td>총 주문합계:</td>
+									<td align="right" style="font-size: 25; color: green;">₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${sum  <= 15000 && sum != 0 ? sum+3000 : sum}"/></td>
+								</tr>
+								<tr>
+									<th colspan="2"><input ${orderList == null ? 'disabled' : '' }  style="width: 100%; height: 35; " type = "button" value="결제" onclick="document.location.href='${pc}/order/check'"></th>
+								</tr>
+							</table>
+						</div>
+						<div>
+							<a>쿠폰코드 입력하기</a>
+						</div>
+						<div>
 							<div>
-								<div style="display: flex; margin-top: 2%; margin-bottom: 10%;">
-									<div style="width: 6%; margin-left: 2%;margin-right: 2%;" align="center">${order.cnt }</div>
-									<div style="width: 26%; margin-left: 2%;margin-right: 2%;"><img src="${finalPath }/resources/buggerImg/${order.IMGPATH}" width="100%"></div>
-									<div style="width: 56%; margin-left: 2%;margin-right: 2%;">
-										<div>
-											<div style="font-size: 11;">
-												${order.NAME }			
-											</div>
-											<div>
-												<c:forEach var="name" items="${order.menuNames }">
-													<div style="font-size: 9; color: gray">• ${name }</div>
-												</c:forEach> 
+								주문 세부사항	
+							</div>
+							<div id = "orderItems">
+								<c:forEach var="order" items="${orderList }">
+									<div>
+										<div style="display: flex; margin-top: 2%; margin-bottom: 10%;">
+											<div style="width: 6%; margin-left: 2%;margin-right: 2%;" align="center">${order.CNT }</div>
+											<div style="width: 26%; margin-left: 2%;margin-right: 2%;"><img src="${finalPath }/resources/buggerImg/${order.IMGPATH}" width="100%"></div>
+											<div style="width: 56%; margin-left: 2%;margin-right: 2%;">
+												<div>
+													<div style="font-size: 11;">
+														${order.NAME }			
+													</div>
+													<div>
+														<c:forEach var="name" items="${order.menuNames }">
+															<div style="font-size: 9; color: gray">• ${name }</div>
+														</c:forEach> 
+													</div>
+												</div>
 											</div>
 										</div>
+										<div style="display: flex;">
+											<div>
+												<input type = "button" value = "수정" onclick="updateForm(this)">
+											</div>
+											<div>
+												<input type = "button" value = "삭제" onclick="del(this)">
+											</div>
+											<div align="right" style="width: 100%; color: green">
+												₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${order.PRICE * order.CNT }"/>
+											</div>								
+										</div>
 									</div>
-								</div>
-								<div style="display: flex;">
-									<div>
-										<input type = "button" value = "수정" onclick="updateForm(this)">
-									</div>
-									<div>
-										<input type = "button" value = "삭제" onclick="del(this)">
-									</div>
-									<div align="right" style="width: 100%; color: green">
-										₩ <fmt:formatNumber  type="number" maxFractionDigits="3" value="${order.PRICE * order.cnt }"/>
-									</div>								
-								</div>
+								</c:forEach>
 							</div>
-						</c:forEach>
-					</div>
-				</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<img src="${finalPath }/resources/img/side.png" width="100%;">
+					</c:otherwise>
+				</c:choose>
 			</div>	
 		</div>	
 	</div>
@@ -217,6 +224,7 @@
 	if(${login != null ? 1 : 1}){
 		items.forEach( i => {
 			i.addEventListener("click", function() {
+				url = "${pc}/orderList";
 				token = this.getAttribute("data-token");
 				const data = this.parentElement.parentElement.parentElement.parentElement.children[0];
 				const name = data.children[1].innerText;
@@ -228,13 +236,13 @@
 	
 	function updateForm(t){
 		const index = orderIndex(t);
+		url = "${pc}/orderList?v="+index;
 		$.ajax({
 			url:"${pc}/order/updateForm",
 			data:{v:index},
 			type:"post",
 			success: (result) =>{
-				console.log(result);
-				detailPopData(result['GOODS_NO'],'${finalPath }/resources/buggerImg/'+result['IMGPATH'],result['NAME']);
+				detailPopData(result['GOODS_NO'],'${finalPath }/resources/buggerImg/'+result['IMGPATH'],result['NAME'],result);
 			}
 		})
 	}
@@ -261,7 +269,7 @@
 	}
 	
 	
-	function detailPopData(token,img,name){
+	function detailPopData(token,img,name,target){
 		detailPopNum.innerText = 0;
 		detailPopImg.src = img;
 		detailPopName.innerText = name;
@@ -283,15 +291,22 @@
 					tbody.removeChild(tr);
 				})
 				
-				
+				let targetTd;
 				
 				tableList.forEach( t => {
+					
+					domMap[t['GOODSDETAIL_NO']] = []; 					
 					
 					const newTr = document.createElement("tr");
 					newTr.className = "detailPop-table-tr";
 					
 					const newTd1 = document.createElement("td");
-					newTd1.innerHTML = '<button type="button" onclick="fnCalCount(1,this);">-</button><input  type="text"   name="pop_out" value="0" readonly="readonly" style="text-align:center; width: 30%;"/><button type="button" onclick="fnCalCount(2, this);">+</button>';
+					newTd1.innerHTML = '<button type="button" onclick="fnCalCount(1, this);">-</button><input  type="text"   name="pop_out" value="0" readonly="readonly" style="text-align:center; width: 30%;"/><button type="button" onclick="fnCalCount(2, this);">+</button>';
+					
+					if(target != null && t['GOODSDETAIL_NO'] == target['MAINNO']){
+						targetTd = newTd1.children[2];
+					}
+					
 					
 					
 					const newTd2 = document.createElement("td");
@@ -314,8 +329,11 @@
 					tbody.appendChild(newTr);
 					
 					
-					domMap[t['GOODSDETAIL_NO']] = []; 							
 				})
+				if(target != null)
+					for(let i = 0; i < +target['CNT']; i++){
+						targetTd.click()
+					} 
 				pop(detailPop);
 			}
 		});

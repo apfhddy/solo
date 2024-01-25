@@ -3,7 +3,7 @@
 <div id = "popUp" style="display: none; ">
 	<div id = "detailPop" style="display: none;">
 		<div class="detailPop-header">
-			<div style="width: 45.8%; display: flex; padding-top: 0.5%;" align="left">
+			<div style="width: 900px; display: flex; padding-top: 0.5%;" align="left">
 				<div align="center" style="margin-left: 1%; margin-right: 1%; width: 3%;">
 					<div id="detailPopNum" style="font-size: 40; color: red">0</div>
 					<div style="font-size: 11;">수량</div>
@@ -87,6 +87,7 @@
 </div>
 <script type="text/javascript">
 	let domMap;
+	let url;
 	function pop(target,t){
 		if(t == 'del'){
 			document.removeEventListener("mousedown",popRemove);
@@ -132,19 +133,18 @@
 			
 			let index = -1;
 			for(let i = 0; i < resultObject.length; i++){
-				if(resultObject[i]['mainNo'] == +o.getAttribute("data-id") && JSON.stringify(resultObject[i]['menus']) == JSON.stringify(menus)){
+				if(resultObject[i]['MAINNO'] == +o.getAttribute("data-id") && JSON.stringify(resultObject[i]['menus']) == JSON.stringify(menus)){
 					index = i;
 				}
 			}
 			if(index == -1){
-				resultObject.push({mainNo:+o.getAttribute("data-id"),menus:menus,cnt:1})
+				resultObject.push({MAINNO:+o.getAttribute("data-id"),menus:menus,CNT:1})
 			}else{
-				resultObject[index]['cnt']++;
+				resultObject[index]['CNT']++;
 			}
 		})
-		console.log(resultObject);
 		$.ajax({
-			url:"${pc}/test", 
+			url:url, 
 			data:{json:JSON.stringify(resultObject)}, 
 			type:"post",
 			success: (result) => {
@@ -180,7 +180,6 @@
 				break;
 			}
 		}
-			
 		const targetDetail = tableList[index];
 		if(value == 1){
 			const mDv = document.createElement('div');

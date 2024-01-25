@@ -37,7 +37,7 @@ public class User_Order_Service {
 			List<Map<String,Object>> ordersMap = orders_DAO.getOrders(orderTotal_no);
 			for(Map<String,Object> ordersOneMap : ordersMap) {
 				int orders_no = Integer.parseInt(String.valueOf(ordersOneMap.get("ORDERS_NO")));
-				List<String> orderPartsName = order_Parts_DAO.getOrderParts(orders_no);
+				List<String> orderPartsName = order_Parts_DAO.getOrderPartsName(orders_no);
 				ordersOneMap.put("menuNames", orderPartsName);
 			}
 			map.put("orders", ordersMap);

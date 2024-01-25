@@ -20,8 +20,8 @@ public class Orders_Service {
 
 		dto.setOrders_no(orders_no);
 		dto.setOrderTotal_no(orderTotal_no);
-		dto.setGoodsDetail_no((int)oneMap.get("mainNo"));
-		dto.setCnt((int)oneMap.get("cnt"));
+		dto.setGoodsDetail_no((int)oneMap.get("MAINNO"));
+		dto.setCnt((int)oneMap.get("CNT"));
 		
 		boolean next = (orders_DAO.insertOrders(dto)) == 1;
 		if(next)

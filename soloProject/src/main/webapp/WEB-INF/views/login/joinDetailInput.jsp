@@ -59,7 +59,7 @@
 		<label for="name">*Phone</label>
 	</div>
 	<div class="input-container">
-		<input name = "email" value="eee@naver.com" type = "email">
+		<input name = "email" type = "email">
 		<label for="name">*Email</label>
 	</div>
 	<div class="input-container">
@@ -67,7 +67,7 @@
 		<label for="name">*Check-Email</label>
 	</div>
 	<div class="input-container">
-		<input name = "pw" value="qwer" type = "password">
+		<input name = "pw" type = "password">
 		<label for="pw">*Password</label>
 	</div>
 	<div class="input-container">

@@ -10,6 +10,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertOrderTotal" parameterType="detail.Order_Total.Order_Total_DTO">
 		insert into Order_total values(#{orderTotal_no},sysdate,#{paymentType_no},#{orderAddress},#{pay})
 	</insert>
+	
+	<select id="getOders" parameterType="int" resultType="map">
+		select o.orders_no,o.goodsDetail_no as mainno,cnt,gs.name || '-' ||g.name name,g.goods_no,filePath || '/' || imgPath imgpath
+		from orders o
+		inner join 
+		(
+		select orderTotal_no from order_total
+		where orderTotal_no = #{orderTotal_no}
+		) s1
+		on o.orderTotal_no = s1.orderTotal_no
+		inner join goods_Detail gd
+		on o.goodsDetail_no = gd.goodsDetail_no
+		inner join goods g
+		on gd.goods_no = g.goods_no
+		inner join goods_Size gs
+		on gd.goodsSize_no = gs.goodsSize_no
+	</select>
 </mapper>
 
 
