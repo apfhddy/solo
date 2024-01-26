@@ -26,7 +26,7 @@
 		padding-left: 11px;
 	}
 	.joinBody-table-button{
-		width: 60px;
+		width: 100%;
 		height: 37px;
 	}
 	.joinBody-table-result{
@@ -34,7 +34,7 @@
 		position: absolute; 
 		border: 1px solid; 
 		background-color: white; 
-		width: 18%;
+		width: 100%;
 		border-radius: 2px; 
 		height: 300px;
 		overflow-y: scroll;
@@ -44,11 +44,13 @@
 		border-collapse: collapse;
 	}
 	.td1 {
+		padding-left: 2%;
 		width: 85%;
 		font-size: 11;
 		border-bottom: 1px solid gray;
 	}
 	.td2 {
+		padding-right: 2%;
 		width: 15%;
 		border-bottom: 1px solid gray;
 	}
@@ -65,16 +67,16 @@
 		<form action="${pc }/join/detail" method="post">
 			<table class="joinBody-table">
 				<tr>
-					<td style="width: 200px;">지역명</td>
-					<td>
+					<td style="width: 20%;">지역명</td>
+					<td style="width: 65%; position: relative;">
 						<input class="joinBody-table-input" id = "inAddr" placeholder="지번,도로명,건물명으로 검색해주세요">
 						<div class="joinBody-table-result" style="display: none;">
 							<table id="resultTable" >
 							</table>
 						</div>
 					</td>
-					<td>
-						<input onclick="searchAddr()" class="joinBody-table-button" type = "button" value = "검색">
+					<td style="width: 15%;">
+						<input onclick="searchAddr()"  class="joinBody-table-button" type = "button" value = "검색">
 					</td>
 				</tr> 
 				<tr style="display: none;">

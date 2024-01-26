@@ -1,12 +1,18 @@
 package detail.Users;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.cglib.proxy.Dispatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,7 +60,6 @@ public class Users_Controller implements ControllerPath{
 	
 	@RequestMapping("/join/addr")
 	public String joinInput1(HttpSession session) {
-		session.setAttribute("join", new HashMap<String, Object>());
 		return LOGIN+"joinAddrInput.jsp";
 	}
 
@@ -64,6 +69,7 @@ public class Users_Controller implements ControllerPath{
 		if(dto.getLocation() == null)return "에러페이지";
 		if(dto.getDetail().isEmpty())return "에러페이지";
 
+		req.getSession().setAttribute("join", new HashMap<String, Object>());
 		((Map<String,Object>)req.getSession().getAttribute("join")).put("addr", dto);
 		
 		List<Certified_Type_DTO> certifiedList = certified_Type_Service.getTypeList();
@@ -102,22 +108,11 @@ public class Users_Controller implements ControllerPath{
 		((Map<String,Object>)req.getSession().getAttribute("join")).put("userTerms", userTerms);
 		((Map<String,Object>)req.getSession().getAttribute("join")).put("detail", dto);
 		Map<String,Object> putMap = ((Map<String,Object>)req.getSession().getAttribute("join")); 
-		
 		Thread thead = new Thread() {
 			@Override
 			public void run() {
-				String key = "";
-				while(true) {
-					key = mailSendService.getKey(8);
-					if(certifiedsMap.get(key) == null)break;
-				}
-					
+				String key = String.valueOf(UUID.randomUUID());
 				mailSendService.joinEmail(key,dto.getEmail(),dto.getName());
-				String salt = Encry.getSalt();
-				String saltKey = Encry.encry(key, salt);
-				putMap.put("key", key);
-				putMap.put("salt", salt);
-				putMap.put("saltKey", saltKey);
 				certifiedsMap.put(key,putMap);
 			}
 		};
@@ -130,19 +125,14 @@ public class Users_Controller implements ControllerPath{
 	
 	@RequestMapping("join/insert")
 	@SuppressWarnings("unchecked")
-	public String insert(HttpServletRequest req) {
+	public String insert(HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException {
 		String key = req.getParameter("code");
 		Map<String,Object> certifiedMap = (Map<String,Object>)certifiedsMap.get(key);
 		if(certifiedMap == null)return "에러페이지";
-		String salt = (String)certifiedMap.get("salt");
-		String saltKey = (String)certifiedMap.get("saltKey");
 		
-		String hasingKey = Encry.encry(key, salt);
-		
-		if(!saltKey.equals(hasingKey))return "에러페이지";
-		
-		if(users_Service.insertUser(certifiedMap) == 1)
+		if(users_Service.insertUser(certifiedMap) == 1) {
 			certifiedsMap.remove(key);
+		}
 		
 		
 		return "redirect:/";
@@ -226,4 +216,9 @@ public class Users_Controller implements ControllerPath{
 		return MYPAGE+"userOrder.jsp";
 	}
 	
+	
+	@RequestMapping("findPassword")
+	public String findPassword() {
+		return LOGIN+"findPassword.jsp";
+	}
 }

@@ -48,6 +48,7 @@ public class User_Order_Controller {
 			oneMap.put("menus", menus);
 			oneMap.put("menuNames", menuNames);
 		}
+		
 		session.setAttribute("orderList", orders);
 		return "redirect:/menu";
 	}

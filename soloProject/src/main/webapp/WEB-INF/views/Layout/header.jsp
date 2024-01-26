@@ -184,7 +184,7 @@
 						<a  href = '${pc}/login/logOut'>로그아웃</a>
 					</c:otherwise>
 				</c:choose>
-				|<a>주문 조회</a>
+				|<!-- <a>주문 조회</a> -->
 			</div>
 			<div id = "header-menu">
 				<div><a href="${pc }"><img src="${finalPath }/resources/img/logo.jpg" width="100%"></a></div>

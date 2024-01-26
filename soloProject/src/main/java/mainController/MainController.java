@@ -224,8 +224,9 @@ public class MainController implements ControllerPath{
 		List<Map<String,Object>> jsonList = om.readValue(json, new TypeReference<List<Map<String,Object>>>() {});
 		
 		List<Map<String,Object>> orderList = (req.getSession().getAttribute("orderList")) != null ? 
-				(List<Map<String,Object>>)req.getSession().getAttribute("orderList") : new ArrayList<Map<String,Object>>();
+			(List<Map<String,Object>>)req.getSession().getAttribute("orderList") : new ArrayList<Map<String,Object>>();
 		
+		//리스트 인덱스를 받아서 처리하는지 아닌지 점검
 		String v = req.getParameter("v");
 		int paramIndex;
 		if(v != null) {
@@ -236,12 +237,53 @@ public class MainController implements ControllerPath{
 			paramIndex = orderList.size();
 		}
 		
+		
+		
+		
+		
 		for(int i = 0 ; i < jsonList.size(); i++) {
 			int index = listIndexOf(orderList, jsonList.get(i));
 			if(index == -1) {
 				Map<String,Object> goodsMap = goods_Detail_Service.getOneGoods((int)jsonList.get(i).get("MAINNO"));
-				int price = parts_ChangeList_Service.partsSumPrice((int)jsonList.get(i).get("MAINNO"),(List<Integer>)jsonList.get(i).get("menus"));
-				jsonList.get(i).put("menuNames", goods_Detail_Service.getMenuNames((List<Integer>)jsonList.get(i).get("menus")));
+				
+				boolean setCheck = Integer.parseInt(String.valueOf(goodsMap.get("SETCHECK"))) == 1;
+				
+				List<Integer> menus = new ArrayList<Integer>(); 
+				List<String> menuNames = new ArrayList<String>(); 
+				
+				if(setCheck) {
+					List<Map<String,Object>> parts = set_Parts_Service.getSetList((int)jsonList.get(i).get("MAINNO"));
+					int partsIndex = 0;
+					for(Map<String,Object> part : parts) {
+						
+						int menuNo = Integer.parseInt(String.valueOf(part.get("PARTS_NO")));
+						String menuName = (String)part.get("NAME");
+					
+						int partChange_no = Integer.parseInt(String.valueOf(part.get("PARTSCHANGE_NO")));
+						
+						if(partChange_no != 0) {
+							int partsNo = ((List<Integer>)jsonList.get(i).get("menus")).get(partsIndex++);
+							
+							//올바른 파츠가 들어왓는지 체크
+							Map<String,Object> partCheck = parts_ChangeList_Service.getOnePart(partsNo,partChange_no);
+							
+							if(partCheck != null) {
+								menuNo = Integer.parseInt(String.valueOf(partCheck.get("GOODSDETAIL_NO")));
+								menuName = (String)partCheck.get("NAME");
+							}
+						}
+						
+						menus.add(menuNo);
+						menuNames.add(menuName);
+					}
+				}else {
+					menus.add((int)jsonList.get(i).get("MAINNO"));
+				}
+				
+				goodsMap.put("menus", menus);
+				goodsMap.put("menuNames", menuNames);
+				
+				int price = parts_ChangeList_Service.partsSumPrice((int)jsonList.get(i).get("MAINNO"),menus);
 				goodsMap.put("PRICE", price);
 				jsonList.get(i).putAll(goodsMap);
 				orderList.add(paramIndex++,jsonList.get(i));
@@ -259,7 +301,7 @@ public class MainController implements ControllerPath{
 			}
 		}
 		
-		if(!orderList.isEmpty())
+		if(!orderList.isEmpty()) {}
 			req.getSession().setAttribute("orderList", orderList);
 		return true;
 	}

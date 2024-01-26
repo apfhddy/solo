@@ -27,7 +27,7 @@
 		position: absolute; 
 		border: 1px solid; 
 		background-color: white; 
-		width: 18%;
+		width: 100%;
 		border-radius: 2px; 
 		height: 300px;
 		overflow-y: scroll;
@@ -59,7 +59,7 @@
 				<table class="joinBody-table">
 					<tr>
 						<td style="width: 20%;">지역명:</td>
-						<td style="width: 70%;">
+						<td style="width: 70%; position: relative;">
 							<input class="joinBody-table-input" id = "inAddr" placeholder="지번,도로명,건물명으로 검색해주세요">
 							<div class="joinBody-table-result" style="display: none;">
 								<table id="resultTable" >

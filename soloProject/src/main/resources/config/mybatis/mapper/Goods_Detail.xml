@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getOneGoods" parameterType="int" resultType="map">
-		select g.goods_no,g.filePath || '/' || imgPath as imgPath,gs.name ||'-' || g.name name
+		select g.goods_no,g.filePath || '/' || imgPath as imgPath,gs.name ||'-' || g.name name,gs.setCheck
 		from  goods g
 		inner join
 	    (

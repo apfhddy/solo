@@ -57,15 +57,19 @@
 									<c:forEach var="orders" items="${mainOrder.orders }">
 										<div style="display: flex; padding: 4% 0 4% 0;">
 											<div style="width: 5%;padding-left: 2%;">${orders.CNT }</div>
-											<div style="width: 25%;"><img src="${finalPath }/resources/buggerImg/${orders.MAINIMG }" width="100%"></div>
-												<div>
+											<div style="width: 25%;">
+												<img src="${finalPath }/resources/buggerImg/${orders.MAINIMG }" width="100%">
+											</div>
+											<div style="width: 70%;">
 												<div>
 													${orders.NAME }
 												</div>
 												<div>
-													<c:forEach var="name" items="${orders.menuNames }">
-														<div style="font-size: 11; color: gray">• ${name }</div>
-													</c:forEach> 
+													<c:if test="${orders.SETCHECK != 0 }">
+														<c:forEach var="name" items="${orders.menuNames }">
+															<div style="font-size: 11; color: gray">• ${name }</div>
+														</c:forEach> 
+													</c:if>
 												</div>
 											</div>
 										</div>

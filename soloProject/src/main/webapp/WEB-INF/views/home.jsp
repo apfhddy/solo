@@ -44,7 +44,7 @@
 											<th colspan="2"><input onclick="login(this.form,loginMainErr)" class="login-button" type = "button" value = "로그인"></th>
 										</tr>
 										<tr>
-											<td colspan="2" align="right" style="font-size: 11;"><a>비밀번호 찾기</a></td>
+											<td colspan="2" align="right" style="font-size: 11;"><a href="${pc }/findPassword">비밀번호 찾기</a></td>
 										</tr>
 										<tr>
 											<th colspan="2"><input onclick="document.location.href='${pc}/join/addr'" class="login-button" type = "button" value = "회원가입"></th>

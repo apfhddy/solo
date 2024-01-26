@@ -48,6 +48,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		inner join goods_size gs
 		on s1.goodsSize_no = gs.goodsSize_no
 	</select>
+	
+	<select id="getOnePart" parameterType="map" resultType="map">
+		select gd.goodsDetail_no,g.name || ' - ' || gs.name as Name
+		from goods_Detail gd
+		inner join 
+		(
+		select goodsDetail_no from parts_ChangeList
+		where partsChange_no = #{partsChange_no} and goodsDetail_no = #{goodsDetail_no}
+		) s1
+		on gd.goodsDetail_no = s1.goodsDetail_no
+		inner join goods_Size gs
+		on gd.goodsSize_no = gs.goodsSize_no
+		inner join goods g
+		on g.goods_no = gd.goods_no
+	</select>
 </mapper>
 
 

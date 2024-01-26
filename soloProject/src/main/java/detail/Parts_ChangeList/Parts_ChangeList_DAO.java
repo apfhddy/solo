@@ -1,5 +1,6 @@
 package detail.Parts_ChangeList;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,5 +19,9 @@ public class Parts_ChangeList_DAO {
 	
 	public int partsSumPrice(Map<String,Object> map) {
 		return sqlSession.selectOne("parts_ChangeList.partsSumPrice",map);
+	}
+	
+	public Map<String,Object> getOnePart(Map<String,Object> map){
+		return sqlSession.selectOne("parts_ChangeList.getOnePart",map);
 	}
 }

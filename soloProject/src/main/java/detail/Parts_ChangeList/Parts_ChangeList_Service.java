@@ -21,4 +21,11 @@ public class Parts_ChangeList_Service {
 		parameterMap.put("menus", menus);
 		return parts_ChangeList_DAO.partsSumPrice(parameterMap);
 	}
+	
+	public Map<String,Object> getOnePart(int parts_no,int partsChange_no){
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("goodsDetail_no", parts_no);
+		map.put("partsChange_no", partsChange_no);
+		return parts_ChangeList_DAO.getOnePart(map);
+	}
 }

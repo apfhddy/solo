@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="getOders" parameterType="int" resultType="map">
-		select o.orders_no,o.goodsDetail_no as mainno,cnt,gs.name || '-' ||g.name name,g.goods_no,filePath || '/' || imgPath imgpath
+		select o.orders_no,o.goodsDetail_no as mainno,cnt,gs.name || '-' ||g.name name,g.goods_no,filePath || '/' || imgPath imgpath,gs.setCheck
 		from orders o
 		inner join 
 		(
@@ -26,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		on gd.goods_no = g.goods_no
 		inner join goods_Size gs
 		on gd.goodsSize_no = gs.goodsSize_no
+		order by orders_no
 	</select>
 </mapper>
 

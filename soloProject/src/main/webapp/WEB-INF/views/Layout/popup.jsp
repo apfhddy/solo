@@ -40,7 +40,7 @@
 		<div class="detailPop-footer" >
 			<div style="width: 45.8%;" align="left">
 				<input type = "button" value="메뉴로 돌아가기" onclick="pop(detailPop,'del')">
-				<input type = "button" value="카트에 추가하기" onclick="addCart()">
+				<input type = "button" value="카트에 추가하기" onclick="menuFunction['addCart']()">
 			</div>
 		</div>
 	</div>
@@ -74,7 +74,7 @@
 							<th colspan="2"><input onclick="login(this.form,loginPopErr)" class="login-button" type = "button" value = "로그인"></th>
 						</tr>
 						<tr>
-							<td colspan="2" align="right" style="font-size: 11;"><a>비밀번호 찾기</a></td>
+							<td colspan="2" align="right" style="font-size: 11;"><a href="${pc }/findPassword">비밀번호 찾기</a></td>
 						</tr>
 						<tr>
 							<th colspan="2"><input onclick="document.location.href='${pc}/join/addr'" class="login-button" type = "button" value = "회원가입"></th>
@@ -86,8 +86,6 @@
 	</div>
 </div>
 <script type="text/javascript">
-	let domMap;
-	let url;
 	function pop(target,t){
 		if(t == 'del'){
 			document.removeEventListener("mousedown",popRemove);
@@ -109,138 +107,6 @@
 
 	function login_Pop() {
 		pop(loginPop);
-	}
-	
-	
-	
-	function addCart(){
-		
-		
-		resultObject = []
-		Array.from(orderBody.children).forEach( o => {
-			
-			let menus = []			
-			if(o.children[1].children.length != 0){
-				Array.from(o.children[1].children).forEach( dc1 => {
-					menus.push(+dc1.getAttribute("data-id"));
-				})
-			}
-			if(o.children[2] != null && o.children[2].children.length != 0){
-				Array.from(o.children[2].children).forEach( dc2 => {
-					menus.push(+dc2.children[0].value);
-				}) 
-			}
-			
-			let index = -1;
-			for(let i = 0; i < resultObject.length; i++){
-				if(resultObject[i]['MAINNO'] == +o.getAttribute("data-id") && JSON.stringify(resultObject[i]['menus']) == JSON.stringify(menus)){
-					index = i;
-				}
-			}
-			if(index == -1){
-				resultObject.push({MAINNO:+o.getAttribute("data-id"),menus:menus,CNT:1})
-			}else{
-				resultObject[index]['CNT']++;
-			}
-		})
-		$.ajax({
-			url:url, 
-			data:{json:JSON.stringify(resultObject)}, 
-			type:"post",
-			success: (result) => {
-				document.location.href='<%=(String)request.getAttribute("javax.servlet.forward.request_uri")+"?"+"menuType_no="+request.getParameter("menuType_no")+"&cate_id="+request.getParameter("cate_id")%>'	
-			}
-		}) 
-		
-	}
-	
-	
-	
-	
-	function fnCalCount(type,t){
-		const tf = type == 2;
-		
-		const v1 = +t.parentElement.children[1].value;
-		if(v1 == 0 && !tf)return
-		if(v1 == 10 && tf) return;
-		const value = tf ? 1 : -1;
-		t.parentElement.children[1].value = v1 + value;
-		
-		const v2 = +detailPopNum.innerText;
-		detailPopNum.innerText = v2 + value;
-		
-				
-		let index = 0;
-		
-		let childList = Array.from(detailPopTable.children[0].children);
-		
-		for(let i = 0; i < childList.length; i++){
-			if(childList[i] == t.parentElement.parentElement){
-				index = i-1;
-				break;
-			}
-		}
-		const targetDetail = tableList[index];
-		if(value == 1){
-			const mDv = document.createElement('div');
-			mDv.setAttribute("data-id",targetDetail['GOODSDETAIL_NO'] )
-			mDv.style.display = 'flex';
-			mDv.style.borderTop = '1px solid gray';
-			mDv.style.paddingTop = '0.7%';
-			mDv.style.paddingBottom = '0.7%';
-			
-			const pDv1 = document.createElement('div');
-			const pDv2 = document.createElement('div');
-
-			pDv1.style.width = '25%';
-			pDv1.style.fontSize = '15';
-			pDv1.innerHTML = '<img src="${finalPath }/resources/img/x.png;" style = "margin-right: 2%;margin-left: 2%; cursor: pointer;"  width="5%" onclick="pop(detailPop,"del")">'+ targetDetail['NAME'];;
-			
-			mDv.appendChild(pDv1);
-			mDv.appendChild(pDv2);
-			if (targetDetail['SETCHECK'] != 1){
-				pDv2.innerHTML = '<div data-id="'+targetDetail['GOODSDETAIL_NO']+'"></div>';
-			}
-			else{
-				const pDv3 = document.createElement('div');
-				
-				
-		
-				pDv2.style.width = '25%';
-				pDv2.style.fontSize = '11';
-		
-				pDv3.style.width = '25%';
-				pDv3.style.fontSize = '11';
-				
-				
-				const setArr = setMap[targetDetail['GOODSDETAIL_NO']];
-				setArr.forEach( s => {
-					const newDv = document.createElement('div');
-					if(s['PARTSCHANGE_NO'] == 0){
-						newDv.innerText = '• '+s['NAME']+' - '+s['SIZENAME'];
-						newDv.setAttribute("data-id", s['PARTS_NO']);
-						pDv2.appendChild(newDv);
-					}else{
-						const newSt = document.createElement("select");
-						if(s['partsChangeList'] != null)
-						s['partsChangeList'].forEach( p => {
-							const newOt = document.createElement("option");
-							newOt.innerText = p['NAME'] +" +"+p['ADDPAY']
-							newOt.value = p['GOODSDETAIL_NO']
-							newSt.appendChild(newOt);
-						})
-						newDv.appendChild(newSt);
-						pDv3.appendChild(newDv);
-					}
-				})
-				mDv.appendChild(pDv3);
-			}
-			domMap[targetDetail['GOODSDETAIL_NO']].push(mDv);
-			orderBody.appendChild(mDv);
-		}else{
-			orderBody.removeChild(domMap[targetDetail['GOODSDETAIL_NO']].pop());
-		}
-		
 	}
 
 </script>
